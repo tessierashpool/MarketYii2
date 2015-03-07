@@ -2,14 +2,14 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
+use Yii;
+class User extends ActiveRecord implements IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
     public $authKey;
     public $accessToken;
-
+/*
     private static $users = [
         '100' => [
             'id' => '100',
@@ -25,14 +25,14 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             'authKey' => 'test101key',
             'accessToken' => '101-token',
         ],
-    ];
+    ];*/
 
     /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
     }
 
     /**
@@ -55,7 +55,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      * @param  string      $username
      * @return static|null
      */
-    public static function findByUsername($username)
+   /* public static function findByUsername($username)
     {
         foreach (self::$users as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
@@ -64,7 +64,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         }
 
         return null;
-    }
+    }*/
 
     /**
      * @inheritdoc
@@ -98,6 +98,44 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+		return Yii::$app->security->validatePassword($password,$this->password);		
+    }
+	
+	public static function tableName()
+	{
+		return 'user';
+	}	
+
+	public function beforeSave($insert)
+	{
+		if (parent::beforeSave($insert)) {
+		
+			if ($this->isAttributeChanged('password'))
+				$this->password = Yii::$app->security->generatePasswordHash($this->password);		
+				
+			if ($this->isNewRecord)
+				$this->auth_key = Yii::$app->security->generateRandomString(255);
+				
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        //$scenarios['create'] = ['username', 'password'];
+ 
+        return $scenarios;
+    }
+	
+    public function rules()
+    {
+        return [
+			[['username', 'password', 'auth_key'], 'string', 'max' => 255],	
+            [['username', 'password'], 'required'],
+			[['username'], 'unique'],		
+        ];
     }
 }

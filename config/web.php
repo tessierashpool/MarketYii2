@@ -9,6 +9,7 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Admin',
+			'layout'=> 'main'
         ],
     ],	
     'components' => [	
