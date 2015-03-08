@@ -37,7 +37,7 @@ AppAsset::register($this);
                 'items' => [
                     ['label' => 'Home', 'url' => ['/site/index']],
                     ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Admin', 'url' => ['/admin/default']],
+                    Yii::$app->user->can('admin_panel') ? ['label' => 'Admin', 'url' => ['/admin/default']] : '',
                     ['label' => 'Contact', 'url' => ['/site/contact']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
