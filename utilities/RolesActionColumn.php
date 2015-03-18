@@ -26,15 +26,16 @@ class RolesActionColumn extends ActionColumn
         }
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url, $model, $key) {
-                return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
-                    'title' => Yii::t('yii', 'Update'),
-                    'data-pjax' => '0',
-                ]);
+				if($model->name!='admin'&&$model->name!='admin_panel')
+					return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+						'title' => Yii::t('yii', 'Update'),
+						'data-pjax' => '0',
+					]);
             };
         }
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url, $model, $key) {
-				if($model->name!='admin')
+				if($model->name!='admin'&&$model->name!='admin_panel')
 					return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
 						'title' => Yii::t('yii', 'Delete'),
 						'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),

@@ -3,6 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+global $roles_descrition_arr, $permissions_descrition_arr;
+$roles_descrition_arr  = $model->rolesDescriptionsArray;
+$permissions_descrition_arr  = $model->permissionsDescriptionsArray;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\AuthItem */
 
@@ -29,13 +33,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            'type',
+            ['label'=>'Type', 'value'=>$model->roles[$model->type]],
             'description:ntext',
-            'rule_name',
-            'data:ntext',
-            'created_at',
-            'updated_at',
+            'created_at:date',
+            'updated_at:date',
         ],
     ]) ?>
+
+	<div class="row">
+        <div <?if($model->type==2)echo "style='display:none'"?> class="col-xs-6">
+            <h3 ><?=Yii::t('yiimarket','Assigned Roles')?></h3>
+			<?=Html::ul(array_intersect($model->assignmentsArray, $model->rolesArray),['class'=>'list-group','itemOptions'=>['class'=>'list-group-item']]);?>
+        </div>	
+        <div class="col-xs-6">
+            <h3 ><?=Yii::t('yiimarket','Assigned Permissions')?></h3>
+			<?=Html::ul(array_intersect($model->assignmentsArray, $model->permissionsArray),['class'=>'list-group','itemOptions'=>['class'=>'list-group-item']]);?>
+        </div>			
+	</div>	<br />	
 
 </div>

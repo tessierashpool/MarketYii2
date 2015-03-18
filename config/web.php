@@ -77,6 +77,19 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+		'i18n' => [
+			'translations' => [
+				'*' => [
+					'class' => 'yii\i18n\PhpMessageSource',
+					'basePath' => '@app/messages',
+					//'sourceLanguage' => 'en-US',
+					/*'fileMap' => [
+						'app' => 'app.php',
+						'app/error' => 'error.php',
+					],*/
+				],
+			],
+		],		
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

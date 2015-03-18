@@ -8,6 +8,7 @@ use app\models\AuthItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
@@ -61,8 +62,8 @@ class AuthItemController extends Controller
     public function actionCreate()
     {
         $model = new AuthItem();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		$params = Yii::$app->request->post();
+        if ($model->load(Yii::$app->request->post()) && $model->saveAuthItem($params)) {			
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', [
@@ -80,14 +81,23 @@ class AuthItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->name]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+		$params = Yii::$app->request->post();
+		if($id!='admin'&&$id!='admin_panel')
+		{
+			if ($model->load(Yii::$app->request->post()) && $model->updateAuthItem($params)) {
+				return $this->redirect(['view', 'id' => $model->name]);
+			} 
+			else 
+			{
+				return $this->render('update', [
+					'model' => $model,
+				]);
+			}
+		}	
+		else
+		{
+			throw new  ForbiddenHttpException('This auth item can not be update');		
+		}			
     }
 
     /**
@@ -98,9 +108,15 @@ class AuthItemController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+		if($id!='admin'&&$id!='admin_panel')
+		{
+			$this->findModel($id)->deleteAuthItem();
+			return $this->redirect(['index']);
+		}
+		else
+		{
+			throw new  ForbiddenHttpException('This auth item can not be delete');		
+		}
     }
 
     /**
