@@ -4,7 +4,9 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\helpers\ArrayHelper;
 use Yii;
+
 class User extends ActiveRecord implements IdentityInterface
 {
     public $authKey;
@@ -109,9 +111,14 @@ class User extends ActiveRecord implements IdentityInterface
 	public function beforeSave($insert)
 	{
 		if (parent::beforeSave($insert)) {
-		
+						
 			if ($this->isAttributeChanged('password'))
-				$this->password = Yii::$app->security->generatePasswordHash($this->password);		
+			{
+				if($this->password!='')
+					$this->password = Yii::$app->security->generatePasswordHash($this->password);	
+				else
+					$this->password = $this->oldAttributes['password'];
+			}
 				
 			if ($this->isNewRecord)
 				$this->auth_key = Yii::$app->security->generateRandomString(255);
@@ -125,7 +132,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        //$scenarios['create'] = ['username', 'password'];
+      //  $scenarios['update'] = ['username'];
  
         return $scenarios;
     }
@@ -134,8 +141,58 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
 			[['username', 'password', 'auth_key'], 'string', 'max' => 255],	
-            [['username', 'password'], 'required'],
+            [['username'], 'required'],
+            [['password'], 'required', 'on' => 'create'],
 			[['username'], 'unique'],		
         ];
     }
+	
+	public function getAssignmentsArray(){
+		$role_assignments = Yii::$app->authManager->getAssignments($this->id);
+		$role_assignments_arr = ArrayHelper::map($role_assignments, 'roleName', 'roleName');	
+		return $role_assignments_arr;	
+	}	
+
+	public function getRolesArray(){
+		$rbac =  Yii::$app->authManager;
+		$roles = $rbac->roles;
+		$roles_array  = ArrayHelper::map($roles, 'name', 'name');		
+		return array_intersect($this->assignmentsArray, $roles_array);
+	}	
+	
+	public function getPermissionsArray(){
+		$rbac =  Yii::$app->authManager;
+		$permissions = $rbac->getPermissionsByUser($this->id);
+		$permissions_array  = ArrayHelper::map($permissions, 'name', 'name');	
+		return $permissions_array;
+	}	
+	
+	public function getRolesDescriptionsArray(){
+		$roles = Yii::$app->authManager->roles;
+		$roles_descrition_arr  = ArrayHelper::map($roles, 'name', 'description');
+		return $roles_descrition_arr;
+	}		
+	
+    /**
+	 * Save user with auth items
+	 *
+     */
+    public function saveAuthItem($params)
+    {
+		$rbac = Yii::$app->authManager;
+		if($this->save())
+		{
+			if($this->id!=1)
+			{
+				$rbac->revokeAll($this->id);	
+				if(is_array($params['authRoles']))			
+					foreach($params['authRoles'] as $role)
+					{
+						$rbac->assign($rbac->getRole($role), $this->id);				
+					}	
+			}				
+			return true;
+		}
+		return false;
+    }		
 }

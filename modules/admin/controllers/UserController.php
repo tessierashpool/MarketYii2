@@ -63,7 +63,9 @@ class UserController extends Controller
     {
 		
         $model = new User();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		$model->scenario = 'create';
+		$params = Yii::$app->request->post();
+        if ($model->load(Yii::$app->request->post()) && $model->saveAuthItem($params)) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -81,13 +83,17 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		$params = Yii::$app->request->post();
+        if ($model->load(Yii::$app->request->post()) && $model->saveAuthItem($params)) 
+		{
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        } 
+		else 
+		{
+			$model->password = '';
+			return $this->render('update', [
+				'model' => $model,
+			]);
         }
     }
 

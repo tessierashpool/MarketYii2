@@ -3,12 +3,14 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="user-view">
 
@@ -34,8 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
-            'password',
         ],
     ]) ?>
-
+	<div class="row">
+        <div class="col-xs-6">
+            <h3 ><?=Yii::t('yiimarket','Assigned Roles')?></h3>
+			<?=Html::ul($model->rolesArray,['class'=>'list-group','itemOptions'=>['class'=>'list-group-item']]);?>
+        </div>		
+        <div class="col-xs-6">
+            <h3 ><?=Yii::t('yiimarket','Permissions')?></h3>
+			<?=Html::ul($model->permissionsArray,['class'=>'list-group','itemOptions'=>['class'=>'list-group-item']]);?>
+        </div>		
+	</div>	
 </div>
