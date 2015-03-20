@@ -9,8 +9,8 @@ use Yii;
 
 class User extends ActiveRecord implements IdentityInterface
 {
-    public $authKey;
-    public $accessToken;
+   // public $authKey;
+   // public $accessToken;
 /*
     private static $users = [
         '100' => [
@@ -81,7 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
     /**
@@ -89,7 +89,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        return $this->getAuthKey() === $authKey;
     }
 
     /**
