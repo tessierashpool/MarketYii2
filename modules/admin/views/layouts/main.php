@@ -38,6 +38,11 @@ AppAsset::register($this);
                     ['label' => 'Home', 'url' => ['/site/index']],
                     ['label' => 'Users', 'url' => ['/admin/user']],
                     ['label' => 'Roles & Permissions', 'url' => ['/admin/auth-item']],
+                    ['label' => 'Categories', 'url' => ['/admin/categories']],
+                    ['label' => 'Parameters', 'items' => [
+                        ['label' => 'Parameters categories', 'url' => ['/admin/param-categor']],
+                        ['label' => 'Parameters', 'url' => ['/admin/param-names']],
+                    ]],
                     ['label' => 'Contact', 'url' => ['/site/contact']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :

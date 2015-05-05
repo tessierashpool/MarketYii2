@@ -3,68 +3,274 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-
+use app\assets\MarketAsset;
+use yii\helpers\Url;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-AppAsset::register($this);
+MarketAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="en">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
+    <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
+    <?= Html::csrfMetaTags() ?>  
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
-
+<body>  
 <?php $this->beginBody() ?>
-    <div class="wrap">
-        <?php
-            NavBar::begin([
-                'brandLabel' => 'My Company',
-                'brandUrl' => Yii::$app->homeUrl,
-                'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
-                ],
-            ]);
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    Yii::$app->user->can('admin_panel') ? ['label' => 'Admin', 'url' => ['/admin/default']] : '',
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
-            ]);
-            NavBar::end();
-        ?>
+    <div class="container hidden-xs">
+        <div class="row">
+            <div class="col-sm-6">  
+                <a href="<?=Yii::$app->homeUrl?>">           
+                <div class="logo pull-left"></div>
+                <p class="shop-name pull-left"><span style="color:#FF9933">E</span>-SHOP</p>    
+                </a>             
+            </div>
+            <div class="col-sm-6">              
+                <p class="pull-right header-menu"> 
+                    <a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <?if(Yii::$app->user->isGuest):?>
+                        <a href="<?=Url::to(['login']);?>"><i class="glyphicon glyphicon-lock"></i> Login</a>
+                    <?else:?>
+                        <a  href="#"><i class="glyphicon glyphicon-user"></i> Account</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     
+                        <?if(Yii::$app->user->can('admin_panel')):?>
+                            <a  href="<?=Url::to(['admin/default']);?>"><i class="glyphicon glyphicon-king"></i> Admin</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <?endif;?>
+                        <a data-method = "post" href="<?=Url::to(['logout']);?>"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
+                    <?endif;?>
+                </p>                
+            </div>
+        </div>      
+    </div>
+    <div class="container-fluid visible-xs-12  hidden-lg hidden-md hidden-sm " >
+        <div class="row">
+            <nav style="margin-bottom:-1px" class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand mobile-header" href="#">
+                    <div class="logo pull-left"></div>                  
+                    <span class="pull-right shop-name"><span style="color:#FF9933">E</span>-SHOP</span>
+                  </a>
+  
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">             
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Man <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Shoes</a></li>
+                            <li><a href="#">T-Shirts</a></li>
+                            <li><a href="#">Jeans</a></li>
+                          </ul>
+                        </li>   
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Women <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Shoes</a></li>
+                            <li><a href="#">T-Shirts</a></li>
+                            <li><a href="#">Jeans</a></li>
+                          </ul>
+                        </li>   
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Chilldren <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Shoes</a></li>
+                            <li><a href="#">T-Shirts</a></li>
+                            <li><a href="#">Jeans</a></li>
+                          </ul>
+                        </li>                                               
+                    </ul>       
+                    <ul class="nav navbar-nav">
+                        <li><a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a></li>
+                        <li><a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</a></li>
+                        <li>
+                            <?if(Yii::$app->user->isGuest):?>
+                            <a href="<?=Url::to(['login']);?>"><i class="glyphicon glyphicon-lock"></i> Login</a>
+                            <?else:?>
+                            <a href="<?=Url::to(['logout']);?>"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
+                            <?endif;?>
 
-        <div class="container">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
-            <?= $content ?>
+                        </li>                                             
+                    </ul>                                       
+                </div>          
+            </nav>
+            <div class="search-cont  search-cont-mobile">
+                <input type="text" placeholder="Search">
+                <i class="glyphicon glyphicon-search"></i>
+            </div>  
         </div>
     </div>
+    <div class="container-fluid hidden-xs">
+        <div class="row">
+            <div class="top-menu-cont  ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 ">                        
+                            <ul  class=" pull-left">
 
-    <footer class="footer">
-        <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-            <p class="pull-right"><?= Yii::powered() ?></p>
+                                <li ><a href="#">For Man <i class="fa fa-angle-down"></i></a>
+                                    <ul>
+                                        <li><a href="#">Shoes</a></li>
+                                        <li><a href="#">T-Shirts</a></li>
+                                        <li><a href="#">Jeans</a></li>
+                                    </ul> 
+                                </li>
+                                <li ><a href="#">For Women <i class="fa fa-angle-down"></i></a>
+                                    <ul>
+                                        <li><a href="#">Shoes</a></li>
+                                        <li><a href="#">T-Shirts</a></li>
+                                        <li><a href="#">Jeans</a></li>
+                                    </ul> 
+                                </li>
+                                <li ><a href="#">For Chilldren <i class="fa fa-angle-down"></i></a>
+                                    <ul>
+                                        <li><a href="#">Shoes</a></li>
+                                        <li><a href="#">T-Shirts</a></li>
+                                        <li><a href="#">Jeans</a></li>
+                                    </ul> 
+                                </li>
+                                
+                            </ul>
+                            <div class="search-cont pull-right">
+                                <input type="text" placeholder="Search">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </div>  
+                        </div>                              
+                    </div>          
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>  
+                    
+                        <?= $content ?>
+     
+    <div class="container-fluid footer">
+        <div class="row">
+            <div class="container">
+                <div class="row ">
+<!--                    <div class="col-sm-12  f-logo">
+    <p><span style="color:#FF9933">E</span>-SHOP</p>
+</div>   -->
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <div class="row  f-info hidden-xs">
+                            <div class="col-sm-1 "></div>
+                            <div class="col-sm-2 ">
+                                <p class="f-menu-title">Service</p>
+                                <p><a href="#">Online Help</a></p>
+                                <p><a href="#">Contact Us</a></p>
+                                <p><a href="#">Order Status</a></p>
+                                <p><a href="#">FAQ’s</a></p>
+                            </div>
+                            <div class="col-sm-2 "> 
+                                <p class="f-menu-title">Quock Shop</p>
+                                <p><a href="#">For Men</a></p>
+                                <p><a href="#">For Women</a></p>
+                                <p><a href="#">For Chilldren</a></p>
 
-<?php $this->endBody() ?>
+                            </div>
+                            <div class="col-sm-2 "> 
+                                <p class="f-menu-title">About US</p>
+                                <p><a href="#">Company Information</a></p>
+                                <p><a href="#">Store Location</a></p>
+                                <p><a href="#">Careers</a></p>
+                                <p><a href="#"></a></p>
+                            </div>
+                            <div class="col-sm-2 ">
+                                <img src="site_photos/dagmap.png" class="img-responsive" alt="Responsive image">    
+                             </div>
+                            <div class="col-sm-2 ">
+                                <address class="f-adress-cont">
+                                  <p class="f-menu-title">E-Shop, Inc.</p>
+                                 Republic Dagestan<br>
+                                  Mahachkala, CA 94107<br>
+                                  <abbr title="Phone">P:</abbr> (123) 456-7890
+                                </address>  
+                            </div>
+                            <div class="col-sm-1 "></div>
+                            
+                        </div>
+                        <div class="row f-info f-info-m  hidden-lg hidden-md hidden-sm">
+                            <div class="col-sm-1 "></div>
+                            <div class="col-xs-12">
+                                <p class="f-menu-title">Service</p>
+                                <p><a href="#">Online Help</a></p>
+                                <p><a href="#">Contact Us</a></p>
+                                <p><a href="#">Order Status</a></p>
+                                <p><a href="#">FAQ’s</a></p>
+                            </div>
+                            <div class="col-xs-12"> 
+                                <p class="f-menu-title">Quock Shop</p>
+                                <p><a href="#">For Men</a></p>
+                                <p><a href="#">For Women</a></p>
+                                <p><a href="#">For Chilldren</a></p>
+
+                            </div>
+                            <div class="col-xs-12"> 
+                                <p class="f-menu-title">About US</p>
+                                <p><a href="#">Company Information</a></p>
+                                <p><a href="#">Store Location</a></p>
+                                <p><a href="#">Careers</a></p>
+                                <p><a href="#"></a></p>
+                            </div>
+                            <div class="col-xs-12">
+                                <address class="f-adress-cont">
+                                 E-Shop, Inc. Republic Dagestan<br>
+                                  Mahachkala, CA 94107<br>
+                                  <abbr title="Phone">P:</abbr> (123) 456-7890
+                                </address>  
+                            </div>
+                            <div class="col-sm-1 "></div>
+                            
+                        </div>                      
+                    </div>
+                    <div class="col-sm-1"></div>
+
+                    <div class="col-sm-2"></div>    
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="footer-separator"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>    
+
+                    <div class="col-sm-12 inst-cont">
+                        <p>Instagram</p>
+                    </div>                  
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <div class="row inst-cont ">
+                            <div class="col-sm-1 "></div>
+                            <div class="col-sm-2 col-xs-6"><img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image"></div>
+                            <div class="col-sm-2 col-xs-6"><img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image"></div>
+                            <div class="col-sm-2 col-xs-6"><img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image"></div>
+                            <div class="col-sm-2 col-xs-6"><img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image"></div>
+                            <div class="col-sm-2 hidden-xs"><img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image"></div>
+                            <div class="col-sm-1 "></div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $this->endBody() ?>   
 </body>
 </html>
 <?php $this->endPage() ?>

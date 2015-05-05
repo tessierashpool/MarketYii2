@@ -1,0 +1,96 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+
+/**
+ * This is the model class for table "param_names".
+ *
+ * @property integer $id
+ * @property string $code
+ * @property string $name
+ * @property integer $category_id
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $created_by
+ * @property integer $updated_by
+ *
+ * @property ParamCategor $category
+ */
+class ParamNames extends ActiveRecord
+{
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ]
+            ],
+            'blameable' => [
+                'class' => 'yii\behaviors\BlameableBehavior',
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+                ],
+             
+        ];
+     }
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'param_names';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['category_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['code', 'name'], 'string', 'max' => 255],
+            [['code'], 'unique'],
+            [['code','name'], 'required']
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'code' => Yii::t('app', 'Code'),
+            'name' => Yii::t('app', 'Name'),
+            'category_id' => Yii::t('app', 'Category ID'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_by' => Yii::t('app', 'Updated By'),
+        ];
+    }
+
+    public function getCategoriesList()
+    {
+        $def_array = ArrayHelper::map(ParamCategor::find()->asArray()->all(),'id','name');
+       // array_unshift($def_array,"");
+        return array_merge([0=>Yii::t('app', 'Custom')],$def_array);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(ParamCategor::className(), ['id' => 'category_id']);
+    }
+}

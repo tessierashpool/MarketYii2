@@ -11,6 +11,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+    public $layout = "left";
     public function behaviors()
     {
         return [
@@ -49,11 +50,25 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $this->layout = "left";
         return $this->render('index');
+    }
+
+    public function actionCart()
+    {
+        $this->layout = "right";
+        return $this->render('cart');
+    }
+
+    public function actionDetail()
+    {
+        $this->layout = "right";
+        return $this->render('detail');
     }
 
     public function actionLogin()
     {
+        $this->layout = "right"; 
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }

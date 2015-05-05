@@ -50,7 +50,7 @@ class AuthItemSearch extends AuthItem
         ]);
 		
         $this->load($params);
-		Yii::trace($params['created_at'], '11111111111111111111');
+		//Yii::trace($params['created_at'], '11111111111111111111');
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
             // $query->where('0=1');

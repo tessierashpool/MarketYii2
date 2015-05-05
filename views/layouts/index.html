@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="jquery/jquery-1.11.2.min.js"></script>	
+	<script src="bootstrap/js/bootstrap.min.js"></script>	
+	<script src="jssor/js/jssor.slider.min.js"></script>	
+	<script src="nstSlider/jquery.nstSlider.min.js"></script>	
+	<script src="js/main.js"></script>	
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>Template</title>
+</head>
+<body>	
+<script>
+    jQuery(document).ready(function ($) {
+        var options = {
+        	$AutoPlay: true,
+        	$SlideDuration: 1000,
+        	$AutoPlayInterval: 4000,
+            $BulletNavigatorOptions: {
+                $Class: $JssorBulletNavigator$,
+                $ChanceToShow: 2,
+                $AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                $Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                $Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
+                $SpacingX: 10,                                  //[Optional] Horizontal space between each item in pixel, default value is 0
+                $SpacingY: 10,                                  //[Optional] Vertical space between each item in pixel, default value is 0
+                $Orientation: 1                  
+            }
+        };                          
+        var jssor_slider1 = new $JssorSlider$('slider1_container', options);
+
+        //responsive code begin
+        //you can remove responsive code if you don't want the slider scales
+        //while window resizes
+        function ScaleSlider() {
+            var parentWidth = $('#slider1_container').parent().width();
+            if (parentWidth) {
+                jssor_slider1.$ScaleWidth(parentWidth);
+            }
+            else
+                window.setTimeout(ScaleSlider, 30);
+        }
+        //Scale slider after document ready
+        ScaleSlider();
+                                        
+        //Scale slider while window load/resize/orientationchange.
+        $(window).bind("load", ScaleSlider);
+        $(window).bind("resize", ScaleSlider);
+        $(window).bind("orientationchange", ScaleSlider);
+        //responsive code end
+    });
+
+
+</script>
+	<div class="container hidden-xs">
+		<div class="row">
+			<div class="col-sm-6">				
+				<div class="logo pull-left"></div>
+				<p class="shop-name pull-left"><span style="color:#FF9933">E</span>-SHOP</p>				
+			</div>
+			<div class="col-sm-6">				
+				<p class="pull-right header-menu"> 
+					<a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#"><i class="glyphicon glyphicon-lock"></i> Login</a>
+				</p>				
+			</div>
+		</div>		
+	</div>
+	<div class="container-fluid visible-xs-12  hidden-lg hidden-md hidden-sm " >
+		<div class="row">
+			<nav style="margin-bottom:-1px" class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a class="navbar-brand mobile-header" href="#">
+					<div class="logo pull-left"></div>				  	
+				  	<span class="pull-right shop-name"><span style="color:#FF9933">E</span>-SHOP</span>
+				  </a>
+  
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">				
+				        <li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Man <span class="caret"></span></a>
+				          <ul class="dropdown-menu" role="menu">
+				            <li><a href="#">Shoes</a></li>
+				            <li><a href="#">T-Shirts</a></li>
+				            <li><a href="#">Jeans</a></li>
+				          </ul>
+				        </li>	
+				        <li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Women <span class="caret"></span></a>
+				          <ul class="dropdown-menu" role="menu">
+				            <li><a href="#">Shoes</a></li>
+				            <li><a href="#">T-Shirts</a></li>
+				            <li><a href="#">Jeans</a></li>
+				          </ul>
+				        </li>	
+				        <li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Chilldren <span class="caret"></span></a>
+				          <ul class="dropdown-menu" role="menu">
+				            <li><a href="#">Shoes</a></li>
+				            <li><a href="#">T-Shirts</a></li>
+				            <li><a href="#">Jeans</a></li>
+				          </ul>
+				        </li>			        			        		
+					</ul>		
+					<ul class="nav navbar-nav">
+			            <li><a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a></li>
+			            <li><a href="#"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</a></li>
+			            <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Login</a></li>							        			
+					</ul>				      					
+				</div>			
+			</nav>
+			<div class="search-cont  search-cont-mobile">
+				<input type="text" placeholder="Search">
+				<i class="glyphicon glyphicon-search"></i>
+			</div>	
+		</div>
+	</div>
+	<div class="container-fluid hidden-xs">
+		<div class="row">
+			<div class="top-menu-cont  ">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 ">						
+							<ul  class=" pull-left">
+
+								<li ><a href="#">For Man <i class="fa fa-angle-down"></i></a>
+									<ul>
+										<li><a href="#">Shoes</a></li>
+										<li><a href="#">T-Shirts</a></li>
+										<li><a href="#">Jeans</a></li>
+									</ul> 
+								</li>
+								<li ><a href="#">For Women <i class="fa fa-angle-down"></i></a>
+									<ul>
+										<li><a href="#">Shoes</a></li>
+										<li><a href="#">T-Shirts</a></li>
+										<li><a href="#">Jeans</a></li>
+									</ul> 
+								</li>
+								<li ><a href="#">For Chilldren <i class="fa fa-angle-down"></i></a>
+									<ul>
+										<li><a href="#">Shoes</a></li>
+										<li><a href="#">T-Shirts</a></li>
+										<li><a href="#">Jeans</a></li>
+									</ul> 
+								</li>
+								
+							</ul>
+							<div class="search-cont pull-right">
+								<input type="text" placeholder="Search">
+								<i class="glyphicon glyphicon-search"></i>
+							</div>	
+						</div>								
+					</div>			
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div class="container main-body">
+		<div class="row">
+			<div class="col-sm-3 hidden-xs">
+				<div class="left-menu-cont">
+					<div class="category-label">
+						<p>BRAND</p>
+					</div>
+					<ul>
+						<li><a href="#">A.B.S. by Allen Schwartz</a></li>
+						<li><a href="#">AG Adriano Goldshmeid</a></li>
+						<li><a href="#">Alice & Olivia</a></li>
+						<li><a href="#">Autumn Cashmere</a></li>
+						<li><a href="#">BCBGMAXAZRIA</a></li>
+						<li><a href="#">DKNY</a></li>
+						<li><a href="#">Elie Tahari</a></li>
+						<li><a href="#">Magaschoni</a></li>
+					</ul>
+
+					<div class="category-label">
+						<p>COLOR</p>
+					</div>
+					<ul>
+						<li><a href="#">Beige </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#F0E8C4"></span></i> </li>
+						<li><a href="#">Blue </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#2AD4FF"></i></span></li>
+						<li><a href="#">Red </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#FF5555"></i></span></li>
+						<li><a href="#">Green </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#81B600"></i></span></li>
+						<li><a href="#">Multi </a>  </li>
+					</ul>	
+					<!-- Range Slider Start -->	
+					<div class="category-label">
+						<p>PRICE RANGE</p>
+					</div>
+					<div class="range-slider-cont">
+						<div class="nstSlider" data-range_min="100" data-range_max="10000" 
+						                       data-cur_min="2000"    data-cur_max="8000">
+
+						    <div class="bar"></div>
+						    <div class="leftGrip"></div>
+						    <div class="rightGrip"></div>
+						</div>
+						<p class="range-info-cont">Price: <span class="leftLabel"></span>р - <span class="rightLabel"></span>р</p>
+						<a class="range-filter-button pull-right" href="#">Filter <i class="fa fa-chevron-right"></i></a>
+						<div style="clear:both"></div>
+						<script>
+					        function RangeSlider() {
+								$('.nstSlider').nstSlider({
+							    "left_grip_selector": ".leftGrip",
+							    "right_grip_selector": ".rightGrip",
+							    "value_bar_selector": ".bar",
+							    "value_changed_callback": function(cause, leftValue, rightValue) {
+							    $(this).parent().find('.leftLabel').text(leftValue);
+							    $(this).parent().find('.rightLabel').text(rightValue);
+							    }
+							    });
+					        }
+					        //Scale slider after document ready
+					        RangeSlider();
+					                                        
+					        //Scale slider while window load/resize/orientationchange.
+					        $(window).bind("load", RangeSlider);
+					        $(window).bind("resize", RangeSlider);
+					        $(window).bind("orientationchange", RangeSlider);						    
+						</script>
+					</div>	
+					<!-- Range Slide End -->	
+					<div class="category-label">
+						<p>BEST SELERS</p>
+					</div>
+					<div class="top-sale-cont">
+						<ul>
+							<li>
+								<div class="row">
+									<div class="col-md-12"><a href="#"><img  src="site_photos/tshirt1.jpg" alt=""></a>
+										<p class="t-s-title">Print Cool Interesting T-Shirt</p>
+										<p class="t-s-price">1000р</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-md-12"><a href="#"><img  src="site_photos/tshirt2.jpg" alt=""></a>
+										<p class="t-s-title">State Island T-Shirt</p>
+										<p class="t-s-price">2000р</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-md-12"><a href="#"><img  src="site_photos/tshirt3.jpg" alt=""></a>
+										<p class="t-s-title">Cool Underground T-Shirt</p>
+										<p class="t-s-price">1500р</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-md-12"><a href="#"><img  src="site_photos/tshirt4.jpg" alt=""></a>
+										<p class="t-s-title">Enjoy Cool T-Shirt</p>
+										<p class="t-s-price">5500р</p>
+									</div>
+								</div>
+							</li>														
+						</ul>
+					</div>	
+<!-- 					<div class="category-label">
+											<p>Adverts</p>
+										</div>					
+										<div class="left-advert-cont">
+											<a href="#">
+											<img src="site_photos/advert5.jpg" class="img-responsive" alt="Responsive image">
+											</a>
+										</div>	 -->										
+				</div>
+			</div>
+			<div class="col-sm-9 col-xs-12">
+				<div class="row"> 
+					<div class="col-sm-12">
+						<!-- ---------------------------------- Mobile Left Menu Start -------------------------------------- -->
+						<script>
+							jQuery(document).ready(function ($) {
+								$('#collapseBrand, #collapseColor, #collapsePriceRange').on('hide.bs.collapse', function () {
+									$(this).prev('div').find('i').removeClass().addClass('glyphicon glyphicon-plus');
+								});
+								$('#collapseBrand, #collapseColor, #collapsePriceRange').on('show.bs.collapse', function () {
+									$(this).prev('div').find('i').removeClass().addClass('glyphicon glyphicon-minus');
+								});								
+							});
+						</script>
+						<div class="mobile-left-menu-cont visible-xs-12  hidden-lg hidden-md hidden-sm ">	
+							<div class="category-label category-label-m">
+								<p data-toggle="collapse" href="#collapseBrand" aria-expanded="false" aria-controls="collapseBrand" >BRAND <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span></p>
+							</div>
+							<ul class="collapse" id="collapseBrand">
+								<li><a href="#">A.B.S. by Allen Schwartz</a></li>
+								<li><a href="#">AG Adriano Goldshmeid</a></li>
+								<li><a href="#">Alice & Olivia</a></li>
+								<li><a href="#">Autumn Cashmere</a></li>
+								<li><a href="#">BCBGMAXAZRIA</a></li>
+								<li><a href="#">DKNY</a></li>
+								<li><a href="#">Elie Tahari</a></li>
+								<li><a href="#">Magaschoni</a></li>
+							</ul>
+
+							<div class="category-label category-label-m">
+								<p data-toggle="collapse" href="#collapseColor" aria-expanded="false" aria-controls="collapseColor">COLOR <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span></p>
+							</div>
+							<ul class="collapse" id="collapseColor">
+								<li><a href="#">Beige </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#F0E8C4"></span></i> </li>
+								<li><a href="#">Blue </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#2AD4FF"></i></span></li>
+								<li><a href="#">Red </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#FF5555"></i></span></li>
+								<li><a href="#">Green </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#81B600"></i></span></li>
+								<li><a href="#">Multi </a>  </li>
+							</ul>							
+							<!-- Range Slider Start -->	
+							<div class="category-label category-label-m">
+								<p data-toggle="collapse" href="#collapsePriceRange" aria-expanded="false" aria-controls="collapsePriceRange">PRICE RANGE <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span></p>
+							</div>
+							<div class="range-slider-cont collapse" id="collapsePriceRange">
+								<div class="nstSlider" data-range_min="100" data-range_max="10000" 
+								                       data-cur_min="2000"    data-cur_max="8000">
+
+								    <div class="bar"></div>
+								    <div class="leftGrip"></div>
+								    <div class="rightGrip"></div>
+								</div>
+								<p class="range-info-cont">Price: <span class="leftLabel"></span>р - <span class="rightLabel"></span>р</p>
+								<a class="range-filter-button pull-right" href="#">Filter <i class="fa fa-chevron-right"></i></a>
+								<div style="clear:both"></div>
+								<script>
+							        function RangeSlider() {
+										$('.nstSlider').nstSlider({
+									    "left_grip_selector": ".leftGrip",
+									    "right_grip_selector": ".rightGrip",
+									    "value_bar_selector": ".bar",
+									    "value_changed_callback": function(cause, leftValue, rightValue) {
+									    $(this).parent().find('.leftLabel').text(leftValue);
+									    $(this).parent().find('.rightLabel').text(rightValue);
+									    }
+									    });
+							        }
+							        //Scale slider after document ready
+							        RangeSlider();
+							                                        
+							        //Scale slider while window load/resize/orientationchange.
+							        $(window).bind("load", RangeSlider);
+							        $(window).bind("resize", RangeSlider);
+							        $(window).bind("orientationchange", RangeSlider);						    
+								</script>
+							</div>	
+							<!-- Range Slide End -->
+						</div>
+						<!-- ---------------------------------- Mobile Left Menu End -------------------------------------- -->						
+						<div class="main-content-banner hidden-xs">
+							<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 848px; height: 400px; overflow: hidden;">
+							    <!-- Slides Container -->
+							    <div u="slides" style="  position: absolute; overflow: hidden; left: 0px; top: 0px; width: 848px; height: 400px;">
+									<div >
+										<div class="col-sm-12">
+											<div class="row">
+												<div class="col-sm-5">
+													<div class="baner-info" >
+														<p class="baner-logo"><span style="color:#FF9933">Interesting</span> Title</p>
+														<p class="baner-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+														<a href="#" class="baner-link">Buy it now</a>
+													</div>
+												</div>
+												<div class="col-sm-7">
+													<img src="site_photos/shop_1.jpg" class="img-responsive" alt="Responsive image">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div >
+										<div class="col-sm-12">
+											<div class="row">
+												<div class="col-sm-5">
+													<div class="baner-info" >
+														<p class="baner-logo"><span style="color:#FF9933">Interesting</span> Title</p>
+														<p class="baner-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+														<a href="#" class="baner-link">Buy it now</a>
+													</div>
+												</div>
+												<div class="col-sm-7">
+													<img src="site_photos/shop_2.jpg" class="img-responsive" alt="Responsive image">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div >
+										<div class="col-sm-12">
+											<div class="row">
+												<div class="col-sm-5">
+													<div class="baner-info" >
+														<p class="baner-logo"><span style="color:#FF9933">Interesting</span> Title</p>
+														<p class="baner-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+														<a href="#" class="baner-link">Buy it now</a>
+													</div>
+												</div>
+												<div class="col-sm-7">
+													<img src="site_photos/shop_3.jpg" class="img-responsive" alt="Responsive image">
+												</div>
+											</div>
+										</div>
+									</div>			
+							    </div>
+							        <!-- Bullet Navigator Skin Begin -->
+							        <style>
+							            /* jssor slider bullet navigator skin 21 css */
+							            /*
+							            .jssorb21 div           (normal)
+							            .jssorb21 div:hover     (normal mouseover)
+							            .jssorb21 .av           (active)
+							            .jssorb21 .av:hover     (active mouseover)
+							            .jssorb21 .dn           (mousedown)
+							            */
+							            .jssorb21 div, .jssorb21 div:hover, .jssorb21 .av
+							            {
+							                background: url(./jssor/img/b21.png) no-repeat;
+							                overflow:hidden;
+							                cursor: pointer;
+							            }
+							            .jssorb21 div { background-position: -5px -5px; }
+							            .jssorb21 div:hover, .jssorb21 .av:hover { background-position: -35px -5px; }
+							            .jssorb21 .av { background-position: -65px -5px; }
+							            .jssorb21 .dn, .jssorb21 .dn:hover { background-position: -95px -5px; }
+							        </style>
+							        <!-- bullet navigator container -->
+							        <div u="navigator" class="jssorb21" style="position: absolute; bottom: 16px; left: 6px;">
+							            <!-- bullet navigator item prototype -->
+							            <div u="prototype" style="POSITION: absolute; WIDTH: 19px; HEIGHT: 19px; text-align:center; line-height:19px; color:White; font-size:12px;"></div>
+							        </div>
+							        <!-- Bullet Navigator Skin End -->
+							    <!-- Trigger -->
+							    <script>jssor_slider1_starter('slider1_container');</script>
+							</div>
+						</div>
+						<div class="row main-cont-advert hidden-xs">
+							<div class="col-sm-6" >
+								<div class=" advert-cont-m">
+									<div class="row">
+										<div class="col-sm-5 ">
+											<img src="site_photos/shoe_1.jpg" class="img-responsive" alt="Responsive image">
+										</div>
+										<div   class="col-sm-7">
+											<p class="a-title"><span style="color:#FF9933">Women Shoe</span> Collection</p>
+											<p class="a-descr hidden-md hidden-sm" >Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+											<p ><a class="a-link pull-right" href="#">Show now</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6  ">
+								<div class=" advert-cont-m">
+									<div class="row">
+										<div class="col-sm-5">
+											<img src="site_photos/shoe_2.jpg" class="img-responsive" alt="Responsive image">
+										</div>
+										<div   class="col-sm-7">
+											<p class="a-title"><span style="color:#FF9933">Man Shoe</span> Collection</p>
+											<p class="a-descr hidden-md hidden-sm" >Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+											<p><a class="a-link pull-right" href="#">Show now</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row main-content">
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl1.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="corner-ribbon top-right sticky red">NEW</div>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl2.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>								
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl3.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>								
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl4.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>								
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl5.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="corner-ribbon top-right sticky orange">SALE</div>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>								
+								</div>
+
+							</div>
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl6.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>								
+								</div>
+							</div>							
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl1.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>								
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl2.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>							
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="item-cont">
+									<img src="site_photos/girl3.jpg" class="img-responsive" alt="Responsive image">
+									<p class="i-price">1500 р</p>
+									<p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
+									<a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+									<div class="add-to-wishlist-cont">
+										<a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
+									</div>								
+								</div>
+							</div>		
+							<div class="nav-cont text-center">
+								<nav>
+								  <ul class="pagination">
+								    <li>
+								      <a href="#" aria-label="Previous">
+								        <span aria-hidden="true">&laquo;</span>
+								      </a>
+								    </li>
+								    <li><a href="#">1</a></li>
+								    <li><a href="#">2</a></li>
+								    <li><a href="#">3</a></li>
+								    <li><a href="#">4</a></li>
+								    <li><a href="#">5</a></li>
+								    <li>
+								      <a href="#" aria-label="Next">
+								        <span aria-hidden="true">&raquo;</span>
+								      </a>
+								    </li>
+								  </ul>
+								</nav>								
+							</div>				
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+	<div class="container-fluid footer">
+		<div class="row">
+			<div class="container">
+				<div class="row ">
+<!-- 					<div class="col-sm-12  f-logo">
+	<p><span style="color:#FF9933">E</span>-SHOP</p>
+</div>	 -->
+					<div class="col-sm-1"></div>
+					<div class="col-sm-10">
+						<div class="row  f-info hidden-xs">
+							<div class="col-sm-1 "></div>
+							<div class="col-sm-2 ">
+								<p class="f-menu-title">Service</p>
+								<p><a href="#">Online Help</a></p>
+								<p><a href="#">Contact Us</a></p>
+								<p><a href="#">Order Status</a></p>
+								<p><a href="#">FAQ’s</a></p>
+							</div>
+							<div class="col-sm-2 "> 
+								<p class="f-menu-title">Quock Shop</p>
+								<p><a href="#">For Men</a></p>
+								<p><a href="#">For Women</a></p>
+								<p><a href="#">For Chilldren</a></p>
+
+							</div>
+							<div class="col-sm-2 "> 
+								<p class="f-menu-title">About US</p>
+								<p><a href="#">Company Information</a></p>
+								<p><a href="#">Store Location</a></p>
+								<p><a href="#">Careers</a></p>
+								<p><a href="#"></a></p>
+							</div>
+							<div class="col-sm-2 ">
+								<img src="site_photos/dagmap.png" class="img-responsive" alt="Responsive image">	
+							 </div>
+							<div class="col-sm-2 ">
+								<address class="f-adress-cont">
+								  <p class="f-menu-title">E-Shop, Inc.</p>
+								 Republic Dagestan<br>
+								  Mahachkala, CA 94107<br>
+								  <abbr title="Phone">P:</abbr> (123) 456-7890
+								</address>	
+							</div>
+							<div class="col-sm-1 "></div>
+							
+						</div>
+						<div class="row f-info f-info-m  hidden-lg hidden-md hidden-sm">
+							<div class="col-sm-1 "></div>
+							<div class="col-xs-12">
+								<p class="f-menu-title">Service</p>
+								<p><a href="#">Online Help</a></p>
+								<p><a href="#">Contact Us</a></p>
+								<p><a href="#">Order Status</a></p>
+								<p><a href="#">FAQ’s</a></p>
+							</div>
+							<div class="col-xs-12"> 
+								<p class="f-menu-title">Quock Shop</p>
+								<p><a href="#">For Men</a></p>
+								<p><a href="#">For Women</a></p>
+								<p><a href="#">For Chilldren</a></p>
+
+							</div>
+							<div class="col-xs-12"> 
+								<p class="f-menu-title">About US</p>
+								<p><a href="#">Company Information</a></p>
+								<p><a href="#">Store Location</a></p>
+								<p><a href="#">Careers</a></p>
+								<p><a href="#"></a></p>
+							</div>
+							<div class="col-xs-12">
+								<address class="f-adress-cont">
+								 E-Shop, Inc. Republic Dagestan<br>
+								  Mahachkala, CA 94107<br>
+								  <abbr title="Phone">P:</abbr> (123) 456-7890
+								</address>	
+							</div>
+							<div class="col-sm-1 "></div>
+							
+						</div>						
+					</div>
+					<div class="col-sm-1"></div>
+
+					<div class="col-sm-2"></div>	
+					<div class="col-sm-8">
+						<div class="row">
+							<div class="footer-separator"></div>
+						</div>
+					</div>
+					<div class="col-sm-2"></div>	
+
+					<div class="col-sm-12 inst-cont">
+						<p>Instagram</p>
+					</div>					
+					<div class="col-sm-1"></div>
+					<div class="col-sm-10">
+						<div class="row inst-cont ">
+							<div class="col-sm-1 "></div>
+							<div class="col-sm-2 col-xs-6"><img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image"></div>
+							<div class="col-sm-2 col-xs-6"><img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image"></div>
+							<div class="col-sm-2 col-xs-6"><img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image"></div>
+							<div class="col-sm-2 col-xs-6"><img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image"></div>
+							<div class="col-sm-2 hidden-xs"><img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image"></div>
+							<div class="col-sm-1 "></div>
+							
+						</div>
+					</div>
+					<div class="col-sm-1"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
