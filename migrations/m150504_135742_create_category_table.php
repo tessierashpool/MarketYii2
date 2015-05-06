@@ -14,6 +14,7 @@ class m150504_135742_create_category_table extends Migration
             'description'=> Schema::TYPE_STRING,
             'parent_id'=> Schema::TYPE_INTEGER,
             'depth'=> Schema::TYPE_INTEGER,
+            'order'=> Schema::TYPE_INTEGER,
             'created_at'=> Schema::TYPE_INTEGER,
             'updated_at'=> Schema::TYPE_INTEGER,
             'created_by'=> Schema::TYPE_INTEGER,

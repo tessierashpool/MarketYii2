@@ -54,7 +54,7 @@ class Categories extends ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'depth', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['parent_id', 'depth', 'created_at', 'updated_at', 'created_by', 'updated_by','order'], 'integer'],
             [['code', 'name', 'description'], 'string', 'max' => 255],
             [['code', 'name'], 'required'],
             [['code'], 'unique']
@@ -63,7 +63,7 @@ class Categories extends ActiveRecord
 
     public function getTree()
     {
-        return $this->find()->select(['id','name','depth','parent_id'])->asArray()->all();
+        return $this->find()->select(['id','name','depth','parent_id'])->asArray()->orderBy('order ASC')->all();
     }
 
     /**
@@ -78,6 +78,7 @@ class Categories extends ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'parent_id' => Yii::t('app', 'Parent ID'),
             'depth' => Yii::t('app', 'Depth'),
+            'order' => Yii::t('app', 'Order'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),

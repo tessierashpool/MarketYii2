@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => 255]) ?>
 
+    <?= $form->field($model, 'order')->hiddenInput(['value' =>$model->find()->orderBy('order DESC')->one()->order+1])->label(false) ?>
+
     <?= $form->field($model, 'parent_id')->hiddenInput(['value' => $this->params['customParam']['parent']])->label(false) ?>
 
     <?= $form->field($model, 'depth')->hiddenInput(['value' => $this->params['customParam']['depth']])->label(false) ?>

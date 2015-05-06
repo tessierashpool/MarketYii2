@@ -38,7 +38,11 @@ AppAsset::register($this);
                     ['label' => 'Home', 'url' => ['/site/index']],
                     ['label' => 'Users', 'url' => ['/admin/user']],
                     ['label' => 'Roles & Permissions', 'url' => ['/admin/auth-item']],
-                    ['label' => 'Categories', 'url' => ['/admin/categories']],
+                    ['label' => 'Items', 'items' => [
+                        ['label' => 'Categories(tree)', 'url' => ['/admin/categories']],
+                        ['label' => 'Categories(gridview)', 'url' => ['/admin/categories/gridview']],
+                        //['label' => 'Parameters', 'url' => ['/admin/param-names']],
+                    ]],                    
                     ['label' => 'Parameters', 'items' => [
                         ['label' => 'Parameters categories', 'url' => ['/admin/param-categor']],
                         ['label' => 'Parameters', 'url' => ['/admin/param-names']],

@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /* @var $searchModel app\models\CategoriesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Categories');
+$this->title = Yii::t('app', 'Categories(tree)');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -19,25 +19,34 @@ function treeGenerator($arCat = [], $parent_id=0, $debth=0)
         if(($cat['parent_id']==null&&$debth==null)||$parent_id == $cat['parent_id'])
         {
             $id = $cat['id'];           
-            echo '<li>';            
+            echo '<li class="folder-li folder-li-'.$cat['id'].'" data-folder-id="'.$cat['id'].'">';            
                 echo '<input class="folder-input" type="checkbox" id="subfolder_'.$cat['id'].'"/>';
                 echo '<div class="folder">';
                     echo '<label for="subfolder_'.$cat['id'].'">';
                         echo '<i class="glyphicon glyphicon-folder-close foldeer-icon-close"></i>';
                         echo '<i class="glyphicon glyphicon-folder-open foldeer-icon-open"></i>';
-                        echo '&nbsp;'.$cat['name'];
-                    echo '</label>&nbsp;&nbsp;';
+                        echo '&nbsp; '.$cat['name'];
+                    echo '</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                     echo '<span class="actions">';
                         echo '<a href="'.Url::to(['view', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-eye-open"></i></a>';
-                        echo ' <a href="#"><i class="glyphicon glyphicon-pencil"></i></a>';
-                        echo ' <a href="#"><i class="glyphicon glyphicon-trash"></i></a>';
+                        echo ' <a href="'.Url::to(['update', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-pencil"></i></a>';
+                        //echo ' <a href="'.Url::to(['delete', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-trash"></i></a>';
+                        echo ' '.Html::a('<i class="glyphicon glyphicon-trash"></i>', ['delete', 'id' => $cat['id']], [
+                                            'title' => Yii::t('yii', 'Delete'),
+                                            'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                                            'data-method' => 'post',
+                                            'data-pjax' => '0',
+                                        ]);
+                        echo ' <a href="javascript:void(0)" onclick="folderOrderUp('.$cat['id'].')"><i class="glyphicon glyphicon-arrow-up"></i></a>';                        
+                        echo ' <a href="javascript:void(0)" onclick="folderOrderDown('.$cat['id'].')"><i class="glyphicon glyphicon-arrow-down"></i></a>';                        
+
                     echo '</span>';
                 echo '</div>';
                        
                 echo '<ul>';
                     unset($arCat[$key]);
                     $arCat = treeGenerator($arCat, $id, $debth + 1);
-                    echo '<li> <a href="'.Url::to(['create', 'parent' => $cat['id'], 'depth'=>$cat['depth']+1]).'" class="folder folder-create"><i class="glyphicon glyphicon-plus"></i> Создать подкатегорию</a></li>';
+                    echo '<li> <a href="'.Url::to(['create', 'parent' => $cat['id'], 'depth'=>$cat['depth']+1]).'" class="folder folder-create"><i class="glyphicon glyphicon-plus"></i> '.Yii::t('app', 'Create subcategory').'</a></li>';
                 echo '</ul>';                       
             echo '</li>';      
         }
@@ -53,29 +62,9 @@ function treeGenerator($arCat = [], $parent_id=0, $debth=0)
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Categories'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Category'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?//= Html::a(Yii::t('app', 'Create Category in Table'), ['create-table'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'code',
-            'name',
-            'description',
-            'parent_id',
-            // 'depth',
-            // 'created_at',
-            // 'updated_at',
-            // 'created_by',
-            // 'updated_by',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
     <style>
         #ultest ul {
             list-style: none;
@@ -109,6 +98,7 @@ function treeGenerator($arCat = [], $parent_id=0, $debth=0)
         .folder label{
             font-weight: normal;
             cursor: pointer;
+            color: #000;
         }   
         .folder label:hover{
             
@@ -124,10 +114,56 @@ function treeGenerator($arCat = [], $parent_id=0, $debth=0)
         a.folder-create{
             text-decoration: none;
             cursor: pointer;
-            color: #444;
-        }   
+            font-size: 12px;
+        } 
+        .menu-button{
+            cursor: pointer;
+        }  
     </style>
+    <script>
+        function openAllFolders()
+        {
+            $('.folder-input').prop('checked',true);
+        }
+
+        function closeAllFolders()
+        {
+            $('.folder-input').prop('checked',false);
+        }  
+
+        function folderOrderUp(id){
+            var curent_li = $('.folder-li-'+id);
+            var prev_li = curent_li.prev('.folder-li');
+ /*           if(prev_li.length)
+                alert(prev_li.data('folder-order'));*/
+            if(prev_li.length)
+            {    
+                curent_li.after(prev_li);
+                $.ajax({
+                   url: '<?=Url::to(['ajax-order-change'])?>',
+                   data: {id1: id, id2: prev_li.data('folder-id')}                 
+                });                
+            } 
+        }    
+
+         function folderOrderDown(id){
+            var curent_li = $('.folder-li-'+id);
+            var next_li = curent_li.next('.folder-li');
+            if(next_li.length)    
+            {
+                curent_li.before(next_li);
+                $.ajax({
+                   url: '<?=Url::to(['ajax-order-change'])?>',
+                   data: {id1: id, id2: next_li.data('folder-id')}                  
+                });                   
+            } 
+        }          
+    </script>
     <?//var_dump($dataTree)?>
+    <hr>
+    <p><span onclick="openAllFolders()" class="folder menu-button"><i class="glyphicon glyphicon-folder-open foldeer-icon-open"></i>&nbsp; Open all folders</span>
+        &nbsp;<span onclick="closeAllFolders()" class="folder menu-button"><i class="glyphicon glyphicon-folder-close foldeer-icon-close"></i>&nbsp;Close all folders</span></p>
+    <hr>
     <div id="ultest">
     <ul style="padding-left: 0;">
         <?=treeGenerator($dataTree);?>

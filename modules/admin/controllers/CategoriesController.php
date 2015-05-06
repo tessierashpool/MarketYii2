@@ -45,6 +45,26 @@ class CategoriesController extends Controller
         ]);
     }
 
+    public function actionGridview()
+    {
+        $searchModel = new CategoriesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('gridview', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCreateTable()
+    {
+        $model = new Categories();
+        $dataProvider = $model->find()->select(['id','name','depth','parent_id'])->asArray()->all();;
+        return $this->render('create_table', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }    
+
     /**
      * Displays a single Categories model.
      * @param integer $id
@@ -67,7 +87,7 @@ class CategoriesController extends Controller
         $model = new Categories();
         $this->view->params['customParam'] = Yii::$app->request->get();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -92,6 +112,18 @@ class CategoriesController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionAjaxOrderChange($id1,$id2)
+    {
+        $model = new Categories();
+        $category1 = $model->findOne($id1);
+        $category2 = $model->findOne($id2);
+        $tmp_order = $category1->order;
+        $category1->order = $category2->order;
+        $category1->save();
+        $category2->order = $tmp_order;
+        $category2->save();
     }
 
     /**
