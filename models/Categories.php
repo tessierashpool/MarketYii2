@@ -46,6 +46,45 @@ class Categories extends ActiveRecord
     public static function tableName()
     {
         return 'categories';
+    }    
+
+    /**
+     * @return boolen
+     */
+    public function saveCategory()
+    {
+        if($this->save())
+        {
+
+            $arParams = Yii::$app->request->post('params');
+            $arParamsQuery = [];
+            if(count($arParams)>0)
+            {
+                foreach($arParams as $key=>$paramId)
+                {
+                    $arParamsQuery[] = [$this->id, $paramId, $key+1];
+                }
+            }
+            ParametersToCategories::deleteAll('id_category = '.$this->id);
+            if(count($arParamsQuery)>0)
+            {    
+                Yii::$app->db->createCommand()->batchInsert(ParametersToCategories::tableName(), ['id_category','id_parameter','order'], $arParamsQuery)->execute();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function getCatParameters()
+    {
+        $model = new ParametersToCategories();  
+        return $model->find()->with('parametersInfo')->where(['id_category'=>$this->id])->orderBy('order ASC')->asArray()->all();
+    }
+
+    public function getParentParameters()
+    {
+        $model = new ParametersToCategories();  
+        return $model->find()->with('parametersInfo')->where(['id_category'=>$this->parent_id])->orderBy('order ASC')->asArray()->all();
     }
 
     /**
@@ -54,7 +93,8 @@ class Categories extends ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'depth', 'created_at', 'updated_at', 'created_by', 'updated_by','order'], 'integer'],
+            [['parent_id', 'depth', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['order'], 'integer','on'=>'create'],
             [['code', 'name', 'description'], 'string', 'max' => 255],
             [['code', 'name'], 'required'],
             [['code'], 'unique']
@@ -85,4 +125,5 @@ class Categories extends ActiveRecord
             'updated_by' => Yii::t('app', 'Updated By'),
         ];
     }
+   
 }

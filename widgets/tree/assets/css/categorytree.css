@@ -1,0 +1,53 @@
+#ultest ul {
+    list-style: none;
+}
+#ultest ul input + div + ul{
+    display: none;
+}        
+#ultest ul input:checked + div + ul{
+    display: block;
+}  
+#ultest  i.foldeer-icon-open{
+    display: none;
+}          
+#ultest ul input:checked + div i.foldeer-icon-open{
+    display: inline;
+}   
+#ultest ul input:checked + div i.foldeer-icon-close{
+    display: none;
+}                     
+.folder{
+    border: 1px solid #fff;
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;          
+}
+.folder:hover{
+    border: 1px solid #eee;
+}    
+.folder label{
+    font-weight: normal;
+    cursor: pointer;
+    color: #000;
+}   
+.folder label:hover{
+    
+}          
+.folder-input{
+    display: none;
+}                         
+.folder i.foldeer-icon-open,.folder i.foldeer-icon-close{
+    color: #f0ad4e;
+}     
+.folder .actions{
+}        
+a.folder-create{
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 12px;
+} 
+.menu-button{
+    cursor: pointer;
+}  

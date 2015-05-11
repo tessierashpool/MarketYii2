@@ -4,6 +4,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\Categories;
+use app\models\ParamNames;
 use app\models\CategoriesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -85,12 +86,17 @@ class CategoriesController extends Controller
     public function actionCreate()
     {
         $model = new Categories();
+        $model->scenario = 'create';
+        $parametersModel = new ParamNames();
         $this->view->params['customParam'] = Yii::$app->request->get();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->saveCategory()) {
             return $this->redirect(['index', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'parametersList' => $parametersModel->allParameters,
+                'parametersToCategories' => $model->catParameters,
+                'parentParameters' => $model->parentParameters,
             ]);
         }
     }
@@ -104,12 +110,15 @@ class CategoriesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $parametersModel = new ParamNames();
+        if ($model->load(Yii::$app->request->post()) && $model->saveCategory()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'parametersList' => $parametersModel->allParameters,
+                'parametersToCategories' => $model->catParameters,
+                'parentParameters' => $model->parentParameters,
             ]);
         }
     }

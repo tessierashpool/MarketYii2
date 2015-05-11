@@ -86,6 +86,27 @@ class ParamNames extends ActiveRecord
         return array_merge([0=>Yii::t('app', 'Custom')],$def_array);
     }
 
+    public function getAllParameters()
+    {
+        $arCatList = $this->categoriesList;
+        $arParams = $this->find()->select(['id','code','name','category_id'])->asArray()->all();
+        $arCategiesAndParameters;
+        foreach($arParams as $param)
+        {
+            if (isset($arCatList[$param['category_id']])) {
+                $arCategiesAndParameters[$param['category_id']]['params'][] = $param;
+                $arCategiesAndParameters[$param['category_id']]['name'] = $arCatList[$param['category_id']];
+            }
+            else
+            {
+                $arCategiesAndParameters[0]['params'][] = $param;
+                $arCategiesAndParameters[0]['name'] = $arCatList[0];                
+            }
+        }
+       // var_dump($arCategiesAndParameters);
+        return $arCategiesAndParameters;
+    }    
+
     /**
      * @return \yii\db\ActiveQuery
      */
