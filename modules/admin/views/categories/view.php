@@ -42,4 +42,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <div class="panel panel-default">
+      <div class="panel-heading"><strong>Parameters</strong></div>
+      <ul class="list-group">
+        <?
+            if(count($parametersToCategories)>0)
+                foreach($parametersToCategories as $parameter)
+                {
+                    echo '<li class="list-group-item">'.$parameter['parametersInfo']['name'].
+                        ' ['.$parameter['parametersInfo']['code'].'] ';    
+                    echo '</li>';
+                }    
+        ?>
+      </ul>
+    </div>
 </div>
