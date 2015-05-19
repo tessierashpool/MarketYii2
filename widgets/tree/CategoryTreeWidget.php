@@ -8,6 +8,13 @@ use Yii;
 
 class CategoryTreeWidget extends Widget{
 	public $category;
+
+	public $actionView = true;
+	public $actionUpdate = true;
+	public $actionDelete = true;
+	public $actionOrder = true;
+	public $actionCreate = true;
+	public $actionCreateItems = true;
 	
 	public function init(){
 		parent::init();
@@ -45,25 +52,33 @@ class CategoryTreeWidget extends Widget{
 	                        echo '&nbsp; '.$cat['name'];
 	                    echo '</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	                    echo '<span class="actions">';
-	                        echo '<a href="'.Url::to(['view', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-eye-open"></i></a>';
-	                        echo ' <a href="'.Url::to(['update', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-pencil"></i></a>';
+	                    	if($this->actionView)
+								echo '<a href="'.Url::to(['view', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-eye-open"></i></a>';
+							if($this->actionUpdate)
+	                        	echo ' <a href="'.Url::to(['update', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-pencil"></i></a>';
 	                        //echo ' <a href="'.Url::to(['delete', 'id' => $cat['id']]).'"><i class="glyphicon glyphicon-trash"></i></a>';
-	                        echo ' '.Html::a('<i class="glyphicon glyphicon-trash"></i>', ['delete', 'id' => $cat['id']], [
+							if($this->actionDelete)
+								echo ' '.Html::a('<i class="glyphicon glyphicon-trash"></i>', ['delete', 'id' => $cat['id']], [
 	                                            'title' => Yii::t('yii', 'Delete'),
 	                                            'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
 	                                            'data-method' => 'post',
 	                                            'data-pjax' => '0',
 	                                        ]);
-	                        echo ' <a href="javascript:void(0)" onclick="folderOrderUp('.$cat['id'].', \''.Url::to(['ajax-order-change']).'\')"><i class="glyphicon glyphicon-arrow-up"></i></a>';                        
-	                        echo ' <a href="javascript:void(0)" onclick="folderOrderDown('.$cat['id'].', \''.Url::to(['ajax-order-change']).'\')"><i class="glyphicon glyphicon-arrow-down"></i></a>';                        
-
+							if($this->actionDelete)
+							{	
+								echo ' <a href="javascript:void(0)" onclick="folderOrderUp('.$cat['id'].', \''.Url::to(['ajax-order-change']).'\')"><i class="glyphicon glyphicon-arrow-up"></i></a>';                        
+								echo ' <a href="javascript:void(0)" onclick="folderOrderDown('.$cat['id'].', \''.Url::to(['ajax-order-change']).'\')"><i class="glyphicon glyphicon-arrow-down"></i></a>';                        
+							}
+	                    	if($this->actionCreateItems)
+								echo ' <a href="'.Url::to(['/admin/items/list', 'category_id' => $cat['id']]).'">'.Yii::t('app', 'Select category').'</a>';							
 	                    echo '</span>';
 	                echo '</div>';
 	                       
 	                echo '<ul>';
 	                    unset($arCat[$key]);
 	                    $arCat = $this->treeGenerator($arCat, $id, $debth + 1);
-	                    echo '<li> <a href="'.Url::to(['create', 'parent' => $cat['id'], 'depth'=>$cat['depth']+1]).'" class="folder folder-create"><i class="glyphicon glyphicon-plus"></i> '.Yii::t('app', 'Create subcategory').'</a></li>';
+	                    if($this->actionCreate)
+							echo '<li> <a href="'.Url::to(['create', 'parent' => $cat['id'], 'depth'=>$cat['depth']+1]).'" class="folder folder-create"><i class="glyphicon glyphicon-plus"></i> '.Yii::t('app', 'Create subcategory').'</a></li>';
 	                echo '</ul>';                       
 	            echo '</li>';      
 	        }

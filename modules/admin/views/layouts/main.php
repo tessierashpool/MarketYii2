@@ -39,8 +39,9 @@ AppAsset::register($this);
                     ['label' => 'Users', 'url' => ['/admin/user']],
                     ['label' => 'Roles & Permissions', 'url' => ['/admin/auth-item']],
                     ['label' => 'Items', 'items' => [
-                        ['label' => 'Categories(tree)', 'url' => ['/admin/categories']],
+                        ['label' => 'Categories(tree)', 'url' => ['/admin/categories/index']],
                         ['label' => 'Categories(gridview)', 'url' => ['/admin/categories/gridview']],
+                        ['label' => 'Items', 'url' => ['/admin/items/index']],
                         //['label' => 'Parameters', 'url' => ['/admin/param-names']],
                     ]],                    
                     ['label' => 'Parameters', 'items' => [
@@ -60,6 +61,10 @@ AppAsset::register($this);
 
         <div class="container">
             <?= Breadcrumbs::widget([
+                'homeLink' => [ 
+                    'label' => Yii::t('yii', 'Home'),
+                    'url' => ['/admin'],
+                ],                
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?= $content ?>

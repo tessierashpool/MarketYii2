@@ -3,16 +3,17 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\ParamNames;
-use app\models\ParamNamesSearch;
+use app\models\Items;
+use app\models\ItemsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Categories;
 
 /**
- * ParamNamesController implements the CRUD actions for ParamNames model.
+ * ItemsController implements the CRUD actions for Items model.
  */
-class ParamNamesController extends Controller
+class ItemsController extends Controller
 {
     public function behaviors()
     {
@@ -27,22 +28,34 @@ class ParamNamesController extends Controller
     }
 
     /**
-     * Lists all ParamNames models.
+     * Lists all Items models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionList()
     {
-        $searchModel = new ParamNamesSearch();
+        $searchModel = new ItemsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
+        $categoryModel = $this->findCategory(Yii::$app->request->get('category_id'));
+        return $this->render('list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'categoryModel' => $categoryModel,
+        ]);
+    }
+
+    public function actionIndex()
+    {
+        $model = new Categories();
+        $dataTree = $model->getTree();
+
+        return $this->render('index', [
+            'model' => $model,
+            'dataTree' => $dataTree,
         ]);
     }
 
     /**
-     * Displays a single ParamNames model.
+     * Displays a single Items model.
      * @param integer $id
      * @return mixed
      */
@@ -54,25 +67,26 @@ class ParamNamesController extends Controller
     }
 
     /**
-     * Creates a new ParamNames model.
+     * Creates a new Items model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ParamNames();
-
-        if ($model->load(Yii::$app->request->post()) && $model->saveParameter()) {
-            return $this->redirect(['index']);
+        $model = new Items();
+        $categoryModel = $this->findCategory(Yii::$app->request->get('category_id'));
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'categoryModel' => $categoryModel,
             ]);
         }
     }
 
     /**
-     * Updates an existing ParamNames model.
+     * Updates an existing Items model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -81,7 +95,7 @@ class ParamNamesController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->saveParameter()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -90,14 +104,8 @@ class ParamNamesController extends Controller
         }
     }
 
-    public function actionPjaxtest()
-    {
-        return $this->render('pjaxtest', ['time' => date('H:i:s')]);
-    }
-
-
     /**
-     * Deletes an existing ParamNames model.
+     * Deletes an existing Items model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -109,28 +117,28 @@ class ParamNamesController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionDeleteAll()
-    {
-       // $this->findModel($id)->delete();
-        $arIds = Yii::$app->request->post('ids');
-        if(count($arIds)>0)
-            ParamNames::deleteAll(['id'=>$arIds]);
-        return $this->redirect(['index']);
-    }
-
     /**
-     * Finds the ParamNames model based on its primary key value.
+     * Finds the Items model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ParamNames the loaded model
+     * @return Items the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ParamNames::findOne($id)) !== null) {
+        if (($model = Items::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    protected function findCategory($id)
+    {
+        if (($model = Categories::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }   
 }

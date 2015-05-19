@@ -58,8 +58,38 @@ class ParamNames extends ActiveRecord
             [['category_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['code', 'name'], 'string', 'max' => 255],
             [['code'], 'unique'],
-            [['code','name'], 'required']
+            [['code','name','type'], 'required']
         ];
+    }
+
+    /**
+     * @return boolen
+     */
+    public function saveParameter()
+    {
+        if($this->save())
+        {
+            if($this->type == 'list')
+            {
+                $arListValues = Yii::$app->request->post('list-value');
+                $arListCodes = Yii::$app->request->post('list-code');
+                $arParamsQuery = [];
+                if(count($arListValues)>0)
+                {
+                    foreach($arListValues as $key=>$paramValue)
+                    {
+                        $arParamsQuery[] = [$this->id, $arListCodes[$key], $paramValue, $key+1];
+                    }
+                }
+                ListsToParameters::deleteAll('parameter_id = '.$this->id);
+                if(count($arParamsQuery)>0)
+                {    
+                    Yii::$app->db->createCommand()->batchInsert(ListsToParameters::tableName(), ['parameter_id','code','value','order'], $arParamsQuery)->execute();
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -85,6 +115,13 @@ class ParamNames extends ActiveRecord
        // array_unshift($def_array,"");
         return array_merge([0=>Yii::t('app', 'Custom')],$def_array);
     }
+
+    public function getListValues()
+    {
+        $def_array = ArrayHelper::map(ParamCategor::find()->asArray()->all(),'id','name');
+       // array_unshift($def_array,"");
+        return array_merge([0=>Yii::t('app', 'Custom')],$def_array);
+    }    
 
     public function getAllParameters()
     {
@@ -114,4 +151,9 @@ class ParamNames extends ActiveRecord
     {
         return $this->hasOne(ParamCategor::className(), ['id' => 'category_id']);
     }
+
+    public function getValuesList()
+    {
+        return $this->hasMany(ListsToParameters::className(), ['parameter_id' => 'id']);
+    }       
 }
