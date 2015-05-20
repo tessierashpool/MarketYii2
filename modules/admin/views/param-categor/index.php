@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use app\widgets\gridAllButton\GridAllButton;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Parameters categories';
+$this->title = 'Categories of parameters';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="param-categor-index">
@@ -19,14 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'id'=> 'grid',
         'columns' => [
            // ['class' => 'yii\grid\SerialColumn'],
-
+            ['class' => 'yii\grid\CheckboxColumn'],
             'id',
             'name',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+    <?=GridAllButton::widget();?>
 </div>

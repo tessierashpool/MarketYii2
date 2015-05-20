@@ -67,7 +67,7 @@ class Items extends ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'description' => Yii::t('app', 'Description'),
             'price' => Yii::t('app', 'Price'),
-            'category_id' => Yii::t('app', 'Category Id'),
+            'category_id' => Yii::t('app', 'Category'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),

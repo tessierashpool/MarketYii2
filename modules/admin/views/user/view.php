@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<div class="row">
         <div class="col-xs-6">
             <h3 ><?=Yii::t('yiimarket','Assigned Roles')?></h3>
-			<?=Html::ul($model->rolesArray,['class'=>'list-group','itemOptions'=>['class'=>'list-group-item']]);?>
+			<?=Html::ul(array_intersect($model->assignmentsArray, $model->rolesArray),['class'=>'list-group','itemOptions'=>['class'=>'list-group-item']]);?>
         </div>		
         <div class="col-xs-6">
             <h3 ><?=Yii::t('yiimarket','Permissions')?></h3>

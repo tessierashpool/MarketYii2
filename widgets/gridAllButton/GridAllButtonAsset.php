@@ -16,5 +16,6 @@ class GridAllButtonAsset extends AssetBundle
      */
     public $sourcePath = '@app/widgets/gridAllButton/assets/';
     public $js = ['js/gridAllButton.js'];
+    public $depends = ['yii\web\JqueryAsset'];
  
 }

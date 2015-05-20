@@ -156,8 +156,8 @@ class User extends ActiveRecord implements IdentityInterface
 	public function getRolesArray(){
 		$rbac =  Yii::$app->authManager;
 		$roles = $rbac->roles;
-		$roles_array  = ArrayHelper::map($roles, 'name', 'name');		
-		return array_intersect($this->assignmentsArray, $roles_array);
+		$roles_array  = ArrayHelper::map($roles, 'name', 'name');	;	
+		return $roles_array;
 	}	
 	
 	public function getPermissionsArray(){

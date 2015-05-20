@@ -119,6 +119,23 @@ class AuthItemController extends Controller
 		}
     }
 
+    public function actionDeleteAll()
+    {
+       // $this->findModel($id)->delete();
+        $arIds = Yii::$app->request->post('ids');
+        if(count($arIds)>0)
+        {
+            foreach($arIds as $id)
+            {
+                if($id!='admin'&&$id!='admin_panel')
+                {
+                    $this->findModel($id)->deleteAuthItem();
+                }                
+            }
+        }
+        return $this->redirect(['index']);
+    }    
+
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

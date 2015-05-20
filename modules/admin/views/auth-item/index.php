@@ -5,6 +5,7 @@ use yii\grid\GridView;
 //use dosamigos\datepicker\DatePicker;
 use kartik\daterange\DateRangePicker;
 use app\utilities\UnixDateRangePicker;
+use app\widgets\gridAllButton\GridAllButton;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AuthItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,9 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'id'=> 'grid',
         'columns' => [
+        	['class' => 'yii\grid\CheckboxColumn'],
             ['class' => 'yii\grid\SerialColumn'],
-
             'name',
 			[
 				'label' => 'Type',
@@ -77,5 +79,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'app\utilities\RolesActionColumn'],
         ],
     ]); ?>
-
+	<?=GridAllButton::widget();?>
 </div>

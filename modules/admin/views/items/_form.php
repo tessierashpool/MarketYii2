@@ -23,7 +23,8 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-
+    <pre>
+	<?print_r($categoryModel->fullParameters)?></pre>
     <?php ActiveForm::end(); ?>
 
 </div>

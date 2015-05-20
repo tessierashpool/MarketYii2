@@ -116,6 +116,23 @@ class UserController extends Controller
 		}
     }
 
+    public function actionDeleteAll()
+    {
+       // $this->findModel($id)->delete();
+        $arIds = Yii::$app->request->post('ids');
+        if(count($arIds)>0)
+        {
+            foreach($arIds as $id)
+            {
+                if($id!=1)
+                {
+                    $this->findModel($id)->delete();
+                }                
+            }
+        }
+        return $this->redirect(['index']);
+    } 
+    
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

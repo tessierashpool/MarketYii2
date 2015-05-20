@@ -2,12 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\User;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Items */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Items'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Category Select'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $categoryModel->name, 'url' => ['list','category_id'=>$categoryModel->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="items-view">
@@ -32,11 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'price',
-            'category_id',
-            'created_at',
-            'updated_at',
-            'created_by',
-            'updated_by',
+            [
+                'attribute' => 'category_id',
+                'value' => $categoryModel->name,           
+            ],
+            'created_at:date',
+            'updated_at:date',
+            ['attribute'=>'created_by', 'value'=>User::find()->select('username')->where(['id'=>$model->created_by])->one()->username],
+            ['attribute'=>'updated_by', 'value'=>User::find()->select('username')->where(['id'=>$model->updated_by])->one()->username],
         ],
     ]) ?>
 

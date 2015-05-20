@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\widgets\gridAllButton\GridAllButton;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\user\UserSearch */
@@ -22,9 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'id'=> 'grid',
         'columns' => [
             [
-				'class' => 'yii\grid\SerialColumn',
+				'class' => 'yii\grid\CheckboxColumn',
 				'contentOptions'=>['style'=>'width: 30px;']			
 			],
 			[
@@ -40,5 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
     ]); ?>
+    <?=GridAllButton::widget();?>
 
 </div>

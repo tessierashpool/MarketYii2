@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\utilities\UnixDateRangePicker;
+use app\widgets\gridAllButton\GridAllButton;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ItemsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -23,8 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'id'=> 'grid',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\CheckboxColumn'],
 
             'id',
             'name',
@@ -53,5 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?=GridAllButton::widget();?>
 
 </div>

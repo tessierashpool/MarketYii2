@@ -61,8 +61,11 @@ class ItemsController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $categoryModel = $this->findCategory($model->category_id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'categoryModel' => $categoryModel,
         ]);
     }
 
@@ -76,7 +79,7 @@ class ItemsController extends Controller
         $model = new Items();
         $categoryModel = $this->findCategory(Yii::$app->request->get('category_id'));
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['list', 'category_id' => $model->category_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -96,7 +99,7 @@ class ItemsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['list', 'category_id' => $model->category_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -115,6 +118,21 @@ class ItemsController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDeleteAll()
+    {
+        $arIds = Yii::$app->request->post('ids');
+        if(count($arIds)>0)
+        {
+            $model = $this->findModel($arIds[0]);
+            Items::deleteAll(['id'=>$arIds]);
+            return $this->redirect(['list','category_id'=>$model->category_id]);
+        }
+        else
+        {
+            return $this->redirect(['index']);
+        }
     }
 
     /**

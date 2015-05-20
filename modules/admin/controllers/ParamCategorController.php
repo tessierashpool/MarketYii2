@@ -102,6 +102,15 @@ class ParamCategorController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    public function actionDeleteAll()
+    {
+       // $this->findModel($id)->delete();
+        $arIds = Yii::$app->request->post('ids');
+        if(count($arIds)>0)
+            ParamCategor::deleteAll(['id'=>$arIds]);
+        return $this->redirect(['index']);
+    }
 
     /**
      * Finds the ParamCategor model based on its primary key value.

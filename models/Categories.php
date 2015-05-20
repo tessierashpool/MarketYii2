@@ -88,6 +88,45 @@ class Categories extends ActiveRecord
     }
 
     /**
+    * Get all parameters of category with list values for "list" type parameters.
+    * @return array
+    */
+    public function getFullParameters()
+    {
+        $arListParams = [];
+        $arParams = [];
+        $arParamsTmp = $this->getCatParameters();
+        if(count($arParamsTmp)>0)
+        {
+            foreach($arParamsTmp as $key=>$parameter)
+            {
+                if($parameter['parametersInfo']['type']=='list')
+                {
+                    $arListParams[] = $parameter['parametersInfo']['id'];
+                }
+                $arParams[$key] =  $parameter['parametersInfo'];
+            }
+            $valuesForLists = ListsToParameters::find()->where(['parameter_id'=>$arListParams])->asArray()->all();
+            foreach($arParams as $key=>$parameter)
+            {
+                if($parameter['type']=='list')
+                {
+                    foreach($valuesForLists as $valueKey => $value)
+                    {
+                        if($value['parameter_id']==$parameter['id'])
+                        {
+                            $arParams[$key]['listValues'][]=$value;
+                            unset($valuesForLists[$valueKey]);
+                        }
+                    }
+                }
+            }            
+        }
+        
+        return $arParams;
+    }    
+
+    /**
      * @inheritdoc
      */
     public function rules()
