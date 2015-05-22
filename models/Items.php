@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "items".
@@ -19,7 +20,7 @@ use yii\db\ActiveRecord;
  */
 class Items extends ActiveRecord
 {
-
+    private $_parameters;
     public function behaviors()
     {
         return [
@@ -53,10 +54,67 @@ class Items extends ActiveRecord
     {
         return [
             [['price', 'created_at', 'updated_at', 'created_by', 'updated_by','category_id'], 'integer'],
-            [['name', 'description'], 'string', 'max' => 255]
+            [['name', 'description'], 'string', 'max' => 255],
+            [['parameters'], 'safe'],
+            [['name'], 'required'],
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getParameters()
+    {        
+        if(count($this->_parameters)>0)
+            return  $this->_parameters;
+        elseif($this->id!=null)
+            return $this->_parameters = ArrayHelper::map(ItemsParametersValue::find()->where(['item_id'=>$this->id])->asArray()->all(),'parameter_id','value');
+        else 
+            return [];
+    }
+
+    public function setParameters($value)
+    {
+        $this->_parameters = $value;
+    }    
+
+    public function saveItem()
+    {
+        $arParams = $this->parameters;
+        if($this->save())
+        {
+            $arParamsQuery = [];
+            if(count($arParams)>0)
+            {
+                foreach($arParams as $key=>$value)
+                {
+                    $arParamsQuery[] = [$this->id, $key, $value];
+                }
+            }
+            ItemsParametersValue::deleteAll('item_id = '.$this->id);
+            if(count($arParamsQuery)>0)
+            {    
+                Yii::$app->db->createCommand()->batchInsert(ItemsParametersValue::tableName(), ['item_id','parameter_id','value'], $arParamsQuery)->execute();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function parametersValidate()
+    {
+        //var_dump($this->parameters);
+        //ItemsParametersValue
+       // Yii::$app->db->createCommand()->batchInsert(ParametersToCategories::tableName(), ['id_category','id_parameter','order'], $arParamsQuery)->execute();
+        //$this->addError('parameters5',Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => 'Categories']));
+        return false;
+    }
     /**
      * @inheritdoc
      */

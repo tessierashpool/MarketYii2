@@ -78,7 +78,8 @@ class ItemsController extends Controller
     {
         $model = new Items();
         $categoryModel = $this->findCategory(Yii::$app->request->get('category_id'));
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        
+        if ($model->load(Yii::$app->request->post()) && $model->saveItem()) {
             return $this->redirect(['list', 'category_id' => $model->category_id]);
         } else {
             return $this->render('create', [
@@ -97,12 +98,13 @@ class ItemsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $categoryModel = $this->findCategory(Yii::$app->request->get('category_id'));
+        if ($model->load(Yii::$app->request->post()) && $model->saveItem()) {
             return $this->redirect(['list', 'category_id' => $model->category_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'categoryModel' => $categoryModel,
             ]);
         }
     }

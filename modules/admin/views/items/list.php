@@ -52,7 +52,17 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_by',
             // 'updated_by',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'buttons' => [
+                    //view button
+                    'update' => function ($url, $model) {
+                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update','id'=>$model->id,'category_id'=>$model->category_id], [
+                                    'title' => Yii::t('app', 'View'),                                 
+                        ]);
+                    },
+                ]
+            ],
         ],
     ]); ?>
     <?=GridAllButton::widget();?>
