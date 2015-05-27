@@ -19,11 +19,136 @@ use yii\bootstrap\Modal;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => 255]) ?>
 
+    <?= $form->field($model, 'have_variants')->checkbox(['onchange'=>'if($(this).prop("checked")){$("#variants-cont").removeClass("hidden")}else{$("#variants-cont").addClass("hidden")};']) ?>    
+
     <?= $form->field($model, 'order')->hiddenInput(['value' =>$model->find()->orderBy('order DESC')->one()->order+1])->label(false) ?>
 
     <?= $form->field($model, 'parent_id')->hiddenInput(['value' => $this->params['customParam']['parent']])->label(false) ?>
 
     <?= $form->field($model, 'depth')->hiddenInput(['value' => $this->params['customParam']['depth']])->label(false) ?>
+
+<script>
+    var existVariants = [];
+    function selectVariant(name,code,id){
+        if(existVariants.indexOf(id)<0)
+        {
+            var paramLine = '<li class="list-group-item  li-variants selected-variant-'+id+'"><small><span class="label label-success">new</span></small> ';
+            paramLine += name;
+            paramLine += ' ['+code+'] ';
+            paramLine += '<a href="javascript:void(0)" onclick="deleteVariant('+id+')"><i class="glyphicon glyphicon-trash"></i></a>';
+            paramLine += ' <a href="javascript:void(0)" onclick="variantOrderUp(this)"><i class="glyphicon glyphicon-arrow-up"></i></a>';                        
+            paramLine += ' <a href="javascript:void(0)" onclick="variantOrderDown(this)"><i class="glyphicon glyphicon-arrow-down"></i></a>';  
+            paramLine += '<input type="hidden" name="variants[]" value="'+id+'" /></li>';
+            $('.add-variants-li').before(paramLine);
+            selectedVariant(id);
+            $('#variants').modal('hide'); 
+        }
+        else
+        {
+            $('.link-variant-'+id).next('span').fadeIn(1).delay( 1800 ).fadeOut(1);
+        }    
+    }
+
+    function selectedVariant(id){
+        existVariants.push(id);
+        $('.link-variant-'+id).css({'color':'#999','text-decoration':'none','cursor':'default'});
+    }
+
+    function deleteVariant(id){
+        $('.selected-variant-'+id).remove();
+        $('.link-variant-'+id).css({'color':'','text-decoration':'','cursor':''});
+        if(existVariants.indexOf(id)>=0)
+            existVariants.splice(existVariants.indexOf(id), 1);
+    }
+
+    function variantOrderUp(e)
+    {
+        var curent_li = $(e).parent('.li-variants');
+        var prev_li = curent_li.prev('.li-variants');
+        if(prev_li.length)    
+        {
+            curent_li.after(prev_li);                  
+        } 
+    }
+
+    function variantOrderDown(e)
+    {
+        var curent_li = $(e).parent('.li-variants');
+        var next_li = curent_li.next('.li-variants');
+        if(next_li.length)    
+        {
+            curent_li.before(next_li);                  
+        } 
+    }    
+
+    function addParentVariants(e)
+    {
+        $(e).parent().next('span').children('i').each(function(){
+            deleteVariant(parseInt($(this).data('variant-id')));
+            selectVariant($(this).data('variant-name'),$(this).data('variant-code'), parseInt($(this).data('variant-id')));
+
+        })
+        
+    }
+</script>
+<div class="panel panel-default <?if(!$model->have_variants)echo 'hidden';?>" id="variants-cont">
+  <div class="panel-heading"><strong>Variants</strong></div>
+  <ul class="list-group">
+    <?
+        if(count($variantsToCategories)>0)
+            foreach($variantsToCategories as $variant)
+            {
+                echo '<li class="list-group-item li-variants selected-variant-'.$variant['id_variant'].'">'.$variant['variantsInfo']['name'].
+                    ' ['.$variant['variantsInfo']['code'].'] <a href="javascript:void(0)" onclick="deleteVariant('.
+                    $variant['id_variant'].')"><i class="glyphicon glyphicon-trash"></i></a>'.
+                    ' <a href="javascript:void(0)" onclick="variantOrderUp(this)"><i class="glyphicon glyphicon-arrow-up"></i></a>'.                        
+                    ' <a href="javascript:void(0)" onclick="variantOrderDown(this)"><i class="glyphicon glyphicon-arrow-down"></i></a>'. 
+                    '<input type="hidden" name="variants[]" value="'.$variant['id_variant'].'" />';    
+                $this->registerJs('$("document").ready(function(){ selectedVariant('.$variant['id_variant'].'); });');
+                echo '</li>';
+            }    
+
+    ?>    
+    <li class="list-group-item add-variants-li">
+        <?Modal::begin([
+        'header' => '<h4><i class="glyphicon glyphicon-list-alt"></i> Variants</h4>',
+        'id'=>'variants',
+        'toggleButton' => ['tag'=>'a', 'label' => '<i class="glyphicon glyphicon-plus"></i> Add variant', 'style'=>'cursor:pointer'],
+        'options'=>['class'=>'modal']
+        ]);
+            //Prepare parent category variants
+            if(count($parentVariants)>0)
+            {
+                echo '<div class="panel panel-default">';
+                echo '<ul class="list-group">';                
+                echo '<li class="list-group-item"><a href="javascript:void(0)" onclick="addParentVariants(this)"><i class="glyphicon glyphicon-plus"></i> Add all parent variants</a></li>';
+                echo '<span style="display:none">';
+                foreach ($parentVariants as $key => $value) 
+                {
+                    echo '<i data-variant-name="'.$value['variantsInfo']['name'].'" data-variant-code="'.$value['variantsInfo']['code'].'" data-variant-id="'.$value['id_variant'].'"></i>';
+                }
+                echo '</span>';
+                echo '</ul>';
+                echo '</div>';         
+            }
+            //Prepare all variants in sistem
+            foreach($variantsList as $category)
+            {    
+                echo '<div class="panel panel-default">';
+                echo '<div class="panel-heading">'.$category['name'].'</div>';
+                echo '<ul class="list-group">';
+                foreach ($category['params'] as $variant) {
+                    echo '<li class="list-group-item"><a class="link-variant-'.$variant['id'].'" href="javascript:void(0)" onclick="selectVariant(\''.$variant['name'].'\',\''
+                        .$variant['code'].'\','.$variant['id'].')"><i class="glyphicon glyphicon-plus"></i> '
+                        .$variant['name'].' ['.$variant['code'].'] </a> <span class="pull-right" style="display:none;color:#d9534f"> selected</span></li>';
+                }   
+                echo '</ul>';            
+                echo '</div>';            
+            } 
+        Modal::end();?>
+    </li>
+  </ul>
+</div>    
 <script>
     var existParams = [];
     function selectParameter(name,code,id){

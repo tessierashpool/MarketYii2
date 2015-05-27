@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'code',
             'name',
             'description',
+            'have_variants:boolean',
             'parent_id',
             'depth',
             'created_at:date',
@@ -41,6 +42,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute'=>'updated_by', 'value'=>User::find()->select('username')->where(['id'=>$model->updated_by])->one()->username]
         ],
     ]) ?>
+    <?if(count($variantsToCategories)>0):?>
+        <div class="panel panel-default">
+          <div class="panel-heading"><strong>Variants</strong></div>
+          <ul class="list-group">
+            <?
+                foreach($variantsToCategories as $variant)
+                {
+                    echo '<li class="list-group-item">'.$variant['variantsInfo']['name'].
+                        ' ['.$variant['variantsInfo']['code'].'] ';    
+                    echo '</li>';
+                }    
+            ?>
+          </ul>
+        </div>
+    <?endif;?>
 
     <div class="panel panel-default">
       <div class="panel-heading"><strong>Parameters</strong></div>

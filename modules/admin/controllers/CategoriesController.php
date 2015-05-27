@@ -77,6 +77,7 @@ class CategoriesController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
             'parametersToCategories' => $model->catParameters,
+            'variantsToCategories' => $model->catVariants,
         ]);
     }
 
@@ -97,8 +98,11 @@ class CategoriesController extends Controller
             return $this->render('create', [
                 'model' => $model,
                 'parametersList' => $parametersModel->allParameters,
+                'variantsList' => $parametersModel->allVariants,
                 'parametersToCategories' => $model->catParameters,
+                'variantsToCategories' => $model->catVariants,
                 'parentParameters' => $model->parentParameters,
+                'parentVariants' => $model->parentVariants,
             ]);
         }
     }
@@ -119,8 +123,11 @@ class CategoriesController extends Controller
             return $this->render('update', [
                 'model' => $model,
                 'parametersList' => $parametersModel->allParameters,
+                'variantsList' => $parametersModel->allVariants,
                 'parametersToCategories' => $model->catParameters,
+                'variantsToCategories' => $model->catVariants,
                 'parentParameters' => $model->parentParameters,
+                'parentVariants' => $model->parentVariants,
             ]);
         }
     }

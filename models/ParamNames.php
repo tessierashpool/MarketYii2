@@ -126,7 +126,7 @@ class ParamNames extends ActiveRecord
     public function getAllParameters()
     {
         $arCatList = $this->categoriesList;
-        $arParams = $this->find()->select(['id','code','name','category_id'])->asArray()->all();
+        $arParams = $this->find()->select(['id','code','name','category_id','type'])->asArray()->all();
         $arCategiesAndParameters;
         foreach($arParams as $param)
         {
@@ -142,7 +142,28 @@ class ParamNames extends ActiveRecord
         }
        // var_dump($arCategiesAndParameters);
         return $arCategiesAndParameters;
-    }    
+    }   
+
+    public function getAllVariants()
+    {
+        $arCatList = $this->categoriesList;
+        $arParams = $this->find()->select(['id','code','name','category_id'])->where(['type'=>'list'])->asArray()->all();
+        $arCategiesAndParameters;
+        foreach($arParams as $param)
+        {
+            if (isset($arCatList[$param['category_id']])) {
+                $arCategiesAndParameters[$param['category_id']]['params'][] = $param;
+                $arCategiesAndParameters[$param['category_id']]['name'] = $arCatList[$param['category_id']];
+            }
+            else
+            {
+                $arCategiesAndParameters[0]['params'][] = $param;
+                $arCategiesAndParameters[0]['name'] = $arCatList[0];                
+            }
+        }
+       // var_dump($arCategiesAndParameters);
+        return $arCategiesAndParameters;
+    }      
 
     /**
      * @return \yii\db\ActiveQuery

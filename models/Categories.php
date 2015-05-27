@@ -57,7 +57,10 @@ class Categories extends ActiveRecord
         {
 
             $arParams = Yii::$app->request->post('params');
+            $arVariants = Yii::$app->request->post('variants');
             $arParamsQuery = [];
+            $arVariantsQuery = [];
+            //Parameter for category save
             if(count($arParams)>0)
             {
                 foreach($arParams as $key=>$paramId)
@@ -70,6 +73,20 @@ class Categories extends ActiveRecord
             {    
                 Yii::$app->db->createCommand()->batchInsert(ParametersToCategories::tableName(), ['id_category','id_parameter','order'], $arParamsQuery)->execute();
             }
+            //Variants for category save
+            if(count($arVariants)>0)
+            {
+                foreach($arVariants as $key=>$variantId)
+                {
+                    $arVariantsQuery[] = [$this->id, $variantId, $key+1];
+                }
+            }
+            VariantsToCategories::deleteAll('id_category = '.$this->id);
+            if(count($arVariantsQuery)>0)
+            {    
+                Yii::$app->db->createCommand()->batchInsert(VariantsToCategories::tableName(), ['id_category','id_variant','order'], $arVariantsQuery)->execute();
+            }
+
             return true;
         }
         return false;
@@ -81,11 +98,31 @@ class Categories extends ActiveRecord
         return $model->find()->with('parametersInfo')->where(['id_category'=>$this->id])->orderBy('order ASC')->asArray()->all();
     }
 
+    public function getCatVariants()
+    {
+        $model = new VariantsToCategories();  
+        return $model->find()->with('variantsInfo')->where(['id_category'=>$this->id])->orderBy('order ASC')->asArray()->all();
+    }
+
     public function getParentParameters()
     {
         $model = new ParametersToCategories();  
-        return $model->find()->with('parametersInfo')->where(['id_category'=>$this->parent_id])->orderBy('order ASC')->asArray()->all();
+        if(Yii::$app->request->get('parent')>0)
+            $parent_id = Yii::$app->request->get('parent');
+        else
+            $parent_id = $this->parent_id;        
+        return $model->find()->with('parametersInfo')->where(['id_category'=>$parent_id])->orderBy('order ASC')->asArray()->all();
     }
+
+    public function getParentVariants()
+    {
+        $model = new VariantsToCategories();  
+        if(Yii::$app->request->get('parent')>0)
+            $parent_id = Yii::$app->request->get('parent');
+        else
+            $parent_id = $this->parent_id;
+        return $model->find()->with('variantsInfo')->where(['id_category'=>$parent_id])->orderBy('order ASC')->asArray()->all();
+    } 
 
     /**
     * Get all parameters of category with list values for "list" type parameters.
@@ -127,12 +164,46 @@ class Categories extends ActiveRecord
     }    
 
     /**
+    * Get all variants of category with list values.
+    * @return array
+    */
+    public function getFullVariants()
+    {
+        $arListVariants = [];
+        $arVariants = [];
+        $arVariantsTmp = $this->getCatVariants();
+        if(count($arVariantsTmp)>0)
+        {
+            foreach($arVariantsTmp as $key=>$parameter)
+            {
+                $arListVariants[] = $parameter['variantsInfo']['id'];
+                $arVariants[$key] =  $parameter['variantsInfo'];
+            }
+            $valuesForLists = ListsToParameters::find()->where(['parameter_id'=>$arListVariants])->asArray()->all();
+            foreach($arVariants as $key=>$parameter)
+            {
+                foreach($valuesForLists as $valueKey => $value)
+                {
+                    if($value['parameter_id']==$parameter['id'])
+                    {
+                        $arVariants[$key]['listValues'][]=$value;
+                        unset($valuesForLists[$valueKey]);
+                    }
+                }
+            }            
+        }
+        
+        return $arVariants;
+    }   
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
             [['parent_id', 'depth', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['have_variants'], 'boolean'],
             [['order'], 'integer','on'=>'create'],
             [['code', 'name', 'description'], 'string', 'max' => 255],
             [['code', 'name'], 'required'],
