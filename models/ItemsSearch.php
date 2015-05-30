@@ -60,13 +60,15 @@ class ItemsSearch extends Items
             'id' => $this->id,
             'price' => $this->price,
             'category_id' => $this->category_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['>=', 'created_at', $params['created_at_from']])
+            ->andFilterWhere(['<=', 'created_at', $params['created_at_to']])
+            ->andFilterWhere(['>=', 'updated_at', $params['updated_at_from']])
+            ->andFilterWhere(['<=', 'updated_at', $params['updated_at_to']])        
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

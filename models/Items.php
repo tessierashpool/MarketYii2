@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "items".
@@ -22,6 +24,8 @@ class Items extends ActiveRecord
 {
     private $_parameters;
     private $_variants;
+    public $images;
+    public $clearImages;
     public function behaviors()
     {
         return [
@@ -37,6 +41,9 @@ class Items extends ActiveRecord
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
                 ],
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]                
              
         ];
      }    
@@ -56,8 +63,9 @@ class Items extends ActiveRecord
         return [
             [['price', 'created_at', 'updated_at', 'created_by', 'updated_by','category_id','quantity'], 'integer'],
             [['name', 'description','status'], 'string', 'max' => 255],
-            [['parameters','variants'], 'safe'],
+            [['parameters','variants','clearImages'], 'safe'],
             [['name'], 'required'],
+            [['images'], 'file', 'extensions'=>'jpg, gif, png'],
         ];
     }
 
@@ -128,6 +136,8 @@ class Items extends ActiveRecord
     {
         $arParams = $this->parameters;
         $arVariants = $this->variants;
+/*        $image = UploadedFile::getInstance($this, $this->images[1]);
+        var_dump($image);*/
         if($this->save())
         {
             $arParamsQuery = [];
@@ -160,10 +170,42 @@ class Items extends ActiveRecord
             {    
                 Yii::$app->db->createCommand()->batchInsert(ItemsVariants::tableName(), ['id_item','parent_id','code','quantity'], $arVariantsQuery)->execute();
             }
-
+            $this->saveImages();
             return true;
         }
         return false;
+    }
+
+    /**
+     * Save and Attach images to model
+     */
+    public function saveImages()
+    {
+        $images = UploadedFile::getInstances($this, 'images');
+        if(count($images)>0||$this->clearImages)
+            $this->removeImages();
+        foreach($images as $image)
+        {            
+            $image->saveAs(Yii::getAlias('@webroot/uploads/').$image->name);
+            $this->attachImage(Yii::getAlias('@webroot/uploads/').$image->name);
+            unlink(Yii::getAlias('@webroot/uploads/').$image->name);
+        }
+    }
+
+    /**
+     * Get initialPreview images for kartik FileInput widget
+     * @return array
+     */
+    public function getInitialPreview()
+    {
+        $images = $this->getImages();
+        $arImages = [];
+        foreach($images as $image)
+        {
+            if($image->urlAlias !='placeHolder')
+                $arImages[] = Html::img($image->getUrl(), ['class'=>'file-preview-image']);
+        }            
+        return $arImages;
     }
 
     public function parametersValidate()

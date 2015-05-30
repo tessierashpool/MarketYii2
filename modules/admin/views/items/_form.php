@@ -4,15 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Modal;
+use kartik\widgets\FileInput;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Items */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="items-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data'] ]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
@@ -126,6 +130,34 @@ use yii\bootstrap\Modal;
     <?else:?> 
         <?= $form->field($model, 'quantity')->textInput() ?>
     <?endif;?> 
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong><i class="glyphicon glyphicon-list-alt"></i> <?=Yii::t('app', 'Images')?></strong></div>
+        <div class="panel-body">    
+            <?
+
+                //$image = $model->getImage();
+                echo FileInput::widget([
+                    'model' => $model,
+                    'attribute' => 'images[]',
+                    'options' => [
+                    'multiple' => true, 
+                    'id'=>'images-kartik',
+                    'accept' => 'image/*'
+                    ],
+                    'pluginOptions' => [
+                        'maxFileCount' =>6,
+                        'showUpload' => false,
+                        'initialPreview'=>$model->getInitialPreview(),
+                        'overwriteInitial'=>true                        
+                    ],
+                    'pluginEvents'=>[
+                        "fileclear" => "function() { $('#clearImages').val('1'); }"
+                    ]
+                ]);
+            ?>
+            <?= $form->field($model, 'clearImages')->hiddenInput(['id' => 'clearImages','value'=>'0'])->label(false) ?>
+        </div>
+    </div>
 <!-- Parameters  fields start-->         
     <div class="panel panel-default">
         <div class="panel-heading"><strong><i class="glyphicon glyphicon-list-alt"></i> Parameters</strong></div>

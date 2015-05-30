@@ -13,8 +13,12 @@ use yii\filters\VerbFilter;
 /**
  * CategoriesController implements the CRUD actions for Categories model.
  */
+Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/uploads/';
+Yii::$app->params['uploadUrl'] = Yii::$app->urlManager->baseUrl . '/uploads/';   
+
 class CategoriesController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -106,6 +110,11 @@ class CategoriesController extends Controller
             ]);
         }
     }
+
+     public function actionImgupload()
+    {
+        echo json_encode(['uploaded'=>'upload/images/test.jpg']); 
+    }   
 
     /**
      * Updates an existing Categories model.
