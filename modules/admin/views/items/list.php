@@ -27,8 +27,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'id'=> 'grid',
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
-
-            'id',
+            [
+                'label' => 'Id',
+                'format' => 'raw',
+                'attribute' => 'id',
+                'contentOptions'=>['style'=>'width: 70px;']
+            ],
+            [
+                'attribute'=>'images',
+                'value'=>function($searchModel){return Html::img($searchModel->getImage()->getUrl('120x'));},
+                'format' => 'html',
+                'contentOptions'=>['style'=>'width: 137px;']
+            ],
             'name',
             'description',
             'price',

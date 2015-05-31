@@ -117,9 +117,10 @@ class ItemsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->deleteItem();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['list','category_id'=>$model->category_id]);
     }
 
     public function actionDeleteAll()
@@ -128,7 +129,8 @@ class ItemsController extends Controller
         if(count($arIds)>0)
         {
             $model = $this->findModel($arIds[0]);
-            Items::deleteAll(['id'=>$arIds]);
+            foreach($arIds as $id)
+                $this->findModel($id)->deleteItem();
             return $this->redirect(['list','category_id'=>$model->category_id]);
         }
         else

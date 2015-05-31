@@ -203,9 +203,20 @@ class Items extends ActiveRecord
         foreach($images as $image)
         {
             if($image->urlAlias !='placeHolder')
-                $arImages[] = Html::img($image->getUrl(), ['class'=>'file-preview-image']);
+                $arImages[] = Html::img($image->getUrl('150x'), ['class'=>'file-preview-image']);
         }            
         return $arImages;
+    }
+
+    /**
+     * Delete item
+     */
+    public function deleteItem()
+    {        
+        ItemsParametersValue::deleteAll('item_id = '.$this->id);
+        ItemsVariants::deleteAll('id_item = '.$this->id);
+        $this->removeImages();
+        $this->delete();
     }
 
     public function parametersValidate()

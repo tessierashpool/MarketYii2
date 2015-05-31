@@ -148,7 +148,8 @@ use yii\web\UploadedFile;
                         'maxFileCount' =>6,
                         'showUpload' => false,
                         'initialPreview'=>$model->getInitialPreview(),
-                        'overwriteInitial'=>true                        
+                        'overwriteInitial'=>true ,
+                        'showCaption' => false,                                               
                     ],
                     'pluginEvents'=>[
                         "fileclear" => "function() { $('#clearImages').val('1'); }"

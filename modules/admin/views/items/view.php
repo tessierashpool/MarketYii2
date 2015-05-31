@@ -46,5 +46,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute'=>'updated_by', 'value'=>User::find()->select('username')->where(['id'=>$model->updated_by])->one()->username],
         ],
     ]) ?>
-
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong><i class="glyphicon glyphicon-list-alt"></i> <?=Yii::t('app', 'Images')?></strong></div>
+        <div class="panel-body">  
+                <?
+                foreach ($model->getImages()  as $img) 
+                {
+                    echo Html::img($img->getUrl('150x'),['class'=>'img-thumbnail','style'=>'height:160px;margin-right:10px']);
+                }
+                ?>              
+            
+        </div>
+    </div>
 </div>
