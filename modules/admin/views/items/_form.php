@@ -131,7 +131,7 @@ use yii\web\UploadedFile;
         <?= $form->field($model, 'quantity')->textInput() ?>
     <?endif;?> 
     <div class="panel panel-default">
-        <div class="panel-heading"><strong><i class="glyphicon glyphicon-list-alt"></i> <?=Yii::t('app', 'Images')?></strong></div>
+        <div class="panel-heading"><strong><i class="glyphicon glyphicon-picture"></i> <?=Yii::t('app', 'Images')?></strong></div>
         <div class="panel-body">    
             <?
 

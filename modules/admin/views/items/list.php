@@ -76,5 +76,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     <?=GridAllButton::widget();?>
-
 </div>

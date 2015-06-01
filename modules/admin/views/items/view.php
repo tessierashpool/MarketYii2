@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\User;
+use yii\helpers\ArrayHelper;
 
 
 /* @var $this yii\web\View */
@@ -45,9 +46,30 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute'=>'created_by', 'value'=>User::find()->select('username')->where(['id'=>$model->created_by])->one()->username],
             ['attribute'=>'updated_by', 'value'=>User::find()->select('username')->where(['id'=>$model->updated_by])->one()->username],
         ],
-    ]) ?>
+    ]);    
+    ?>
+    <?
+    //Get full info about parameters and variants
+    $fullInfo = $model->fullInfo;
+    ?>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong><i class="glyphicon glyphicon-list-alt"></i> <?=Yii::t('app', 'Images')?></strong></div>
+        <div class="panel-heading"><strong><i class="glyphicon glyphicon-list-alt"></i> <?=Yii::t('app', 'Variants')?></strong></div>
+        <ul class="list-group">
+            <?
+                foreach($fullInfo['category_variants'] as $cat_variant)
+                {
+                    $arVarList = [];
+                    if(count($fullInfo['variants'][$cat_variant['id']])>0)
+                        $arVarList = ArrayHelper::map($cat_variant['listValues'],'code','value');
+                    foreach ($fullInfo['variants'][$cat_variant['id']] as $key => $value) {
+                        echo '<li class="list-group-item">'.$cat_variant['name'].' '.$arVarList[$value['code']].': '.intval($value['quantity']).'</li>';
+                    }
+                }
+            ?>
+        </ul>
+    </div>             
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong><i class="glyphicon glyphicon-picture"></i> <?=Yii::t('app', 'Images')?></strong></div>
         <div class="panel-body">  
                 <?
                 foreach ($model->getImages()  as $img) 
@@ -58,4 +80,26 @@ $this->params['breadcrumbs'][] = $this->title;
             
         </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong><i class="glyphicon glyphicon-list-alt"></i> <?=Yii::t('app', 'Parameters')?></strong></div>
+        <ul class="list-group">
+            <?
+                foreach($fullInfo['category_parameters'] as $cat_parameters)
+                {
+                    if(isset($fullInfo['parameters'][$cat_parameters['id']]))
+                    {
+                        if($cat_parameters['type']=='list')
+                        {
+                            $arVarList = ArrayHelper::map($cat_parameters['listValues'],'code','value');
+                            echo '<li class="list-group-item">'.$cat_parameters['name'].': '.$arVarList[$fullInfo['parameters'][$cat_parameters['id']]].'</li>';
+                        }
+                        else
+                        {
+                            echo '<li class="list-group-item">'.$cat_parameters['name'].': '.$fullInfo['parameters'][$cat_parameters['id']].'</li>';                           
+                        }
+                    }
+                }
+            ?>
+        </ul>
+    </div>    
 </div>

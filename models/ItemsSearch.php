@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Items;
+use yii\helpers\ArrayHelper;
 
 /**
  * ItemsSearch represents the model behind the search form about `app\models\Items`.
@@ -48,7 +49,11 @@ class ItemsSearch extends Items
         ]);
 
         $this->load($params);
-        $this->category_id = Yii::$app->request->get('category_id');
+        //Filter by selected category
+        if(Yii::$app->request->get('category_id')>0)
+            $arCategories = self::categoriesSearch(Yii::$app->request->get('category_id'));
+        else
+            $arCategories = [];
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
@@ -59,12 +64,13 @@ class ItemsSearch extends Items
         $query->andFilterWhere([
             'id' => $this->id,
             'price' => $this->price,
-            'category_id' => $this->category_id,
+            //'category_id' => $this->category_id,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['in', 'category_id', $arCategories])
             ->andFilterWhere(['>=', 'created_at', $params['created_at_from']])
             ->andFilterWhere(['<=', 'created_at', $params['created_at_to']])
             ->andFilterWhere(['>=', 'updated_at', $params['updated_at_from']])
@@ -72,5 +78,25 @@ class ItemsSearch extends Items
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
+    }
+
+    public static function categoriesSearch($id)
+    {
+        $arQuery = Yii::$app->db->createCommand('SELECT id, parent_id, depth FROM '.Categories::tableName())
+                     ->queryAll();
+        $arQuery = ArrayHelper::map($arQuery,'id','depth','parent_id');             
+        $result = self::categoriesArray($arQuery,$id);
+        return $result;
+    }
+
+    public static  function categoriesArray($arQuery,$id)
+    {
+        $arCategories[] = $id;
+        if(count($arQuery[$id])>0)
+            foreach ($arQuery[$id] as $key => $value) {
+                unset($arQuery[$id]);
+                $arCategories = array_merge( $arCategories,  self::categoriesArray($arQuery, $key));
+            }
+        return $arCategories;
     }
 }

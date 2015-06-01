@@ -145,7 +145,8 @@ class Items extends ActiveRecord
             {
                 foreach($arParams as $key=>$value)
                 {
-                    $arParamsQuery[] = [$this->id, $key, $value];
+                    if($value!='')
+                        $arParamsQuery[] = [$this->id, $key, $value];
                 }
             }
             ItemsParametersValue::deleteAll('item_id = '.$this->id);
@@ -227,6 +228,17 @@ class Items extends ActiveRecord
         //$this->addError('parameters5',Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => 'Categories']));
         return false;
     }
+
+    public function getFullInfo()
+    {
+        $category_model = Categories::findOne($this->category_id);
+        $arInfo['category_parameters'] = $category_model->fullParameters;
+        $arInfo['category_variants'] = $category_model->fullVariants;
+        $arInfo['parameters'] = $this->parameters;
+        $arInfo['variants'] = $this->variants;
+        return $arInfo;
+    }
+
     /**
      * @inheritdoc
      */
