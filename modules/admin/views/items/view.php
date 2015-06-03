@@ -60,10 +60,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 {
                     $arVarList = [];
                     if(count($fullInfo['variants'][$cat_variant['id']])>0)
+                    {
                         $arVarList = ArrayHelper::map($cat_variant['listValues'],'code','value');
-                    foreach ($fullInfo['variants'][$cat_variant['id']] as $key => $value) {
-                        echo '<li class="list-group-item">'.$cat_variant['name'].' '.$arVarList[$value['code']].': '.intval($value['quantity']).'</li>';
-                    }
+                        foreach ($fullInfo['variants'][$cat_variant['id']] as $key => $value) {
+                            echo '<li class="list-group-item">'.$cat_variant['name'].' '.$arVarList[$value['code']].': '.intval($value['quantity']).'</li>';
+                        }
+                    }    
                 }
             ?>
         </ul>

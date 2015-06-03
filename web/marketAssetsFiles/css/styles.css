@@ -292,7 +292,6 @@ a.baner-link:hover{
 	border: 1px solid #eee;
 	margin-bottom: 30px;
 	position: relative;
-	overflow: hidden;
 }
 .item-cont img{
 	margin-left: auto;
@@ -354,6 +353,14 @@ a.i-add-cart-link:hover{
 	text-align: center;
 }
 
+.ribbon-cont{
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	top: -1px;
+	right: -1px;
+	overflow: hidden;
+}
 /* Colors for Ribbons */
 
 .corner-ribbon.white{background: #f0f0f0; color: #555;}

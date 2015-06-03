@@ -19,9 +19,7 @@ class m150530_142836_costa_rico extends Migration
 
     public function down()
     {
-        echo "m150530_142836_costa_rico cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('image');
     }
     
     /*

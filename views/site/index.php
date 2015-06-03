@@ -163,7 +163,9 @@ $this->registerJs("
                                     <p class="i-price">1500 р</p>
                                     <p class="i-title"><a href="<?=Url::to(['detail']);?>">Simple Print T-Shirt</a></p>
                                     <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+                                    <div class="ribbon-cont">
                                     <div class="corner-ribbon top-right sticky red">NEW</div>
+                                    </div>
                                     <div class="add-to-wishlist-cont">
                                         <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
                                     </div>
@@ -208,7 +210,9 @@ $this->registerJs("
                                     <p class="i-price">1500 р</p>
                                     <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
                                     <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+                                    <div class="ribbon-cont">
                                     <div class="corner-ribbon top-right sticky orange">SALE</div>
+                                    </div>
                                     <div class="add-to-wishlist-cont">
                                         <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
                                     </div>                              
