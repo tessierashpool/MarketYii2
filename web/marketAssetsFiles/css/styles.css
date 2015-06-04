@@ -214,21 +214,62 @@
 	margin-right: 15px;
 	color: #ccc;
 }
-.baner-info{
+.main-content-banner{
+	outline: 1px solid #eee;
+	position: relative;
+}
+.slide-cont{
+	position: relative;
+}
+.slide-content-cont{
+	height: 380px;
+	width:828px;
+	position: absolute;
+	background-image: url('../../images/seamless_paper_texture.png');
+	top:10px;
+	left:10px;
+}
+.slider-img{
+	position: absolute;
+	right: 50px;
+	bottom: 0px;
+	max-height: 340px;
+}
+.slide-title-cont{
+	height: 50px;
+
+	position: absolute;
+	top: 50px;
+	left: 50px;
 
 }
-.baner-logo{
+.slide-title-cont p {
 	font-family: "Roboto",sans-serif;
 	font-size: 35px;
-	color: #666;
+	color: #666;	
+	background-image: url('../../images/slide_title_bg.png');
+	padding-left: 15px;
+	padding-right: 15px;
 }
-.baner-description{
-	color: #333;
-	font-size: 14px;
+.slide-title-cont p span {
+	color: #FF9933;	
+}
+.slide-description-cont{
+	width:300px ;
+	position: absolute;
+	top: 120px;
+	left: 50px;	
 	font-family: "Roboto",sans-serif;
-	font-weight: 100;
+	font-size: 14px;
+	color: #666;	
 }
-a.baner-link{
+.slide-button-cont{
+	width:300px ;
+	position: absolute;
+	top: 180px;
+	left: 50px;		
+}
+.slide-button-cont a{
 	display: block;
 	background-color: #ccc;
 	width: 100px;
@@ -237,10 +278,10 @@ a.baner-link{
 	color: #fff;
 	text-decoration: none;
 	margin-top: 20px;
-	transition: background-color 0.3s ease;
+	transition: background-color 0.3s ease;		
 }
-a.baner-link:hover{
-	background-color: #FF9933;
+.slide-button-cont a:hover{
+	background-color: #FF9933;	
 }
 .main-cont-advert{
 	margin-top: 25px;
@@ -293,9 +334,21 @@ a.baner-link:hover{
 	margin-bottom: 30px;
 	position: relative;
 }
+.item-cont a.img-cont{
+	overflow: hidden;
+	cursor: pointer;
+	display: block;
+}
 .item-cont img{
 	margin-left: auto;
 	margin-right: auto;
+}	
+.item-cont img:hover{
+    -webkit-transform:scale(1.05); /* Safari and Chrome */
+    -moz-transform:scale(1.05); /* Firefox */
+    -ms-transform:scale(1.05); /* IE 9 */
+    -o-transform:scale(1.05); /* Opera */
+     transform:scale(1.05);
 }	
 .i-price{
 	text-align: center;
@@ -512,6 +565,10 @@ a.range-filter-button i{
 }
 .nav-cont ul li a:hover{
 	color: #FF9933;
+}
+.nav-cont ul li.active a,.nav-cont ul li.active a:hover{
+	background-color: #FF9933!important;
+	border-color: #FF9933;
 }
 
 .footer{

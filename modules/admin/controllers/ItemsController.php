@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Categories;
+use yii\helpers\ArrayHelper;
 
 /**
  * ItemsController implements the CRUD actions for Items model.
@@ -36,10 +37,12 @@ class ItemsController extends Controller
         $searchModel = new ItemsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $categoryModel = $this->findCategory(Yii::$app->request->get('category_id'));
+        $arCategories = $categoryModel->namesArray;
         return $this->render('list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'categoryModel' => $categoryModel,
+            'arCategories' => $arCategories,
         ]);
     }
 

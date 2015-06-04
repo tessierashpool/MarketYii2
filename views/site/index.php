@@ -46,54 +46,48 @@ $this->registerJs("
                             <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 848px; height: 400px; overflow: hidden;">
                                 <!-- Slides Container -->
                                 <div u="slides" style="  position: absolute; overflow: hidden; left: 0px; top: 0px; width: 848px; height: 400px;">
-                                    <div >
-                                        <div class="col-sm-12">
-                                            <div class="row">
-                                                <div class="col-sm-5">
-                                                    <div class="baner-info" >
-                                                        <p class="baner-logo"><span style="color:#FF9933">Interesting</span> Title</p>
-                                                        <p class="baner-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                                        <a href="#" class="baner-link">Buy it now</a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <img src="site_photos/shop_1.jpg" class="img-responsive" alt="Responsive image">
-                                                </div>
-                                            </div>
+                                    <div class="slide-cont">
+                                        <div class="slide-content-cont">
+                                            <img class="slider-img" src="site_photos/girl1.png" alt="">
                                         </div>
+                                        <div class="slide-title-cont">
+                                            <p><span>Interesting</span> Title</p>
+                                        </div>
+                                        <div class="slide-description-cont">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        </div>          
+                                        <div class="slide-button-cont" >
+                                            <a href="#" >Buy it now</a>
+                                        </div>                                                                  
                                     </div>
-                                    <div >
-                                        <div class="col-sm-12">
-                                            <div class="row">
-                                                <div class="col-sm-5">
-                                                    <div class="baner-info" >
-                                                        <p class="baner-logo"><span style="color:#FF9933">Interesting</span> Title</p>
-                                                        <p class="baner-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                                        <a href="#" class="baner-link">Buy it now</a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <img src="site_photos/shop_2.jpg" class="img-responsive" alt="Responsive image">
-                                                </div>
-                                            </div>
+                                    <div class="slide-cont">
+                                        <div class="slide-content-cont">
+                                            <img class="slider-img" src="site_photos/girl2.png" alt="">
                                         </div>
+                                        <div class="slide-title-cont">
+                                            <p><span>Interesting</span> Title</p>
+                                        </div>
+                                        <div class="slide-description-cont">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        </div>          
+                                        <div class="slide-button-cont" >
+                                            <a href="#" >Buy it now</a>
+                                        </div>                                                                  
                                     </div>
-                                    <div >
-                                        <div class="col-sm-12">
-                                            <div class="row">
-                                                <div class="col-sm-5">
-                                                    <div class="baner-info" >
-                                                        <p class="baner-logo"><span style="color:#FF9933">Interesting</span> Title</p>
-                                                        <p class="baner-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                                        <a href="#" class="baner-link">Buy it now</a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <img src="site_photos/shop_3.jpg" class="img-responsive" alt="Responsive image">
-                                                </div>
-                                            </div>
+                                    <div class="slide-cont">
+                                        <div class="slide-content-cont">
+                                            <img class="slider-img" src="site_photos/girl3.png" alt="">
                                         </div>
-                                    </div>          
+                                        <div class="slide-title-cont">
+                                            <p><span>Interesting</span> Title</p>
+                                        </div>
+                                        <div class="slide-description-cont">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        </div>          
+                                        <div class="slide-button-cont" >
+                                            <a href="#" >Buy it now</a>
+                                        </div>                                                                  
+                                    </div>         
                                 </div>
                                     <!-- Bullet Navigator Skin Begin -->
                                     <style>
@@ -156,132 +150,4 @@ $this->registerJs("
                                 </div>
                             </div>
                         </div>
-                        <div class="row main-content">
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl1.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="<?=Url::to(['detail']);?>">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="ribbon-cont">
-                                    <div class="corner-ribbon top-right sticky red">NEW</div>
-                                    </div>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl2.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                              
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl3.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                              
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl4.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                              
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl5.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="ribbon-cont">
-                                    <div class="corner-ribbon top-right sticky orange">SALE</div>
-                                    </div>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                              
-                                </div>
-
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl6.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                              
-                                </div>
-                            </div>                          
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl1.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                              
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl2.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                          
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="item-cont">
-                                    <img src="site_photos/girl3.jpg" class="img-responsive" alt="Responsive image">
-                                    <p class="i-price">1500 р</p>
-                                    <p class="i-title"><a href="#">Simple Print T-Shirt</a></p>
-                                    <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                    <div class="add-to-wishlist-cont">
-                                        <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                                    </div>                              
-                                </div>
-                            </div>      
-                            <div class="nav-cont text-center">
-                                <nav>
-                                  <ul class="pagination">
-                                    <li>
-                                      <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                      </a>
-                                    </li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li>
-                                      <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </nav>                              
-                            </div>              
-                        </div>
+                        <?= $this->render('items_list',['dataProvider'=>$dataProvider]) ?>

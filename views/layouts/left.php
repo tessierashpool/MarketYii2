@@ -1,4 +1,7 @@
-<?php $this->beginContent('@app/views/layouts/main.php'); ?>
+<?php 
+use app\widgets\filter\RangeSlider;
+$this->beginContent('@app/views/layouts/main.php'); 
+?>
     <div class="container main-body">
         <div class="row">
             <div class="col-sm-3 hidden-xs">
@@ -30,39 +33,8 @@
                     <!-- Range Slider Start --> 
                     <div class="category-label">
                         <p>PRICE RANGE</p>
-                    </div>
-                    <div class="range-slider-cont">
-                        <div class="nstSlider" data-range_min="100" data-range_max="10000" 
-                                               data-cur_min="2000"    data-cur_max="8000">
-
-                            <div class="bar"></div>
-                            <div class="leftGrip"></div>
-                            <div class="rightGrip"></div>
-                        </div>
-                        <p class="range-info-cont">Price: <span class="leftLabel"></span>р - <span class="rightLabel"></span>р</p>
-                        <a class="range-filter-button pull-right" href="#">Filter <i class="fa fa-chevron-right"></i></a>
-                        <div style="clear:both"></div>
-                        <script>
-                            function RangeSlider() {
-                                $('.nstSlider').nstSlider({
-                                "left_grip_selector": ".leftGrip",
-                                "right_grip_selector": ".rightGrip",
-                                "value_bar_selector": ".bar",
-                                "value_changed_callback": function(cause, leftValue, rightValue) {
-                                $(this).parent().find('.leftLabel').text(leftValue);
-                                $(this).parent().find('.rightLabel').text(rightValue);
-                                }
-                                });
-                            }
-                            //Scale slider after document ready
-                            RangeSlider();
-                                                            
-                            //Scale slider while window load/resize/orientationchange.
-                            $(window).bind("load", RangeSlider);
-                            $(window).bind("resize", RangeSlider);
-                            $(window).bind("orientationchange", RangeSlider);                           
-                        </script>
-                    </div>  
+                    </div>                   
+                    <?=RangeSlider::widget();?>  
                     <!-- Range Slide End -->    
                     <div class="category-label">
                         <p>BEST SELERS</p>
@@ -167,26 +139,7 @@
                                 <p class="range-info-cont">Price: <span class="leftLabel"></span>р - <span class="rightLabel"></span>р</p>
                                 <a class="range-filter-button pull-right" href="#">Filter <i class="fa fa-chevron-right"></i></a>
                                 <div style="clear:both"></div>
-                                <script>
-                                    function RangeSlider() {
-                                        $('.nstSlider').nstSlider({
-                                        "left_grip_selector": ".leftGrip",
-                                        "right_grip_selector": ".rightGrip",
-                                        "value_bar_selector": ".bar",
-                                        "value_changed_callback": function(cause, leftValue, rightValue) {
-                                        $(this).parent().find('.leftLabel').text(leftValue);
-                                        $(this).parent().find('.rightLabel').text(rightValue);
-                                        }
-                                        });
-                                    }
-                                    //Scale slider after document ready
-                                    RangeSlider();
-                                                                    
-                                    //Scale slider while window load/resize/orientationchange.
-                                    $(window).bind("load", RangeSlider);
-                                    $(window).bind("resize", RangeSlider);
-                                    $(window).bind("orientationchange", RangeSlider);                           
-                                </script>
+
                             </div>  
                             <!-- Range Slide End -->
                         </div>

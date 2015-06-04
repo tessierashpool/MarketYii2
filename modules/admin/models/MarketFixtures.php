@@ -276,7 +276,7 @@ class MarketFixtures extends Model
                 ['parent_code'=>'size','code'=>'l','quantity'=>7]
             ],
             'parameters'=>[
-                'brand'=>'AG Adriano Goldshmeid',
+                'brand'=>'Alice & Olivia',
                 'material-top'=>'artificial leather, synthetic nubuck',
                 'inner-material'=>'faux fur',
                 'footer-material'=>'rubber',
@@ -295,7 +295,64 @@ class MarketFixtures extends Model
                 ['parent_code'=>'size','code'=>'s','quantity'=>10]
             ],
             'parameters'=>[
-                'brand'=>'AG Adriano Goldshmeid',
+                'brand'=>'Autumn Cashmere',
+                'material-top'=>'artificial leather, synthetic nubuck',
+                'inner-material'=>'faux fur',
+                'footer-material'=>'textile',
+                'season'=>'Demi-season, Winter',
+                'quaility'=>'best',
+                'color'=>'green',
+            ],
+            'images'=>[3,4,5]
+        ]; 
+        $arItems[] = [
+            'name'=>'Simple Print T-Shirt',
+            'description'=>'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            'price'=>1500,
+            'quantity'=>10,
+            'variants'=>[
+                ['parent_code'=>'size','code'=>'s','quantity'=>10]
+            ],
+            'parameters'=>[
+                'brand'=>'BCBGMAXAZRIA',
+                'material-top'=>'artificial leather, synthetic nubuck',
+                'inner-material'=>'faux fur',
+                'footer-material'=>'textile',
+                'season'=>'Demi-season, Winter',
+                'quaility'=>'best',
+                'color'=>'black',
+            ],
+            'images'=>[4,5,6]
+        ];                               
+        $arItems[] = [
+            'name'=>'Simple Print T-Shirt',
+            'description'=>'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            'price'=>1500,
+            'quantity'=>10,
+            'variants'=>[
+                ['parent_code'=>'size','code'=>'s','quantity'=>10]
+            ],
+            'parameters'=>[
+                'brand'=>'DKNY',
+                'material-top'=>'artificial leather, synthetic nubuck',
+                'inner-material'=>'faux fur',
+                'footer-material'=>'textile',
+                'season'=>'Demi-season, Winter',
+                'quaility'=>'best',
+                'color'=>'multi',
+            ],
+            'images'=>[5,6,1]
+        ]; 
+        $arItems[] = [
+            'name'=>'Simple Print T-Shirt',
+            'description'=>'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            'price'=>1500,
+            'quantity'=>10,
+            'variants'=>[
+                ['parent_code'=>'size','code'=>'s','quantity'=>10]
+            ],
+            'parameters'=>[
+                'brand'=>'Magaschoni',
                 'material-top'=>'artificial leather, synthetic nubuck',
                 'inner-material'=>'faux fur',
                 'footer-material'=>'textile',
@@ -303,8 +360,8 @@ class MarketFixtures extends Model
                 'quaility'=>'best',
                 'color'=>'beige',
             ],
-            'images'=>[3,4,5]
-        ];                        
+            'images'=>[6,1,2]
+        ];         
 
         return $arItems;
     }
@@ -375,48 +432,53 @@ class MarketFixtures extends Model
         $arItems = $this->items;
         $arCategories =  Categories::find()->where(['depth'=>2])->select(['id','code'])->asArray()->all();
         $arParams =  ArrayHelper::map(ParamNames::find()->select(['id','code'])->asArray()->all(),'code','id');
-        foreach ($arItems as $key => $value) {
-            $itemsModel = new Items();
-            $itemsModel->name = $value['name'];
-            $itemsModel->description = $value['description'];
-            $itemsModel->category_id = $arCategories[0]['id'];
-            $itemsModel->price = $value['price'];
-            $itemsModel->quantity = $value['quantity'];
+        foreach ($arCategories as $category) {
+            for ($i=0; $i < 10; $i++) { 
+                foreach ($arItems as $key => $value) {
+                    $itemsModel = new Items();
+                    $itemsModel->name = $value['name'];
+                    $itemsModel->description = $value['description'];
+                    $itemsModel->category_id = $category['id'];
+                    $itemsModel->price = $value['price'];
+                    $itemsModel->quantity = $value['quantity'];
 
-            if($itemsModel->save(false))
-            {
-                if(count($value['variants'])>0)
-                {
-                    foreach ($value['variants'] as $keyVariant => $valueVariant) {
-                        $variantsModel = new ItemsVariants();
-                        $variantsModel->id_item = $itemsModel->id;
-                        $variantsModel->parent_id = $arParams[$valueVariant['parent_code']];
-                        $variantsModel->code = $valueVariant['code'];
-                        $variantsModel->quantity = $valueVariant['quantity'];
-                        $variantsModel->save();
-                    }                    
-                    
+                    if($itemsModel->save(false))
+                    {
+                        if(count($value['variants'])>0)
+                        {
+                            foreach ($value['variants'] as $keyVariant => $valueVariant) {
+                                $variantsModel = new ItemsVariants();
+                                $variantsModel->id_item = $itemsModel->id;
+                                $variantsModel->parent_id = $arParams[$valueVariant['parent_code']];
+                                $variantsModel->code = $valueVariant['code'];
+                                $variantsModel->quantity = $valueVariant['quantity'];
+                                $variantsModel->save();
+                            }                    
+                            
+                        }
+                        if(count($value['parameters'])>0)
+                        {
+                            foreach ($value['parameters'] as $keyParameter => $valueParameter) {
+                                $paramsModel = new ItemsParametersValue();
+                                $paramsModel->item_id = $itemsModel->id;
+                                $paramsModel->parameter_id = $arParams[$keyParameter];
+                                $paramsModel->value = $valueParameter;
+                                $paramsModel->save();
+                            }                    
+                            
+                        } 
+                        if(count($value['images'])>0)
+                        {
+                            foreach ($value['images'] as $keyImage => $valueImage) {
+                                $itemsModel->attachImage(Yii::getAlias('@app/modules/admin/files/fixtures/').$valueImage.'.jpg');
+                            }                    
+                            
+                        }                               
+                    }
                 }
-                if(count($value['parameters'])>0)
-                {
-                    foreach ($value['parameters'] as $keyParameter => $valueParameter) {
-                        $paramsModel = new ItemsParametersValue();
-                        $paramsModel->item_id = $itemsModel->id;
-                        $paramsModel->parameter_id = $arParams[$keyParameter];
-                        $paramsModel->value = $valueParameter;
-                        $paramsModel->save();
-                    }                    
-                    
-                } 
-                if(count($value['images'])>0)
-                {
-                    foreach ($value['images'] as $keyImage => $valueImage) {
-                        $itemsModel->attachImage(Yii::getAlias('@app/modules/admin/files/fixtures/').$valueImage.'.jpg');
-                    }                    
-                    
-                }                               
             }
-        }      
+        }
+      
     }
 
     public function truncateAll(){           

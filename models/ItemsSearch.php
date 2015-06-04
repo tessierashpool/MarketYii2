@@ -40,12 +40,15 @@ class ItemsSearch extends Items
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$onPage=20)
     {
         $query = Items::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => $onPage,
+            ],            
         ]);
 
         $this->load($params);
@@ -54,6 +57,11 @@ class ItemsSearch extends Items
             $arCategories = self::categoriesSearch(Yii::$app->request->get('category_id'));
         else
             $arCategories = [];
+
+        if($params['price']!='')
+        {
+            $priece = $params['price'];
+        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails

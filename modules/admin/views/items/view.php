@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?
                 foreach ($model->getImages()  as $img) 
                 {
-                    echo Html::img($img->getUrl('150x'),['class'=>'img-thumbnail','style'=>'height:160px;margin-right:10px']);
+                    echo '<a target="blank" href="'.$img->getUrl().'">'.Html::img($img->getUrl('150x'),['class'=>'img-thumbnail','style'=>'height:160px;margin-right:10px']).'</a>';
                 }
                 ?>              
             
@@ -93,11 +93,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         if($cat_parameters['type']=='list')
                         {
                             $arVarList = ArrayHelper::map($cat_parameters['listValues'],'code','value');
-                            echo '<li class="list-group-item">'.$cat_parameters['name'].': '.$arVarList[$fullInfo['parameters'][$cat_parameters['id']]].'</li>';
+                            echo '<li class="list-group-item"><strong>'.$cat_parameters['name'].':</strong> '.$arVarList[$fullInfo['parameters'][$cat_parameters['id']]].'</li>';
                         }
                         else
                         {
-                            echo '<li class="list-group-item">'.$cat_parameters['name'].': '.$fullInfo['parameters'][$cat_parameters['id']].'</li>';                           
+                            echo '<li class="list-group-item"><strong>'.$cat_parameters['name'].':</strong> '.$fullInfo['parameters'][$cat_parameters['id']].'</li>';                           
                         }
                     }
                 }

@@ -11,6 +11,8 @@ use app\widgets\gridAllButton\GridAllButton;
 $this->title = $categoryModel->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Category Select'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+global $arCatNames;
+$arCatNames = $arCategories;
 ?>
 <div class="items-index">
 
@@ -35,12 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'images',
-                'value'=>function($searchModel){return Html::img($searchModel->getImage()->getUrl('120x'));},
+                'value'=>function($data){return Html::img($data->getImage()->getUrl('120x'));},
                 'format' => 'html',
                 'contentOptions'=>['style'=>'width: 137px;']
             ],
             'name',
             'description',
+            [
+                'attribute' => 'category_id',
+                'value'=>function($data){
+                    global $arCatNames;
+                    return $arCatNames[$data->category_id];
+                },
+            ],
             'price',
             [
                 'label' => 'Created at',

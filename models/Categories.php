@@ -196,6 +196,12 @@ class Categories extends ActiveRecord
         return $arVariants;
     }   
 
+    public function getNamesArray()
+    {
+        $arCategories = ArrayHelper::map(self::find()->select(['id','name'])->asArray()->all(),'id','name');        
+        return $arCategories;
+    }
+
     /**
      * @inheritdoc
      */

@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\ItemsSearch;
 
 class SiteController extends Controller
 {
@@ -51,7 +52,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = "left";
-        return $this->render('index');
+        $searchModel = new ItemsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,9);        
+        return $this->render('index',[
+            'dataProvider'=>$dataProvider
+        ]);
     }
 
     public function actionCart()
