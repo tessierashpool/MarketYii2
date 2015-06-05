@@ -18,8 +18,18 @@ class RangeSlider extends FilterWidget{
 	}
 	
 	public function run(){
+        $params=Yii::$app->request->queryParams;
+        $arPrice = [];
+        if($params['filter']['price']!='')
+        {
+            $arPrice = explode(':',$params['filter']['price']);
+        }
         echo '<div class="range-slider-cont">';
-            echo '<div class="nstSlider" data-range_min="100" data-range_max="10000" data-cur_min="2000" data-cur_max="8000">';
+            if(count($arPrice)>0)
+                echo '<div class="nstSlider" data-range_min="100" data-range_max="10000" data-cur_min="'.$arPrice[0].'" data-cur_max="'.$arPrice[1].'">';
+            else
+                echo '<div class="nstSlider" data-range_min="100" data-range_max="10000" data-cur_min="100" data-cur_max="10000">';
+               
                 echo '<div class="bar"></div>';
                 echo '<div class="leftGrip"></div>';
                 echo '<div class="rightGrip"></div>';
@@ -27,7 +37,8 @@ class RangeSlider extends FilterWidget{
             echo '<p class="range-info-cont">Price: <span class="leftLabel"></span>р - <span class="rightLabel"></span>р</p>';
             echo '<input type="hidden" id="price_left">';
             echo '<input type="hidden" id="price_right">';
-            echo '<a class="range-filter-button pull-right" onclick="return urlTest(\''.self::currentPageWithParams().'\')" href="'.self::currentPageWithParams().'">Filter <i class="fa fa-chevron-right"></i></a>';
+            echo '<button class="filter-button pull-left" onclick="return urlTest(\''.self::currentPageWithParams([],['filter[price]','filter%5Bprice%5D','page','per-page']).'\')">Filter <i class="fa fa-chevron-right"></i></button>';
+            //echo '<button class="filter-clear-button pull-right" >Clear Filter <i class="glyphicon glyphicon-remove"></i></button>';
             echo '<div style="clear:both"></div>';
         echo '</div>'; 
 	}
@@ -45,15 +56,15 @@ class RangeSlider extends FilterWidget{
         "value_changed_callback": function(cause, leftValue, rightValue) {
         $(this).parent().find('.leftLabel').text(leftValue);
         $(this).parent().find('.rightLabel').text(rightValue);
-        $('#price_left').val(leftValue);
-        $('#price_right').val(rightValue);
+        $(this).parent().find('#price_left').val(leftValue);
+        $(this).parent().find('#price_right').val(rightValue);
         }
         });
     }
     function buildUrl(base, key, value) {
-    var sep = (base.indexOf('?') > -1) ? '&' : '?';
-    return base + sep + key + '=' + value;
-}
+        var sep = (base.indexOf('?') > -1) ? '&' : '?';
+        return base + sep + key + '=' + value;
+    }
     //Scale slider after document ready
     RangeSlider();
     function urlTest(url){

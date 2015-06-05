@@ -8,6 +8,7 @@ $items = $dataProvider->getModels();
     <?foreach ($items as $key => $model):?>
         <div class="col-sm-4">
             <div class="item-cont">
+                <div class="item-cont-inner-border"></div>
                 <a class="img-cont" href="#">
                 <img src="<?=$model->getImage()->getUrl('300x')?>" class="img-responsive" alt="Responsive image">
                 </a>
@@ -17,9 +18,9 @@ $items = $dataProvider->getModels();
 <!--                 <div class="ribbon-cont">
 <div class="corner-ribbon top-right sticky red">NEW</div>
 </div> -->
-                <div class="add-to-wishlist-cont">
-                    <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-star"></i></a>
-                </div>
+<div class="add-to-wishlist-cont">
+    <a title="Add to wishlist" href="#"><i class="glyphicon glyphicon-heart"></i></a>
+</div> 
             </div>
         </div>
     <?endforeach;?>

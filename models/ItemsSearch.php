@@ -58,11 +58,10 @@ class ItemsSearch extends Items
         else
             $arCategories = [];
 
-        if($params['price']!='')
+        if($params['filter']['price']!='')
         {
-            $priece = $params['price'];
+            $arPrice = explode(':',$params['filter']['price']);
         }
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
             // $query->where('0=1');
@@ -71,7 +70,7 @@ class ItemsSearch extends Items
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'price' => $this->price,
+           // 'price' => $this->price,
             //'category_id' => $this->category_id,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
@@ -79,6 +78,8 @@ class ItemsSearch extends Items
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['in', 'category_id', $arCategories])
+            ->andFilterWhere(['>=', 'price', $arPrice[0]])
+            ->andFilterWhere(['<=', 'price', $arPrice[1]])
             ->andFilterWhere(['>=', 'created_at', $params['created_at_from']])
             ->andFilterWhere(['<=', 'created_at', $params['created_at_to']])
             ->andFilterWhere(['>=', 'updated_at', $params['updated_at_from']])

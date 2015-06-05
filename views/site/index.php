@@ -123,29 +123,33 @@ $this->registerJs("
                         <div class="row main-cont-advert hidden-xs">
                             <div class="col-sm-6" >
                                 <div class=" advert-cont-m">
-                                    <div class="row">
-                                        <div class="col-sm-5 ">
-                                            <img src="site_photos/shoe_1.jpg" class="img-responsive" alt="Responsive image">
+                                    <div class="advert-cont-inner">
+                                        <img src="site_photos/advertwomen.png" class="advert-cont-img-1 " alt="Responsive image">
+                                        <div class="advert-button-cont">
+                                            <a href="#">Show it now</a>
                                         </div>
-                                        <div   class="col-sm-7">
-                                            <p class="a-title"><span style="color:#FF9933">Women Shoe</span> Collection</p>
-                                            <p class="a-descr hidden-md hidden-sm" >Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                            <p ><a class="a-link pull-right" href="#">Show now</a>
+                                        <div class="advert-title-cont">
+                                            <p><span>Women Shoe</span> Collection</p>
                                         </div>
+                                        <div class="advert-title-descr">
+                                            <p>Elie Tahari 1-15 April</p>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6  ">
                                 <div class=" advert-cont-m">
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <img src="site_photos/shoe_2.jpg" class="img-responsive" alt="Responsive image">
+                                    <div class="advert-cont-inner">
+                                        <img src="site_photos/advertmen.png" class="advert-cont-img-2" alt="Responsive image">
+                                        <div class="advert-button-cont">
+                                            <a href="#">Show it now</a>
                                         </div>
-                                        <div   class="col-sm-7">
-                                            <p class="a-title"><span style="color:#FF9933">Man Shoe</span> Collection</p>
-                                            <p class="a-descr hidden-md hidden-sm" >Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                            <p><a class="a-link pull-right" href="#">Show now</a>
+                                        <div class="advert-title-cont">
+                                            <p><span>Men Shoe</span> Collection</p>
                                         </div>
+                                        <div class="advert-title-descr">
+                                            <p>Elie Tahari 1-15 April</p>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>

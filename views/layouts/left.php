@@ -1,34 +1,36 @@
 <?php 
 use app\widgets\filter\RangeSlider;
 $this->beginContent('@app/views/layouts/main.php'); 
+
+//$this->registerJs('$("document").ready(function(){ selectedVariant('.$variant['id_variant'].'); });');
 ?>
     <div class="container main-body">
         <div class="row">
-            <div class="col-sm-3 hidden-xs">
+            <div class="col-md-3 hidden-sm hidden-xs">
                 <div class="left-menu-cont">
                     <div class="category-label">
                         <p>BRAND</p>
                     </div>
                     <ul>
-                        <li><a href="#">A.B.S. by Allen Schwartz</a></li>
-                        <li><a href="#">AG Adriano Goldshmeid</a></li>
-                        <li><a href="#">Alice & Olivia</a></li>
-                        <li><a href="#">Autumn Cashmere</a></li>
-                        <li><a href="#">BCBGMAXAZRIA</a></li>
-                        <li><a href="#">DKNY</a></li>
-                        <li><a href="#">Elie Tahari</a></li>
-                        <li><a href="#">Magaschoni</a></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; A.B.S. by Allen Schwartz</label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; AG Adriano Goldshmeid</label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Alice & Olivia</label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Autumn Cashmere</label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; BCBGMAXAZRIA</label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; DKNY</label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Elie Tahari</label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Magaschoni</label></li>
                     </ul>
 
                     <div class="category-label">
                         <p>COLOR</p>
                     </div>
                     <ul>
-                        <li><a href="#">Beige </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#F0E8C4"></span></i> </li>
-                        <li><a href="#">Blue </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#2AD4FF"></i></span></li>
-                        <li><a href="#">Red </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#FF5555"></i></span></li>
-                        <li><a href="#">Green </a> <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#81B600"></i></span></li>
-                        <li><a href="#">Multi </a>  </li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Beige  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#F0E8C4"></i></span></label> </li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Blue  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#2AD4FF"></i></span></label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Red  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#FF5555"></i></span></label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Green  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#81B600"></i></span></label></li>
+                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Multi </label>  </li>
                     </ul>   
                     <!-- Range Slider Start --> 
                     <div class="category-label">
@@ -85,7 +87,7 @@ $this->beginContent('@app/views/layouts/main.php');
                                         </div>   -->                                        
                 </div>
             </div>
-            <div class="col-sm-9 col-xs-12">
+            <div class="col-md-9 col-sm-12 col-xs-12">
                 <div class="row"> 
                     <div class="col-sm-12">
                         <!-- ---------------------------------- Mobile Left Menu Start -------------------------------------- -->
@@ -149,5 +151,6 @@ $this->beginContent('@app/views/layouts/main.php');
                 </div>
             </div> 
         </div>
-    </div>            
+    </div>       
+  
 <?php $this->endContent(); ?>
