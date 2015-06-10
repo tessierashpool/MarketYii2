@@ -1,5 +1,5 @@
 <?php 
-use app\widgets\filter\RangeSlider;
+use app\widgets\filter\FilterWidget;
 $this->beginContent('@app/views/layouts/main.php'); 
 
 //$this->registerJs('$("document").ready(function(){ selectedVariant('.$variant['id_variant'].'); });');
@@ -8,36 +8,8 @@ $this->beginContent('@app/views/layouts/main.php');
         <div class="row">
             <div class="col-md-3 hidden-sm hidden-xs">
                 <div class="left-menu-cont">
-                    <div class="category-label">
-                        <p>BRAND</p>
-                    </div>
-                    <ul>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; A.B.S. by Allen Schwartz</label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; AG Adriano Goldshmeid</label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Alice & Olivia</label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Autumn Cashmere</label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; BCBGMAXAZRIA</label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; DKNY</label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Elie Tahari</label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Magaschoni</label></li>
-                    </ul>
-
-                    <div class="category-label">
-                        <p>COLOR</p>
-                    </div>
-                    <ul>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Beige  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#F0E8C4"></i></span></label> </li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Blue  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#2AD4FF"></i></span></label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Red  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#FF5555"></i></span></label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Green  <span class="pull-right"><i class="glyphicon glyphicon-stop" style="color:#81B600"></i></span></label></li>
-                        <li><label><input class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; Multi </label>  </li>
-                    </ul>   
-                    <!-- Range Slider Start --> 
-                    <div class="category-label">
-                        <p>PRICE RANGE</p>
-                    </div>                   
-                    <?=RangeSlider::widget();?>  
-                    <!-- Range Slide End -->    
+                    <!-- Filte widget -->                  
+                    <?=FilterWidget::widget([]);?>     
                     <div class="category-label">
                         <p>BEST SELERS</p>
                     </div>

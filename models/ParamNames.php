@@ -58,7 +58,9 @@ class ParamNames extends ActiveRecord
             [['category_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['code', 'name'], 'string', 'max' => 255],
             [['code'], 'unique'],
-            [['code','name','type'], 'required']
+            [['code','name','type'], 'required'],
+            [['active'], 'boolean'],
+            [['use_in_search'], 'boolean', 'on' => 'create'],
         ];
     }
 
@@ -106,6 +108,8 @@ class ParamNames extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
+            'active' => Yii::t('app', 'Active'),
+            'use_in_search' => Yii::t('app', 'Use in search'),
         ];
     }
 

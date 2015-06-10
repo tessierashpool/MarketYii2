@@ -95,13 +95,13 @@ class Categories extends ActiveRecord
     public function getCatParameters()
     {
         $model = new ParametersToCategories();  
-        return $model->find()->with('parametersInfo')->where(['id_category'=>$this->id])->orderBy('order ASC')->asArray()->all();
+        return $model->find()->joinWith('parametersInfo')->where(['id_category'=>$this->id,'param_names.active'=>1])->orderBy('order ASC')->asArray()->all();
     }
 
     public function getCatVariants()
     {
         $model = new VariantsToCategories();  
-        return $model->find()->with('variantsInfo')->where(['id_category'=>$this->id])->orderBy('order ASC')->asArray()->all();
+        return $model->find()->joinWith('variantsInfo')->where(['id_category'=>$this->id,'param_names.active'=>1])->orderBy('order ASC')->asArray()->all();
     }
 
     public function getParentParameters()
@@ -111,7 +111,7 @@ class Categories extends ActiveRecord
             $parent_id = Yii::$app->request->get('parent');
         else
             $parent_id = $this->parent_id;        
-        return $model->find()->with('parametersInfo')->where(['id_category'=>$parent_id])->orderBy('order ASC')->asArray()->all();
+        return $model->find()->joinWith('parametersInfo')->where(['id_category'=>$parent_id,'param_names.active'=>1])->orderBy('order ASC')->asArray()->all();
     }
 
     public function getParentVariants()
@@ -121,7 +121,7 @@ class Categories extends ActiveRecord
             $parent_id = Yii::$app->request->get('parent');
         else
             $parent_id = $this->parent_id;
-        return $model->find()->with('variantsInfo')->where(['id_category'=>$parent_id])->orderBy('order ASC')->asArray()->all();
+        return $model->find()->joinWith('variantsInfo')->where(['id_category'=>$parent_id,'param_names.active'=>1])->orderBy('order ASC')->asArray()->all();
     } 
 
     /**
@@ -213,13 +213,36 @@ class Categories extends ActiveRecord
             [['order'], 'integer','on'=>'create'],
             [['code', 'name', 'description'], 'string', 'max' => 255],
             [['code', 'name'], 'required'],
-            [['code'], 'unique']
+            [['code'], 'unique'],
+            [['active'], 'boolean'],             
         ];
     }
 
     public function getTree()
     {
         return $this->find()->select(['id','name','depth','parent_id'])->asArray()->orderBy('order ASC')->all();
+    }
+
+    public static function getAllChilds($id)
+    {
+        if($id=='')
+            return [];
+        $arQuery = Yii::$app->db->createCommand('SELECT id, parent_id, depth FROM '.Categories::tableName())
+                     ->queryAll();
+        $arQuery = ArrayHelper::map($arQuery,'id','depth','parent_id');             
+        $result = self::categoriesArray($arQuery,$id);
+        return $result;
+    }
+
+    public static  function categoriesArray($arQuery,$id)
+    {
+        $arCategories[] = $id;
+        if(count($arQuery[$id])>0)
+            foreach ($arQuery[$id] as $key => $value) {
+                unset($arQuery[$id]);
+                $arCategories = array_merge( $arCategories,  self::categoriesArray($arQuery, $key));
+            }
+        return $arCategories;
     }
 
     /**
@@ -239,6 +262,7 @@ class Categories extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
+            'active' => Yii::t('app', 'Active'),            
         ];
     }
    

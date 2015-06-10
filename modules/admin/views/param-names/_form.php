@@ -90,11 +90,20 @@ use yii\bootstrap\Modal;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'active')->dropDownList(['1'=>Yii::t('app', 'Active') ,'0'=>Yii::t('app', 'Deactive')]) ?>
+
     <?= $form->field($model, 'code')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'category_id')->dropDownList($model->categoriesList) ?>
+    
+	<?
+	if($model->isNewRecord)
+		echo $form->field($model, 'use_in_search')->dropDownList(['0'=>Yii::t('app', 'No'),'1'=>Yii::t('app', 'Yes')]);
+	else
+		echo $form->field($model, 'use_in_search')->dropDownList(['0'=>Yii::t('app', 'No'),'1'=>Yii::t('app', 'Yes')],[' disabled' => true]);
+	?>
 
     <?= $form->field($model, 'type')->dropDownList(['list'=>Yii::t('app', 'List') ,'text'=>Yii::t('app', 'Text')],['onchange'=>'if($(this).val()=="list"){$(".values-list").removeClass("hidden")}else{$(".values-list").addClass("hidden")};']) ?>
 

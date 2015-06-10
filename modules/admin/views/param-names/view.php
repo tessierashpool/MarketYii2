@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            ['attribute'=>'active','value'=> $model->active?Yii::t('app', 'Active'):Yii::t('app', 'Deactive')],
             'id',
             'code',
             'name',

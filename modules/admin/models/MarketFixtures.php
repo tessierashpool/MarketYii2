@@ -11,6 +11,8 @@ use app\models\ParametersToCategories;
 use app\models\Items;
 use app\models\ItemsVariants;
 use app\models\ItemsParametersValue;
+use app\models\IParametersSimple;
+use app\models\IParametersSearch;
 use yii\helpers\ArrayHelper;
 use Yii;
 
@@ -215,13 +217,13 @@ class MarketFixtures extends Model
     }
 
     public function getParameters(){
-        $arParameters[] = ['code'=>'material-top','name'=>'Upper material','type'=>'text'];
-        $arParameters[] = ['code'=>'inner-material','name'=>'Inside material ','type'=>'text'];
-        $arParameters[] = ['code'=>'footer-material','name'=>'Insole material','type'=>'text'];
-        $arParameters[] = ['code'=>'season','name'=>'Season','type'=>'text'];
-        $arParameters[] = ['code'=>'quaility','name'=>'Quality','type'=>'text'];
-        $arParameters[] = ['code'=>'brand','name'=>'Brand','type'=>'text'];
-        $arParameters[] = ['code'=>'color','name'=>'Color','type'=>'list',
+        $arParameters[] = ['use_in_search'=>0,'code'=>'material-top','name'=>'Upper material','type'=>'text'];
+        $arParameters[] = ['use_in_search'=>0,'code'=>'inner-material','name'=>'Inside material ','type'=>'text'];
+        $arParameters[] = ['use_in_search'=>0,'code'=>'footer-material','name'=>'Insole material','type'=>'text'];
+        $arParameters[] = ['use_in_search'=>0,'code'=>'season','name'=>'Season','type'=>'text'];
+        $arParameters[] = ['use_in_search'=>0,'code'=>'quaility','name'=>'Quality','type'=>'text'];
+        $arParameters[] = ['use_in_search'=>1,'code'=>'brand','name'=>'Brand','type'=>'text'];
+        $arParameters[] = ['use_in_search'=>1,'code'=>'color','name'=>'Color','type'=>'list',
             'listValues'=>[
                 ['code'=>'red','name'=>'Red'],
                 ['code'=>'yellow','name'=>'Yellow'],
@@ -232,7 +234,7 @@ class MarketFixtures extends Model
                 ['code'=>'multi','name'=>'Multi']
             ]
         ];
-        $arParameters[] = ['code'=>'size','name'=>'Size','type'=>'list',
+        $arParameters[] = ['use_in_search'=>1,'code'=>'size','name'=>'Size','type'=>'list',
             'listValues'=>[
                 ['code'=>'xl','name'=>'XL'],
                 ['code'=>'m','name'=>'M'],
@@ -370,9 +372,11 @@ class MarketFixtures extends Model
         $arParams = $this->parameters;
         foreach ($arParams as $key => $value) {
             $paramsModel = new ParamNames();
+            $paramsModel->active = 1;
             $paramsModel->name = $value['name'];
             $paramsModel->code = $value['code'];
             $paramsModel->type = $value['type'];
+            $paramsModel->use_in_search = $value['use_in_search'];            
             $paramsModel->category_id = 0;
             if($paramsModel->save()&&(count($value['listValues'])>0))
             {
@@ -393,6 +397,7 @@ class MarketFixtures extends Model
         $arParams =  ArrayHelper::map(ParamNames::find()->select(['id','code'])->asArray()->all(),'code','id');
         foreach ($arCategories as $key => $value) {
             $catModel = new Categories();
+            $catModel->active = 1;
             $catModel->name = $value['name'];
             $catModel->code = $value['code'];
             $catModel->parent_id = $value['parent_id'];
@@ -431,11 +436,18 @@ class MarketFixtures extends Model
     public function addItemsToDB(){        
         $arItems = $this->items;
         $arCategories =  Categories::find()->where(['depth'=>2])->select(['id','code'])->asArray()->all();
-        $arParams =  ArrayHelper::map(ParamNames::find()->select(['id','code'])->asArray()->all(),'code','id');
+        $arParamsTmp = ParamNames::find()->select(['id','code','use_in_search'])->asArray()->all();
+        $arParams = [];
+        foreach ($arParamsTmp as $key => $value) {
+            $arParams[$value['code']]['id'] = $value['id'];
+            $arParams[$value['code']]['code'] = $value['code'];
+            $arParams[$value['code']]['use_in_search'] = $value['use_in_search'];
+        }
         foreach ($arCategories as $category) {
             for ($i=0; $i < 10; $i++) { 
                 foreach ($arItems as $key => $value) {
                     $itemsModel = new Items();
+                    $itemsModel->active = 1;
                     $itemsModel->name = $value['name'];
                     $itemsModel->description = $value['description'];
                     $itemsModel->category_id = $category['id'];
@@ -447,11 +459,16 @@ class MarketFixtures extends Model
                         if(count($value['variants'])>0)
                         {
                             foreach ($value['variants'] as $keyVariant => $valueVariant) {
-                                $variantsModel = new ItemsVariants();
-                                $variantsModel->id_item = $itemsModel->id;
-                                $variantsModel->parent_id = $arParams[$valueVariant['parent_code']];
-                                $variantsModel->code = $valueVariant['code'];
+                                if($arParams[$valueVariant['parent_code']]['use_in_search'])
+                                    $variantsModel = new IParametersSearch();
+                                else
+                                    $variantsModel = new IParametersSimple();
+
+                                $variantsModel->item_id = $itemsModel->id;
+                                $variantsModel->parameter_id = $arParams[$valueVariant['parent_code']]['id'];
+                                $variantsModel->value = $valueVariant['code'];
                                 $variantsModel->quantity = $valueVariant['quantity'];
+                                $variantsModel->type = 'v';
                                 $variantsModel->save();
                             }                    
                             
@@ -459,10 +476,15 @@ class MarketFixtures extends Model
                         if(count($value['parameters'])>0)
                         {
                             foreach ($value['parameters'] as $keyParameter => $valueParameter) {
-                                $paramsModel = new ItemsParametersValue();
+                                if($arParams[$keyParameter]['use_in_search'])
+                                    $paramsModel = new IParametersSearch();
+                                else
+                                    $paramsModel = new IParametersSimple();
+
                                 $paramsModel->item_id = $itemsModel->id;
-                                $paramsModel->parameter_id = $arParams[$keyParameter];
+                                $paramsModel->parameter_id = $arParams[$keyParameter]['id'];
                                 $paramsModel->value = $valueParameter;
+                                $paramsModel->type = 'p';
                                 $paramsModel->save();
                             }                    
                             
@@ -491,8 +513,8 @@ class MarketFixtures extends Model
 
     public function truncateItems(){           
         Yii::$app->db->createCommand('TRUNCATE '.Items::tableName())->execute();
-        Yii::$app->db->createCommand('TRUNCATE '.ItemsVariants::tableName())->execute();
-        Yii::$app->db->createCommand('TRUNCATE '.ItemsParametersValue::tableName())->execute();
+        Yii::$app->db->createCommand('TRUNCATE '.IParametersSearch::tableName())->execute();
+        Yii::$app->db->createCommand('TRUNCATE '.IParametersSimple::tableName())->execute();
         Yii::$app->db->createCommand('TRUNCATE image')->execute();
     }    
 }

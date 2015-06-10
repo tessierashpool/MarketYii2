@@ -66,6 +66,7 @@ class Items extends ActiveRecord
             [['parameters','variants','clearImages'], 'safe'],
             [['name'], 'required'],
             [['images'], 'file', 'extensions'=>'jpg, gif, png'],
+            [['active'], 'boolean'],            
         ];
     }
 
@@ -92,7 +93,12 @@ class Items extends ActiveRecord
         if(count($this->_parameters)>0)
             return  $this->_parameters;
         elseif($this->id!=null)
-            return $this->_parameters = ArrayHelper::map(ItemsParametersValue::find()->where(['item_id'=>$this->id])->asArray()->all(),'parameter_id','value');
+        {
+            $arSearchParams = IParametersSearch::find()->where(['item_id'=>$this->id,'type'=>'p'])->asArray()->all();
+            $arSimpleParams = IParametersSimple::find()->where(['item_id'=>$this->id,'type'=>'p'])->asArray()->all();
+            $arMixed = array_merge($arSearchParams, $arSimpleParams);
+            return $this->_parameters = ArrayHelper::map($arMixed,'parameter_id','value');
+        }
         else 
             return [];
     }
@@ -112,11 +118,13 @@ class Items extends ActiveRecord
             return  $this->_variants;
         elseif($this->id!=null)
         {
-            $arVariantsTmp = ItemsVariants::find()->where(['id_item'=>$this->id])->asArray()->all();
+            $arSearchParams = IParametersSearch::find()->where(['item_id'=>$this->id,'type'=>'v'])->asArray()->all();
+            $arSimpleParams = IParametersSimple::find()->where(['item_id'=>$this->id,'type'=>'v'])->asArray()->all();
+            $arMixed = array_merge($arSearchParams, $arSimpleParams);
             $arVariants = [];
-            foreach($arVariantsTmp as $variant)
+            foreach($arMixed as $variant)
             {
-                $arVariants[$variant['parent_id']][$variant['code']]=$variant;
+                $arVariants[$variant['parameter_id']][$variant['value']]=$variant;
             }
             return $arVariants;
         }            
@@ -133,48 +141,97 @@ class Items extends ActiveRecord
     }      
 
     public function saveItem()
-    {
-        $arParams = $this->parameters;
-        $arVariants = $this->variants;
-/*        $image = UploadedFile::getInstance($this, $this->images[1]);
-        var_dump($image);*/
+    {       
         if($this->save())
         {
-            $arParamsQuery = [];
-            if(count($arParams)>0)
-            {
-                foreach($arParams as $key=>$value)
-                {
-                    if($value!='')
-                        $arParamsQuery[] = [$this->id, $key, $value];
-                }
-            }
-            ItemsParametersValue::deleteAll('item_id = '.$this->id);
-            if(count($arParamsQuery)>0)
-            {    
-                Yii::$app->db->createCommand()->batchInsert(ItemsParametersValue::tableName(), ['item_id','parameter_id','value'], $arParamsQuery)->execute();
-            }
-
-            $arVariantsQuery = [];
-            if(count($arVariants)>0)
-            {
-                foreach($arVariants as $parent_id=>$arVariant)
-                {
-                    foreach($arVariant as $key=>$variant)
-                    {
-                         $arVariantsQuery[] = [$this->id, $parent_id, $variant['code'], $variant['quantity']]; 
-                    }
-                }
-            }
-            ItemsVariants::deleteAll('id_item = '.$this->id);
-            if(count($arVariantsQuery)>0)
-            {    
-                Yii::$app->db->createCommand()->batchInsert(ItemsVariants::tableName(), ['id_item','parent_id','code','quantity'], $arVariantsQuery)->execute();
-            }
+            $this->saveParameters();
+            $this->saveVariants();
             $this->saveImages();
             return true;
         }
         return false;
+    }
+
+    /**
+     * Save parameters
+     */
+    public function saveParameters()
+    {
+        $use_in_search_params = ArrayHelper::map($parametersInfo = Categories::findOne(Yii::$app->request->get('category_id'))->fullParameters,'id','use_in_search');
+        $arParams = $this->parameters;     
+        $arSearchParamsQuery = [];
+        $arSimpleParamsQuery = [];
+        $arDeleteValues = [];
+        if(count($arParams)>0)
+        {
+            foreach($arParams as $key=>$value)
+            {
+                if($use_in_search_params[$key])
+                {
+                    if($value!='')
+                    {
+                        $arSearchParamsQuery[] = [$this->id, $key, $value,'p'];
+                    }                                      
+                }
+                else
+                {
+                    if($value!='')
+                    {
+                        $arSimpleParamsQuery[] = [$this->id, $key, $value,'p'];
+                    }                     
+                }
+                $arDeleteValues[] = $key;
+            }
+        }
+
+        IParametersSearch::deleteAll(['item_id'=>$this->id,'parameter_id'=>$arDeleteValues,'type'=>'p']);
+        IParametersSimple::deleteAll(['item_id'=>$this->id,'parameter_id'=>$arDeleteValues,'type'=>'p']);
+        if(count($arSearchParamsQuery)>0)
+        {    
+            Yii::$app->db->createCommand()->batchInsert(IParametersSearch::tableName(), ['item_id','parameter_id','value','type'], $arSearchParamsQuery)->execute();
+        }
+        if(count($arSimpleParamsQuery)>0)
+        {    
+            Yii::$app->db->createCommand()->batchInsert(IParametersSimple::tableName(), ['item_id','parameter_id','value','type'], $arSimpleParamsQuery)->execute();
+        }        
+    }
+
+    /**
+     * Save variants
+     */
+    public function saveVariants()
+    {
+        $use_in_search_variants = ArrayHelper::map($parametersInfo = Categories::findOne(Yii::$app->request->get('category_id'))->fullVariants,'id','use_in_search');
+        $arVariants = $this->variants;
+        $arSearchVariantsQuery = [];
+        $arSimpleVariantsQuery = [];        
+        if(count($arVariants)>0)
+        {
+            foreach($arVariants as $parent_id=>$arVariant)
+            {
+                foreach($arVariant as $key=>$variant)
+                {
+                    if($use_in_search_variants[$parent_id])
+                    {
+                        $arSearchVariantsQuery[] = [$this->id, $parent_id, $variant['value'], $variant['quantity'],'v']; 
+                    }
+                    else
+                    {
+                        $arSimpleVariantsQuery[] = [$this->id, $parent_id, $variant['value'], $variant['quantity'],'v']; 
+                    }
+                }
+            }
+        }
+        IParametersSearch::deleteAll(['item_id'=>$this->id,'type'=>'v']);
+        IParametersSimple::deleteAll(['item_id'=>$this->id,'type'=>'v']);
+        if(count($arSearchVariantsQuery)>0)
+        {    
+            Yii::$app->db->createCommand()->batchInsert(IParametersSearch::tableName(), ['item_id','parameter_id','value','quantity','type'], $arSearchVariantsQuery)->execute();
+        }
+        if(count($arSimpleVariantsQuery)>0)
+        {    
+            Yii::$app->db->createCommand()->batchInsert(IParametersSimple::tableName(), ['item_id','parameter_id','value','quantity','type'], $arSimpleVariantsQuery)->execute();
+        }        
     }
 
     /**
@@ -254,6 +311,12 @@ class Items extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
+            'active' => Yii::t('app', 'Active'),
         ];
     }
+
+/*    public function getParametersValues()
+    {
+        return $this->hasMany(ItemsParametersValue::className(), ['item_id' => 'id']);
+    }  */  
 }

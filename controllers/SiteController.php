@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\ItemsSearch;
+use app\models\Statistic;
 
 class SiteController extends Controller
 {
@@ -53,7 +54,9 @@ class SiteController extends Controller
     {
         $this->layout = "left";
         $searchModel = new ItemsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,9);        
+        $statistic = new Statistic();
+        //var_dump(Statistic::getAllParametersValuesInCategory());
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,true,9);        
         return $this->render('index',[
             'dataProvider'=>$dataProvider
         ]);

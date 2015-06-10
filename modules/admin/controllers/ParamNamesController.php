@@ -61,7 +61,7 @@ class ParamNamesController extends Controller
     public function actionCreate()
     {
         $model = new ParamNames();
-
+        $model->scenario = 'create';
         if ($model->load(Yii::$app->request->post()) && $model->saveParameter()) {
             return $this->redirect(['index']);
         } else {

@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            ['attribute'=>'active','value'=> $model->active?Yii::t('app', 'Active'):Yii::t('app', 'Deactive')],
             'id',
             'name',
             'description',
@@ -63,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     {
                         $arVarList = ArrayHelper::map($cat_variant['listValues'],'code','value');
                         foreach ($fullInfo['variants'][$cat_variant['id']] as $key => $value) {
-                            echo '<li class="list-group-item">'.$cat_variant['name'].' '.$arVarList[$value['code']].': '.intval($value['quantity']).'</li>';
+                            echo '<li class="list-group-item">'.$cat_variant['name'].' '.$arVarList[$value['value']].': '.intval($value['quantity']).'</li>';
                         }
                     }    
                 }
@@ -76,7 +77,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?
                 foreach ($model->getImages()  as $img) 
                 {
-                    echo '<a target="blank" href="'.$img->getUrl().'">'.Html::img($img->getUrl('150x'),['class'=>'img-thumbnail','style'=>'height:160px;margin-right:10px']).'</a>';
+                    if($img->urlAlias !='placeHolder')
+                        echo '<a target="blank" href="'.$img->getUrl().'">'.Html::img($img->getUrl('150x'),['class'=>'img-thumbnail','style'=>'height:160px;margin-right:10px']).'</a>';
                 }
                 ?>              
             

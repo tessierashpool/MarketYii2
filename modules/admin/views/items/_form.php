@@ -17,6 +17,8 @@ use yii\web\UploadedFile;
 <div class="items-form">
 
     <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data'] ]); ?>
+    
+    <?= $form->field($model, 'active')->dropDownList(['1'=>Yii::t('app', 'Active') ,'0'=>Yii::t('app', 'Deactive')]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
@@ -40,8 +42,8 @@ use yii\web\UploadedFile;
                     paramLine += '<span class="input-group-addon" id="basic-addon1">'+parent_name+'</span>';
                     paramLine += '<span class="input-group-addon" id="basic-addon2">'+name+'</span>';
                     paramLine += '<input type="text" class="form-control" name="Items[variants]['+parent_id+']['+code+'][quantity]" placeholder="Quantity" aria-describedby="basic-addon1">';
-                    paramLine += '<input type="hidden" name="Items[variants]['+parent_id+']['+code+'][code]" value="'+code+'" />';
-                    paramLine += '<input type="hidden" name="Items[variants]['+parent_id+']['+code+'][parent_id]" value="'+parent_id+'" />';
+                    paramLine += '<input type="hidden" name="Items[variants]['+parent_id+']['+code+'][value]" value="'+code+'" />';
+                    paramLine += '<input type="hidden" name="Items[variants]['+parent_id+']['+code+'][parameter_id]" value="'+parent_id+'" />';
                     paramLine += '<span class="input-group-btn">';
                     paramLine += '<button onclick="deleteVariant(\''+code+'\')" class="btn btn-default" type="button"><i class="glyphicon glyphicon-trash"></i></button>';
                     paramLine += '</span>';             
@@ -85,18 +87,18 @@ use yii\web\UploadedFile;
                             $arVariantName = ArrayHelper::map($cat_variant['listValues'],'code','value');
                             foreach($model->variants[$cat_variant['id']] as $variant)
                             {
-                                echo '<li class="list-group-item li-variants selected-variant-'.$variant['code'].'">';
+                                echo '<li class="list-group-item li-variants selected-variant-'.$variant['value'].'">';
                                 echo '<div class="input-group">';
                                 echo '<span class="input-group-addon" id="basic-addon1">'.$cat_variant['name'].'</span>';
-                                echo '<span class="input-group-addon" id="basic-addon2">'.$arVariantName[$variant['code']].'</span>';
-                                echo '<input type="text" class="form-control" value="'.$variant['quantity'].'" name="Items[variants]['.$variant['parent_id'].']['.$variant['code'].'][quantity]" placeholder="Quantity" aria-describedby="basic-addon1">';
-                                echo '<input type="hidden" name="Items[variants]['.$variant['parent_id'].']['.$variant['code'].'][code]" value="'.$variant['code'].'" />';
-                                echo '<input type="hidden" name="Items[variants]['.$variant['parent_id'].']['.$variant['code'].'][parent_id]" value="'.$variant['parent_id'].'" />';
+                                echo '<span class="input-group-addon" id="basic-addon2">'.$arVariantName[$variant['value']].'</span>';
+                                echo '<input type="text" class="form-control" value="'.$variant['quantity'].'" name="Items[variants]['.$variant['parameter_id'].']['.$variant['value'].'][quantity]" placeholder="Quantity" aria-describedby="basic-addon1">';
+                                echo '<input type="hidden" name="Items[variants]['.$variant['parameter_id'].']['.$variant['value'].'][value]" value="'.$variant['value'].'" />';
+                                echo '<input type="hidden" name="Items[variants]['.$variant['parameter_id'].']['.$variant['value'].'][parameter_id]" value="'.$variant['parameter_id'].'" />';
                                 echo '<span class="input-group-btn">';
-                                echo '<button onclick="deleteVariant(\''.$variant['code'].'\')" class="btn btn-default" type="button"><i class="glyphicon glyphicon-trash"></i></button>';
+                                echo '<button onclick="deleteVariant(\''.$variant['value'].'\')" class="btn btn-default" type="button"><i class="glyphicon glyphicon-trash"></i></button>';
                                 echo '</span>';         
                                 echo '</div>';  
-                                $this->registerJs('$("document").ready(function(){ selectedVariant(\''.$variant['code'].'\'); });');                                    
+                                $this->registerJs('$("document").ready(function(){ selectedVariant(\''.$variant['value'].'\'); });');                                    
                                 echo '</li>';                 
                             }
                         }    

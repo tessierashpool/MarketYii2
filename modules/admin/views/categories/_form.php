@@ -12,7 +12,9 @@ use yii\bootstrap\Modal;
 <div class="categories-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    
+    <?= $form->field($model, 'active')->dropDownList(['1'=>Yii::t('app', 'Active') ,'0'=>Yii::t('app', 'Deactive')]) ?>
+    
     <?= $form->field($model, 'code')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
