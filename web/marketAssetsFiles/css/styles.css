@@ -45,6 +45,9 @@
 	text-decoration: none;
 	display: block;
 	height: 48px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: -15px;
 }
 
 .top-menu-cont ul{
@@ -55,38 +58,64 @@
 }
 .top-menu-cont ul li{
 	display: inline-block ;
-	margin-right: 20px;
+	margin-right: 10px;
 	position: relative;
 	height: 48px;
 }
+.top-menu-cont ul li i{
+	visibility: hidden;
+}
 
 .top-menu-cont ul li:hover a{
-	color: #FF9933;
+	color:#fff;
+	background-color: #FF9933;
 } 
 
-.top-menu-cont  ul li ul {
+.top-menu-cont ul li:hover i{
+	visibility: visible;
+} 
+
+.top-menu-cont  ul li div.submenu {
 	padding: 0;
 	position: absolute;
 	top: 48px;
-	left: -10px;
-	min-width: 200px;
+	left: -20px;
+	min-width: 310px;
+	width: auto;
 	display: block;
-	opacity: 0.95;
-	visibility: hidden;
+	visibility: hidden; 
 	z-index: 1000;
-	-moz-transform: translateY(15px);
-	-webkit-transform: translateY(15px);
-	-o-transform: translateY(15px);
-	-ms-transform: translateY(15px);
-	transform: translateY(10px);
-
-
-	-moz-transition: all 0s ease;
-	-ms-transition: all 0s ease;
-	-o-transition: all 0s ease;
-	transition: all 0s ease;
+	background-color: #fff;
+	border: 5px solid #eee;
+	border-top-width: 1px;
+	overflow: hidden;
 }
-.top-menu-cont  ul li ul::after {
+.top-menu-cont  ul li div.submenu div{
+	height: 100%;
+	width: 150px;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+}
+.top-menu-cont  ul li div.submenu div.submenu-left{
+	border-right: 1px solid #eee;
+	-webkit-box-shadow: 2px 0px 5px -1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 2px 0px 5px -1px rgba(0,0,0,0.1);
+	box-shadow: 2px 0px 5px -1px rgba(0,0,0,0.1);
+}
+.top-menu-cont  ul li div ul{
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	display: block;
+}
+.top-menu-cont  ul li div.submenu div.submenu-right ul{
+	visibility: hidden;
+}
+.top-menu-cont  ul li div.submenu div.submenu-right ul.active{
+	visibility: visible;
+}
+.top-menu-cont  ul li div.submenu::after {
 	content: '';
 	border: 6px solid transparent;
 	width: 0;
@@ -95,46 +124,58 @@
 	position: absolute;
 	top: -12px;
 	left: 20px;
-}
+} 
 .top-menu-cont ul li ul li { 
-	background: #FF9933; 
 	display: block; 
 	color: #444;
 	font-family: "Roboto",sans-serif;
 	font-size: 14px;
-	width: auto;
-	
+	margin: 0px;
 }
 .top-menu-cont ul li ul li a{ 
-	margin-left: 5px;
-	margin-right: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
 	padding-left: 5px;
 	padding-right: 5px;
-	border-bottom: 1px solid #fff;
+	border-bottom: 1px solid #eee;
 	white-space: nowrap;
+	width: auto;
 	position: relative;
-	color: #fff!important;
-	
+	color: #444!important;
+	background-color: transparent!important;	
+}
+.top-menu-cont ul li ul li a:hover{ 
+	color: #FF9933!important;	
+}
+.top-menu-cont ul li ul li a i{ 
+	position: absolute;
+	top: 17px;
+	right:10px;
+	visibility: hidden!important;;
 }
 .top-menu-cont ul li ul li:last-child a { 
 	border-bottom: none;
 }
-.top-menu-cont ul li ul li a:hover{ 
-	transition: all 0.15s ease;	
-	padding-left: 15px!important;
+.sub-sub-menu li a{
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-bottom: 1px solid #eee;
+	white-space: nowrap;
+	width: auto;
+	position: relative;
+	color: #444!important;
+	background-color: transparent!important;
 }
-.top-menu-cont ul li:hover ul {
-	opacity: 0.95;
-	visibility: visible;
-	-moz-transform: translateY(0px);
-	-webkit-transform: translateY(0px);
-	-o-transform: translateY(0px);
-	-ms-transform: translateY(0px);
-	transform: translateY(0px);
-	-moz-transition: all 0.25s ease;
-	-ms-transition: all 0.25s ease;
-	-o-transition: all 0.25s ease;
-	transition: all 0.25s ease;	
+.top-menu-cont ul li ul li a.active { 
+	color: #FF9933!important;
+}
+.top-menu-cont ul li ul li a.active i{ 
+	visibility: visible!important;
+}
+.top-menu-cont ul li:hover div {
+ 	display: block!important;
 }
 /*---------------Top menu end---------------*/
 .header-menu{
@@ -234,6 +275,7 @@
 	border-left: 4px solid #FF9933;
 	font-family: "Roboto",sans-serif;
 	font-weight: 100;
+	background-color: #fafafa;
 }
 .category-label p{
 	line-height: 40px;
@@ -518,6 +560,7 @@ a.i-add-cart-link:hover{
 	top: -1px;
 	right: -1px;
 	overflow: hidden;
+	z-index: 2;
 }
 /* Colors for Ribbons */
 

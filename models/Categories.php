@@ -220,7 +220,7 @@ class Categories extends ActiveRecord
 
     public function getTree()
     {
-        return $this->find()->select(['id','name','depth','parent_id'])->asArray()->orderBy('order ASC')->all();
+        return $this->find()->select(['id','name','depth','parent_id','code'])->asArray()->orderBy('order ASC')->all();
     }
 
     public static function getAllChilds($id)

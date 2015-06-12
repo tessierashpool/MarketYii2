@@ -54,6 +54,11 @@ class ItemsSearch extends Items
         ]);
 
         $this->load($params);
+        $session = Yii::$app->session;
+        $filter =[];
+        if($session->has('filter'))
+            $filter = $session->get('filter');
+
         //Filter by selected category
         if(Yii::$app->request->get('category_id')>0)
             $arCategories = Categories::getAllChilds(Yii::$app->request->get('category_id'));
@@ -61,16 +66,16 @@ class ItemsSearch extends Items
             $arCategories = [];
 
         //Prepare price filter
-        if($params['filter']['price']!='')
+        if(isset($filter['price'])&&$filter['price']!='')
         {
-            $arPrice = explode(':',$params['filter']['price']);
+            $arPrice = explode(':',$filter['price']);
         }
-        unset($params['filter']['price']);
+        unset($filter['price']);
 
         //Prepare filters other parameters
-        if(count($params['filter'])>0)
+        if(count($filter)>0)
         {           
-            foreach ($params['filter'] as $key => $value) {
+            foreach ($filter as $key => $value) {
                 $query->innerJoin('i_parameters_search a'.$key,'items.id = a'.$key.'.item_id');
                 $query->andFilterWhere(['a'.$key.'.parameter_id'=>$key,'a'.$key.'.value'=>$value]);
             }

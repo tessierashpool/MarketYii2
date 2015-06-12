@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use app\widgets\topMenu\TopMenu;
 use app\assets\MarketAsset;
 use yii\helpers\Url;
 /* @var $this \yii\web\View */
@@ -121,31 +122,7 @@ MarketAsset::register($this);
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 ">                        
-                            <ul  class=" pull-left">
-
-                                <li ><a href="#">For Man <i class="fa fa-angle-down"></i></a>
-                                    <ul>
-                                        <li><a href="#">Shoes</a></li>
-                                        <li><a href="#">T-Shirts</a></li>
-                                        <li><a href="#">Jeans</a></li>
-                                    </ul> 
-                                </li>
-                                <li ><a href="#">For Women <i class="fa fa-angle-down"></i></a>
-                                    <ul>
-                                        <li><a href="#">Shoes</a></li>
-                                        <li><a href="#">T-Shirts</a></li>
-                                        <li><a href="#">Jeans</a></li>
-                                    </ul> 
-                                </li>
-                                <li ><a href="#">For Chilldren <i class="fa fa-angle-down"></i></a>
-                                    <ul>
-                                        <li><a href="#">Shoes</a></li>
-                                        <li><a href="#">T-Shirts</a></li>
-                                        <li><a href="#">Jeans</a></li>
-                                    </ul> 
-                                </li>
-                                
-                            </ul>
+                            <?=TopMenu::widget()?>
                             <div class="search-cont pull-right">
                                 <input type="text" placeholder="Search">
                                 <i class="glyphicon glyphicon-search"></i>

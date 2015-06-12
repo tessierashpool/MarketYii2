@@ -18,14 +18,28 @@ class FilterWidget extends Widget{
     private $_arPrice = [];
     private $_arParamsInfo = [];
     public $arParams = ['brand','color','size'];
-    public $params ;
+    public $filter = [];
     
     public function init(){
+        $session = Yii::$app->session;
+
+        $params = Yii::$app->request->post();
+        if(count($params['filter'])>0)
+        {
+            $session->set('filter',$params['filter']);
+            Yii::$app->getResponse()->redirect(Url::current(['page'=>null,'per-page'=>null]));
+        }            
+        if(isset($params['clear_filter']))
+        {
+            $session->remove('filter');
+            Yii::$app->getResponse()->redirect(Url::current(['page'=>null,'per-page'=>null]));
+        }            
+        if($session->has('filter'))
+            $this->filter = $session->get('filter');
         $this->_arCategories = Categories::getAllChilds($this->cid);
         $this->_arParamsInfo = $this->getParamInfoWithCodeKey(); 
         $this->_arValues = $this->getValuesWithIdKey(); 
         $this->_arPrice = Statistic::getAllItemsPriceRange(); 
-        $this->params=Yii::$app->request->queryParams;
         $this->registerAssets();
     }
     
@@ -62,14 +76,17 @@ class FilterWidget extends Widget{
 
     /*Filter form*/
     public function filterForm(){
-        $params=$this->params;
-        echo '<form method="GET" action="">';
+        $filter=$this->filter;
+        $csrfParam = Yii::$app->request->csrfParam;
+        $csrfToken = Yii::$app->request->csrfToken;          
+        echo '<form method="POST" action="">';
+        echo '<input name="'.$csrfParam.'" value="'.$csrfToken.'" type="hidden">';
         $this->getFilters();        
-        $this->rangeSlider();        
-        if(count($params[filter])>0)
+        $this->rangeSlider();             
+        if(count($filter)>0)
         {
             echo '<button class="filter-button pull-left active" type="submit" >Filter <i class="fa fa-chevron-right"></i></button>';
-            echo '<button onclick="document.location = window.location.pathname;return false" class="filter-button pull-left"  >Clear Filter <i class="glyphicon glyphicon-remove"></i></button>';
+            echo '<button class="filter-button pull-left" name="clear_filter" value="1"  type="submit"  >Clear Filter <i class="glyphicon glyphicon-remove"></i></button>';
         }
         else
         {
@@ -92,6 +109,7 @@ class FilterWidget extends Widget{
     public function filterValuesList($code)
     {
         $arParam = $this->_arParamsInfo[$code];
+        $filter =$this->filter;
         $arValues = $this->_arValues[$arParam['id']];
         if(count($arValues)>0)
         {
@@ -104,7 +122,7 @@ class FilterWidget extends Widget{
                     foreach ($arValues as  $value) 
                     {
                         $checked = '';
-                        if(isset($this->params['filter'][$arParam['id']])&&in_array($value['value'],$this->params['filter'][$arParam['id']]))
+                        if(isset($filter[$arParam['id']])&&in_array($value['value'],$filter[$arParam['id']]))
                             $checked = 'checked';
                         echo '<li><label><input '.$checked.' name="filter['.$arParam['id'].'][]" value="'.$value['value'].'" class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; '.$value['value'].'</label> </li>';
                     }
@@ -119,7 +137,7 @@ class FilterWidget extends Widget{
                             if($listValue['code'] == $value['value'])
                             {
                                 $checked = '';
-                                if(isset($this->params['filter'][$arParam['id']])&&in_array($value['value'],$this->params['filter'][$arParam['id']]))
+                                if(isset($filter[$arParam['id']])&&in_array($value['value'],$filter[$arParam['id']]))
                                     $checked = 'checked';                               
                                 echo '<li><label><input '.$checked.' name="filter['.$arParam['id'].'][]" value="'.$value['value'].'" class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; '.$listValue['value'].'</label> </li>';                            
                             }                  
@@ -156,11 +174,11 @@ class FilterWidget extends Widget{
     public function rangeSlider()
     {
         $priceRange = $this->_arPrice;
-        $params=$this->params;
+        $filter=$this->filter;
         $arPrice = [];
-        if($params['filter']['price']!='')
+        if($filter['price']!='')
         {
-            $arPrice = explode(':',$params['filter']['price']);
+            $arPrice = explode(':',$filter['price']);
         }
         echo '<div class="category-label">';
             echo '<p>PRICE RANGE</p>';

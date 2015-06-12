@@ -15,6 +15,15 @@ $items = $dataProvider->getModels();
                 <p class="i-price"><?=$model->price?> р</p>
                 <p class="i-title"><a href="<?=Url::to(['detail', 'id' => $model->id]);?>"><?=$model->name.$model->id?></a></p>
                 <a class="i-add-cart-link" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
+                <?if($model->status=='new'):?>
+                    <div class="ribbon-cont">
+                        <div class="corner-ribbon top-right sticky green">NEW</div>
+                    </div>        
+                <?elseif($model->status=='top'):?>
+                    <div class="ribbon-cont">
+                        <div class="corner-ribbon top-right sticky orange">TOP</div>
+                    </div>                           
+                <?endif?>
 <!--                 <div class="ribbon-cont">
 <div class="corner-ribbon top-right sticky red">NEW</div>
 </div> -->
