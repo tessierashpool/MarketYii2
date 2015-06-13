@@ -77,7 +77,15 @@ class Statistic extends Model
         //SELECT  max( id ) + (SELECT max( id ) FROM `lists_to_parameters` ) FROM `items_parameters_value` 
     }   
 
-    public static function getAllItemsPriceRange(){
-        return Yii::$app->db->createCommand('SELECT  min(price) as min,max(price) as max FROM `items`')->queryOne();;
+    public static function getAllItemsPriceRange($category_id=[]){
+        if(count($category_id)>0)
+        {
+            $strCat = implode(',',$category_id);
+            return Yii::$app->db->createCommand('SELECT  min(price) as min,max(price) as max FROM `items` WHERE (`items`.`active`=1) AND (`items`.`category_id` IN ('.$strCat.'))')->queryOne();
+        }           
+        else
+        {
+            return Yii::$app->db->createCommand('SELECT  min(price) as min,max(price) as max FROM `items` WHERE `items`.`active`=1')->queryOne();            
+        }            
     }    
 }

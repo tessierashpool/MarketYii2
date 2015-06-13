@@ -140,97 +140,89 @@ MarketAsset::register($this);
         <div class="row">
             <div class="container">
                 <div class="row ">
-<!--                    <div class="col-sm-12  f-logo">
-    <p><span style="color:#FF9933">E</span>-SHOP</p>
-</div>   -->
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-12">
                         <div class="row  f-info hidden-xs">
-                            <div class="col-sm-1 "></div>
-                            <div class="col-sm-2 ">
-                                <p class="f-menu-title">Service</p>
-                                <p><a href="#">Online Help</a></p>
-                                <p><a href="#">Contact Us</a></p>
-                                <p><a href="#">Order Status</a></p>
-                                <p><a href="#">FAQ’s</a></p>
-                            </div>
-                            <div class="col-sm-2 "> 
-                                <p class="f-menu-title">Quock Shop</p>
-                                <p><a href="#">For Men</a></p>
-                                <p><a href="#">For Women</a></p>
-                                <p><a href="#">For Chilldren</a></p>
+                            <div class="col-md-6 ">
+                                <div class="row">
+                                    <div class="col-sm-12 ">
+                                        <p class="f-title">E-SHOP</p>
+                                    </div>  
+                                    <div class="col-sm-4 ">
+                                        <p class="f-menu-title">Service</p>
+                                        <p><a href="#">Online Help</a></p>
+                                        <p><a href="#">Contact Us</a></p>
+                                        <p><a href="#">Order Status</a></p>
+                                        <p><a href="#">FAQ’s</a></p>
+                                    </div>
+                                    <div class="col-sm-4 "> 
+                                        <p class="f-menu-title">Quock Shop</p>
+                                        <p><a href="#">For Men</a></p>
+                                        <p><a href="#">For Women</a></p>
+                                        <p><a href="#">For Chilldren</a></p>
 
-                            </div>
-                            <div class="col-sm-2 "> 
-                                <p class="f-menu-title">About US</p>
-                                <p><a href="#">Company Information</a></p>
-                                <p><a href="#">Store Location</a></p>
-                                <p><a href="#">Careers</a></p>
-                                <p><a href="#"></a></p>
-                            </div>
-                            <div class="col-sm-2 ">
-                                <img src="site_photos/dagmap.png" class="img-responsive" alt="Responsive image">    
-                             </div>
-                            <div class="col-sm-2 ">
-                                <address class="f-adress-cont">
-                                  <p class="f-menu-title">E-Shop, Inc.</p>
-                                 Republic Dagestan<br>
-                                  Mahachkala, CA 94107<br>
-                                  <abbr title="Phone">P:</abbr> (123) 456-7890
-                                </address>  
-                            </div>
-                            <div class="col-sm-1 "></div>
-                            
-                        </div>
-                        <div class="row f-info f-info-m  hidden-lg hidden-md hidden-sm">
-                            <div class="col-sm-1 "></div>
-                            <div class="col-xs-12">
-                                <p class="f-menu-title">Service</p>
-                                <p><a href="#">Online Help</a></p>
-                                <p><a href="#">Contact Us</a></p>
-                                <p><a href="#">Order Status</a></p>
-                                <p><a href="#">FAQ’s</a></p>
-                            </div>
-                            <div class="col-xs-12"> 
-                                <p class="f-menu-title">Quock Shop</p>
-                                <p><a href="#">For Men</a></p>
-                                <p><a href="#">For Women</a></p>
-                                <p><a href="#">For Chilldren</a></p>
+                                    </div>
+                                    <div class="col-sm-4 "> 
+                                        <p class="f-menu-title">About US</p>
+                                        <p><a href="#">Company Information</a></p>
+                                        <p><a href="#">Store Location</a></p>
+                                        <p><a href="#">Careers</a></p>
+                                        <p><a href="#"></a></p>
+                                    </div>  
+                                </div>  
+                            </div>  
+                            <div class="col-md-6">
+                                <div class="row inst-cont ">
+                                    <div class="col-sm-12 ">
+                                        <p class="f-title">INSTAGRAM FEED</p>
+                                    </div>  
+                                    <div class="col-sm-4 col-xs-6"><img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image"></div>
+                                    <div class="col-sm-4 col-xs-6"><img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image"></div>
+                                    <div class="col-sm-4 col-xs-6"><img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image"></div>                                
+                                </div>
+                            </div>                                                  
+                        </div>  
+                        <div class="row  f-info hidden-lg hidden-md hidden-sm" style="text-align:center">
+                            <div class="col-md-6 " >
+                                <div class="row" >
+                                    <div class="col-sm-12 ">
+                                        <p class="f-title">E-SHOP</p>
+                                    </div>  
+                                    <div class="col-sm-4 ">
+                                        <p class="f-menu-title">Service</p>
+                                        <p><a href="#">Online Help</a></p>
+                                        <p><a href="#">Contact Us</a></p>
+                                        <p><a href="#">Order Status</a></p>
+                                        <p><a href="#">FAQ’s</a></p>
+                                    </div>
+                                    <div class="col-sm-4 "> 
+                                        <p class="f-menu-title">Quock Shop</p>
+                                        <p><a href="#">For Men</a></p>
+                                        <p><a href="#">For Women</a></p>
+                                        <p><a href="#">For Chilldren</a></p>
 
-                            </div>
-                            <div class="col-xs-12"> 
-                                <p class="f-menu-title">About US</p>
-                                <p><a href="#">Company Information</a></p>
-                                <p><a href="#">Store Location</a></p>
-                                <p><a href="#">Careers</a></p>
-                                <p><a href="#"></a></p>
-                            </div>
-                            <div class="col-xs-12">
-                                <address class="f-adress-cont">
-                                 E-Shop, Inc. Republic Dagestan<br>
-                                  Mahachkala, CA 94107<br>
-                                  <abbr title="Phone">P:</abbr> (123) 456-7890
-                                </address>  
-                            </div>
-                            <div class="col-sm-1 "></div>
-                            
-                        </div>                      
-                    </div>
+                                    </div>
+                                    <div class="col-sm-4 "> 
+                                        <p class="f-menu-title">About US</p>
+                                        <p><a href="#">Company Information</a></p>
+                                        <p><a href="#">Store Location</a></p>
+                                        <p><a href="#">Careers</a></p>
+                                        <p><a href="#"></a></p>
+                                    </div>  
+                                </div>  
+                            </div>  <br>
+                            <div class="col-md-6">
+                                <div class="row inst-cont ">
+                                    <div class="col-sm-12 ">
+                                        <p class="f-title">INSTAGRAM FEED</p>
+                                    </div>  
+                                    <div class="col-xs-3"></div>                            
+                                    <div class="col-xs-6"><img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image"></div>                         
+                                </div>
+                            </div>                                                  
+                        </div>                                  
+                    </div>              
                     <div class="col-sm-1"></div>
-
-                    <div class="col-sm-2"></div>    
-                    <div class="col-sm-8">
-                        <div class="row">
-                            <div class="footer-separator"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-2"></div>    
-
-                    <div class="col-sm-12 inst-cont">
-                        <p>Instagram</p>
-                    </div>                  
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
+                    <!-- <div class="col-sm-10">
                         <div class="row inst-cont ">
                             <div class="col-sm-1 "></div>
                             <div class="col-sm-2 col-xs-6"><img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image"></div>
@@ -241,11 +233,12 @@ MarketAsset::register($this);
                             <div class="col-sm-1 "></div>
                             
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-sm-1"></div>
                 </div>
             </div>
         </div>
+        <div class="footer-footer"></div>
     </div>
 <?php $this->endBody() ?>   
 </body>

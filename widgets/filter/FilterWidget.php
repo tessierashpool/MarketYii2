@@ -21,6 +21,30 @@ class FilterWidget extends Widget{
     public $filter = [];
     
     public function init(){
+        $params = Yii::$app->request->get();
+        if(count($params['filter'])>0)
+        {
+            $this->filter = $params['filter'];
+        } 
+        $this->_arCategories = Categories::getAllChildsByCode($params['c']);
+        $this->_arParamsInfo = $this->getParamInfoWithCodeKey(); 
+        $this->_arValues = $this->getValuesWithIdKey(); 
+        $this->_arPrice = $this->getPriceRange(); 
+        $this->registerAssets();
+    }
+    
+    public function run()
+    {
+        $this->filterForm();
+    }
+
+    public function getPriceRange()
+    {
+        return Statistic::getAllItemsPriceRange($this->_arCategories);
+    }
+
+    public function saveFilterInSession()
+    {
         $session = Yii::$app->session;
 
         $params = Yii::$app->request->post();
@@ -36,16 +60,6 @@ class FilterWidget extends Widget{
         }            
         if($session->has('filter'))
             $this->filter = $session->get('filter');
-        $this->_arCategories = Categories::getAllChilds($this->cid);
-        $this->_arParamsInfo = $this->getParamInfoWithCodeKey(); 
-        $this->_arValues = $this->getValuesWithIdKey(); 
-        $this->_arPrice = Statistic::getAllItemsPriceRange(); 
-        $this->registerAssets();
-    }
-    
-    public function run()
-    {
-        $this->filterForm();
     }
 
     public function getParamInfoWithCodeKey()
@@ -60,16 +74,19 @@ class FilterWidget extends Widget{
 
     public function getValuesWithIdKey()
     {
+        $params = Yii::$app->request->get();
+        $category_id = Categories::getIdByCode($params['c']);
         $cache = Yii::$app->cache;
         $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT  max( id ) + (SELECT max( id ) FROM `lists_to_parameters` ) FROM `i_parameters_search`']);
-        $arResult = $cache->get('stat_filter_val');
+        //$cache->flush();
+        $arResult = $cache->get('stat_filter_val_'.$category_id);
         if ($arResult === false) {
             $arTmp = Statistic::getAllParametersValuesInCategory($this->_arCategories);
             $arResult = [];
             foreach ($arTmp as $key => $value) {
                 $arResult[$value['parameter_id']][] = $value;
             }
-            $cache->set('stat_filter_val', $arResult,60*60*24*7,$dependency);
+            $cache->set('stat_filter_val_'.$category_id, $arResult,60*60*24*7,$dependency);
         }
         return $arResult;
     }
@@ -79,14 +96,17 @@ class FilterWidget extends Widget{
         $filter=$this->filter;
         $csrfParam = Yii::$app->request->csrfParam;
         $csrfToken = Yii::$app->request->csrfToken;          
-        echo '<form method="POST" action="">';
-        echo '<input name="'.$csrfParam.'" value="'.$csrfToken.'" type="hidden">';
+        echo '<form method="GET" action="">';
+        if(Yii::$app->request->get('c')!='')
+            echo '<input name="c" value="'.Yii::$app->request->get('c').'" type="hidden">';
+
+        //echo '<input name="'.$csrfParam.'" value="'.$csrfToken.'" type="hidden">';
         $this->getFilters();        
         $this->rangeSlider();             
         if(count($filter)>0)
         {
             echo '<button class="filter-button pull-left active" type="submit" >Filter <i class="fa fa-chevron-right"></i></button>';
-            echo '<button class="filter-button pull-left" name="clear_filter" value="1"  type="submit"  >Clear Filter <i class="glyphicon glyphicon-remove"></i></button>';
+            echo '<button class="filter-button pull-left" name="clear_filter" onclick="goTo(\''.Url::current(['filter'=>null]).'\');return false;"  >Clear Filter <i class="glyphicon glyphicon-remove"></i></button>';
         }
         else
         {
@@ -219,9 +239,9 @@ class FilterWidget extends Widget{
     }
     //Scale slider after document ready
     RangeSlider();
-    function urlTest(url){
+    function goTo(url){
         var price = $('#price_left').val()+':'+$('#price_right').val()
-        document.location = window.location.pathname;
+        document.location = url;
         return false;
     }                                    
     //Scale slider while window load/resize/orientationchange.

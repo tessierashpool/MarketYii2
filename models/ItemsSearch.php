@@ -56,12 +56,17 @@ class ItemsSearch extends Items
         $this->load($params);
         $session = Yii::$app->session;
         $filter =[];
-        if($session->has('filter'))
-            $filter = $session->get('filter');
+/*        if($session->has('filter'))
+            $filter = $session->get('filter');*/
+        if(count($params['filter'])>0)   
+            $filter = $params['filter'];
 
         //Filter by selected category
         if(Yii::$app->request->get('category_id')>0)
             $arCategories = Categories::getAllChilds(Yii::$app->request->get('category_id'));
+        elseif (Yii::$app->request->get('c')!='') {
+            $arCategories = Categories::getAllChildsByCode(Yii::$app->request->get('c'));
+        }
         else
             $arCategories = [];
 

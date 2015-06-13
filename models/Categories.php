@@ -21,6 +21,7 @@ use yii\helpers\ArrayHelper;
  */
 class Categories extends ActiveRecord
 {
+    public static $list = [];
     public function behaviors()
     {
         return [
@@ -227,8 +228,53 @@ class Categories extends ActiveRecord
     {
         if($id=='')
             return [];
-        $arQuery = Yii::$app->db->createCommand('SELECT id, parent_id, depth FROM '.Categories::tableName())
+        $arQuery = self::getList();
+        $arQuery = ArrayHelper::map($arQuery,'id','depth','parent_id');             
+        $result = self::categoriesArray($arQuery,$id);
+        return $result;
+    }
+
+    public static function getList()
+    {
+        if(count(self::$list)>0)
+        {
+           return self::$list; 
+        }            
+        else
+        {
+            self::$list = $arQuery = Yii::$app->db->createCommand('SELECT * FROM '.self::tableName())
                      ->queryAll();
+            return self::$list;
+        }
+    }
+
+    public static function getIdByCode($code)
+    {
+        if($code=='')
+            return 0;
+        $arQuery = self::getList();
+        $id = 0;             
+        foreach($arQuery as $cat){
+            if($cat['code']==$code)
+            {
+                $id = $cat['id'];
+                break;
+            }
+        }
+        return $id;
+    }
+
+    public static function getAllChildsByCode($code)
+    {
+        if($code=='')
+            return [];
+
+        $arQuery = self::getList();
+        $id = self::getIdByCode($code); 
+
+        if($id==0)
+            return [];   
+
         $arQuery = ArrayHelper::map($arQuery,'id','depth','parent_id');             
         $result = self::categoriesArray($arQuery,$id);
         return $result;

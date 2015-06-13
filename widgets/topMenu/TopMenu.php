@@ -50,60 +50,71 @@ class TopMenu extends Widget{
 
     public function run()
     {
-        $this->generateMenu();
+        return $this->generateMenu();
     }
     function generateMenu(){
-        $cat =  $this->_arCategories;
-        $menu = '';
-        $menu .= '<ul  class=" pull-left">';
-        foreach($cat as $k1=>$c)
-        {
-            $menu .= '<li ><a class="menu-link" href="#">'.$c['name'].' <i class="fa fa-angle-down"></i></a>';
-            $menu .= '<div class="submenu">';
-            $menu .= '<div class="submenu-left pull-left">';            
-            $counter = 1;
-            if(count($c['sub'])>0)
+        $cache = Yii::$app->cache;
+        $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM `categories`']);
+        $menu = $cache->get('menu');
+        if ($menu === false) {
+            $cat =  $this->_arCategories;
+            $menu = '';
+            $menu .= '<ul  class=" pull-left">';
+            foreach($cat as $k1=>$c)
             {
-                $menu .= '<ul 11>';
-                foreach($c['sub'] as $k2=>$sc)
+                $menu .= '<li ><a class="menu-link" href="'.Url::to(['', 'c' => $c['code']]).'">'.$c['name'].' <i class="fa fa-angle-down"></i></a>';
+                $menu .= '<div class="submenu">';
+                $menu .= '<div class="submenu-left pull-left">';            
+                $counter = 1;
+                if(count($c['sub'])>0)
                 {
-                    $active = '';
-                    if($counter==1)
-                        $active = 'sub-first-link active';
-                    $menu .= '<li><a href="#" data-num="'.$counter.'" class="'.$active.'">'.$sc['name'].' <i class="fa fa-angle-right"></i></a></li>';
-                    $counter++;
-                }
-                $menu .= '</ul >';
-            }            
-            $menu .= '</div>';
-            $menu .= '<div class="submenu-right pull-left">';
-            $counter = 1;
-            if(count($c['sub'])>0)
-            {
-                foreach($c['sub'] as $k2=>$sc)
-                {
-                    $active = '';
-                    if($counter==1)
-                        $active = 'active';
-
-                    $menu .= '<ul class="sub-sub-menu sub-sub-menu-'.$counter.' '.$active.'">';
-                    $counter++;
-                    if(count($sc['sub'])>0)
+                    $menu .= '<ul 11>';
+                    foreach($c['sub'] as $k2=>$sc)
                     {
-                        foreach($sc['sub'] as $k3=>$ssc)
-                        {
-                            $menu .= '<li><a  href="#"><span>'.$ssc['name'].'</span> </a></li>';
-                        }
+                        $active = '';
+                        if($counter==1)
+                            $active = 'sub-first-link active';
+
+                        $arrow = '';
+                        if(count($sc['sub'])>0)
+                            $arrow = '<i class="fa fa-angle-right"></i>';
+                        $menu .= '<li><a href="'.Url::to(['', 'c' => $sc['code']]).'" data-num="'.$counter.'" class="'.$active.'">'.$sc['name'].' '.$arrow.'</a></li>';
+                        $counter++;
                     }
-                    $menu .= '</ul>';
+                    $menu .= '</ul >';
+                }            
+                $menu .= '</div>';
+                $menu .= '<div class="submenu-right pull-left">';
+                $counter = 1;
+                if(count($c['sub'])>0)
+                {
+                    foreach($c['sub'] as $k2=>$sc)
+                    {
+                        $active = '';
+                        if($counter==1)
+                            $active = 'active';
+
+                        $menu .= '<ul class="sub-sub-menu sub-sub-menu-'.$counter.' '.$active.'">';
+                        $counter++;
+                        if(count($sc['sub'])>0)
+                        {
+                            foreach($sc['sub'] as $k3=>$ssc)
+                            {
+                                $menu .= '<li><a  href="'.Url::to(['', 'c' => $ssc['code']]).'"><span>'.$ssc['name'].'</span> </a></li>';
+                            }
+                        }
+                        $menu .= '</ul>';
+                    }
                 }
+                $menu .= '</div>';
+                $menu .= '</div>';
+                $menu .= '</li>';
             }
-            $menu .= '</div>';
-            $menu .= '</div>';
-            $menu .= '</li>';
+            $menu .= '</ul>';
+            $cache->set('menu', $menu,60*60*24*7,$dependency);
         }
-        $menu .= '</ul>';
-        echo $menu;            
+        
+        return $menu;            
     }
     public function registerAssets()
     {
