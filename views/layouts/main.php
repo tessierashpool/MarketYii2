@@ -26,13 +26,13 @@ MarketAsset::register($this);
 <?php $this->beginBody() ?>
     <div class="container hidden-xs">
         <div class="row">
-            <div class="col-sm-6">  
+            <div class="col-sm-5">  
                 <a href="<?=Yii::$app->homeUrl?>">           
                 <div class="logo pull-left"></div>
-                <p class="shop-name pull-left"><span style="color:#FF9933">E</span>-SHOP</p>    
+                <p class="shop-name pull-left">E-SHOP</p>    
                 </a>             
             </div>
-            <div class="col-sm-6">              
+            <div class="col-sm-7">              
                 <p class="pull-right header-menu"> 
                     <a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -136,12 +136,12 @@ MarketAsset::register($this);
                     
                         <?= $content ?>
      
-    <div class="container-fluid footer">
+    <div class="container-fluid footer-fluid">
         <div class="row">
-            <div class="container">
+            <div class="container footer">
                 <div class="row ">
                     <div class="col-sm-12">
-                        <div class="row  f-info hidden-xs">
+                        <div class="row  f-info hidden-sm hidden-xs">
                             <div class="col-md-6 ">
                                 <div class="row">
                                     <div class="col-sm-12 ">
@@ -175,13 +175,23 @@ MarketAsset::register($this);
                                     <div class="col-sm-12 ">
                                         <p class="f-title">INSTAGRAM FEED</p>
                                     </div>  
-                                    <div class="col-sm-4 col-xs-6"><img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image"></div>
-                                    <div class="col-sm-4 col-xs-6"><img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image"></div>
-                                    <div class="col-sm-4 col-xs-6"><img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image"></div>                                
+                                    <div class="col-sm-12 ">
+                                    <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">
+                                    <img class="hidden-md" src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
+                                    <div style="clear:both"></div>              
+                                    <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
+                                    <img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                    <img class="hidden-md" src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
+                                    </div>
                                 </div>
                             </div>                                                  
                         </div>  
-                        <div class="row  f-info hidden-lg hidden-md hidden-sm" style="text-align:center">
+                        <div class="row  f-info hidden-lg hidden-md" style="text-align:center">
                             <div class="col-md-6 " >
                                 <div class="row" >
                                     <div class="col-sm-12 ">
@@ -212,11 +222,28 @@ MarketAsset::register($this);
                             </div>  <br>
                             <div class="col-md-6">
                                 <div class="row inst-cont ">
-                                    <div class="col-sm-12 ">
+                                    <div class="col-xs-12 ">
                                         <p class="f-title">INSTAGRAM FEED</p>
                                     </div>  
-                                    <div class="col-xs-3"></div>                            
-                                    <div class="col-xs-6"><img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image"></div>                         
+                                    <div class="col-xs-12 ">
+                                        <div class="center-block hidden-xs" style="max-width:600px">
+                                        <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">            
+                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
+                                        <img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
+                                        </div>
+
+                                        <div class="center-block hidden-sm" style="max-width:200px">
+                                        <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">            
+                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
+                                        <img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
+                                        </div>                                        
+                                    </div>                        
                                 </div>
                             </div>                                                  
                         </div>                                  
@@ -236,9 +263,10 @@ MarketAsset::register($this);
                     </div> -->
                     <div class="col-sm-1"></div>
                 </div>
+                <div class="footer-footer"></div>
             </div>
         </div>
-        <div class="footer-footer"></div>
+        
     </div>
 <?php $this->endBody() ?>   
 </body>
