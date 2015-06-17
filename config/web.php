@@ -115,7 +115,7 @@ $config = [
 			'defaultRoles' => ['guest'],
 		],	
     ],
-	'language' => 'ru',
+	//'language' => 'ru',
     'params' => $params,
 ];
 

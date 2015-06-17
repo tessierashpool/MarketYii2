@@ -56,7 +56,7 @@ class SiteController extends Controller
         $searchModel = new ItemsSearch();
         $statistic = new Statistic();
         //var_dump(Statistic::getAllParametersValuesInCategory());
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,true,9);        
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,true,12);        
         return $this->render('index',[
             'dataProvider'=>$dataProvider
         ]);

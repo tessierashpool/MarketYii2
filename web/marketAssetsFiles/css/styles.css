@@ -181,6 +181,24 @@
  	display: block!important;
 }
 /*---------------Top menu end---------------*/
+.category-title h2{
+	margin-top: 3px;
+	padding-bottom: 9px;
+	border-bottom: 1px dotted #eee;
+	font-family: "Roboto",sans-serif;
+	margin-bottom: 0px;
+	color: #FF9933;
+}
+.category-title p{
+	border-bottom: 1px dotted #eee;
+	display: block;
+	font-family: "Roboto",sans-serif;
+	font-weight: lighter;
+	color: #bbb;
+	margin-top: 9px;
+	padding-bottom: 11px;
+	font-size: 14px;
+}
 .header-menu{
 	line-height: 70px;
 	padding-top: 5px;
@@ -206,7 +224,7 @@
 .left-menu-cont{
 	margin-right: 0px;
 }
-.left-menu-cont label{
+.left-menu-cont label, .mobile-left-menu-cont label{
 	font-size: 14px;
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 	font-weight: lighter;
@@ -242,6 +260,10 @@
 	top: 1px;
 	color: #fff;
 }
+.mobile-left-menu-cont{
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
 .left-menu-cont ul, .mobile-left-menu-cont ul{
 	list-style-type:none;
 	margin : 0;
@@ -267,9 +289,7 @@
 .left-menu-cont a:hover, .mobile-left-menu-cont a:hover{
 	color: #FF9933;
 }
-.mobile-left-menu-cont{
 
-}
 .category-label{
 	width: 100%;
 	border: 1px solid #eee;
@@ -584,6 +604,9 @@ a.i-add-cart-link:hover{
 .range-slider-cont{
 	margin-top: 25px;
 	margin-bottom: 40px;
+}
+.range-slider-cont-m{
+	margin-bottom: 20px;	
 }
 
 .range-info-cont{
@@ -935,7 +958,9 @@ p.d-price .old-price{
 }
 
 .breadcrumb-cont{
-	margin-bottom: -30px;
+	height: 30px;
+	margin-top: 1px;
+	margin-bottom: -31px;
 }
 .detail-content  .table {
 	font-family: "Roboto",sans-serif;	

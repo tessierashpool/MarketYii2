@@ -63,9 +63,9 @@ MarketAsset::register($this);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand mobile-header" href="#">
+                  <a class="navbar-brand mobile-header" href="<?=Yii::$app->homeUrl?>">
                     <div class="logo pull-left"></div>                  
-                    <span class="pull-right shop-name"><span style="color:#FF9933">E</span>-SHOP</span>
+                    <span class="pull-right shop-name">E-SHOP</span>
                   </a>
   
                 </div>

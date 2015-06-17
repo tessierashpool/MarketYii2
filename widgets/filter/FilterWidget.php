@@ -13,12 +13,14 @@ use Yii;
 class FilterWidget extends Widget{
 
     public $cid = '';
-    private $_arCategories = [];
-    private $_arValues = [];
-    private $_arPrice = [];
-    private $_arParamsInfo = [];
+    private static $_arCategories = [];
+    private static $_arValues = [];
+    private static $_arPrice = [];
+    private static $_arParamsInfo = [];
     public $arParams = ['brand','color','size'];
     public $filter = [];
+    public $mobile = false;
+
     
     public function init(){
         $params = Yii::$app->request->get();
@@ -26,21 +28,28 @@ class FilterWidget extends Widget{
         {
             $this->filter = $params['filter'];
         } 
-        $this->_arCategories = Categories::getAllChildsByCode($params['c']);
-        $this->_arParamsInfo = $this->getParamInfoWithCodeKey(); 
-        $this->_arValues = $this->getValuesWithIdKey(); 
-        $this->_arPrice = $this->getPriceRange(); 
+        if(empty(self::$_arCategories))
+            self::$_arCategories = Categories::getAllChildsByCode($params['c']);
+        if(empty(self::$_arParamsInfo))
+            self::$_arParamsInfo = $this->getParamInfoWithCodeKey(); 
+        if(empty(self::$_arValues))
+            self::$_arValues = $this->getValuesWithIdKey(); 
+        if(empty(self::$_arPrice))
+            self::$_arPrice = $this->getPriceRange(); 
         $this->registerAssets();
     }
     
     public function run()
     {
-        $this->filterForm();
+        if($this->mobile)
+            $this->filterMobileForm();
+        else
+            $this->filterForm();
     }
 
     public function getPriceRange()
     {
-        return Statistic::getAllItemsPriceRange($this->_arCategories);
+        return Statistic::getAllItemsPriceRange(self::$_arCategories);
     }
 
     public function saveFilterInSession()
@@ -81,7 +90,7 @@ class FilterWidget extends Widget{
         //$cache->flush();
         $arResult = $cache->get('stat_filter_val_'.$category_id);
         if ($arResult === false) {
-            $arTmp = Statistic::getAllParametersValuesInCategory($this->_arCategories);
+            $arTmp = Statistic::getAllParametersValuesInCategory(self::$_arCategories);
             $arResult = [];
             foreach ($arTmp as $key => $value) {
                 $arResult[$value['parameter_id']][] = $value;
@@ -116,6 +125,34 @@ class FilterWidget extends Widget{
         echo '</div>';  
         echo '</form>';
     }
+
+    /*Filter form*/
+    public function filterMobileForm(){
+        $filter=$this->filter;
+        $csrfParam = Yii::$app->request->csrfParam;
+        $csrfToken = Yii::$app->request->csrfToken;          
+        echo '<form method="GET" action="">';
+        if(Yii::$app->request->get('c')!='')
+            echo '<input name="c" value="'.Yii::$app->request->get('c').'" type="hidden">';
+
+        //echo '<input name="'.$csrfParam.'" value="'.$csrfToken.'" type="hidden">';
+        $this->getFilters();        
+        $this->rangeSlider();  
+        echo '</div>';            
+        if(count($filter)>0)
+        {
+            echo '<button class="filter-button pull-left active" type="submit" >Filter <i class="fa fa-chevron-right"></i></button>';
+            echo '<button class="filter-button pull-left" name="clear_filter" onclick="goTo(\''.Url::current(['filter'=>null]).'\');return false;"  >Clear Filter <i class="glyphicon glyphicon-remove"></i></button>';
+        }
+        else
+        {
+            echo '<button class="filter-button pull-left" type="submit" >Filter <i class="fa fa-chevron-right"></i></button>';
+        } 
+        echo '<div style="clear:both"></div>';
+         
+        echo '</form>';
+    }
+
     /*Filter form*/
     public function getFilters()
     {
@@ -128,15 +165,26 @@ class FilterWidget extends Widget{
     /*Generate filter for selected parameter*/
     public function filterValuesList($code)
     {
-        $arParam = $this->_arParamsInfo[$code];
+        $arParam = self::$_arParamsInfo[$code];
         $filter =$this->filter;
-        $arValues = $this->_arValues[$arParam['id']];
+        $arValues = self::$_arValues[$arParam['id']];
         if(count($arValues)>0)
         {
-            echo '<div class="category-label">';
-                echo '<p>'.$arParam['name'].'</p>';
-            echo '</div>';
-            echo '<ul>';
+            if($this->mobile)
+            {
+                echo '<div class="category-label category-label-m">';
+                    echo '<p data-toggle="collapse" href="#collapse'.$arParam['code'].'" aria-expanded="false" aria-controls="collapse'.$arParam['code'].'" >'.$arParam['name'].' <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span></p>';
+                echo '</div>';
+                echo '<ul class="collapse collapse-category" id="collapse'.$arParam['code'].'">';
+            }
+            else
+            {
+                echo '<div class="category-label">';
+                    echo '<p>'.$arParam['name'].'</p>';
+                echo '</div>';
+                echo '<ul>';                
+            }
+
                 if($arParam['type']!='list')
                 {
                     foreach ($arValues as  $value) 
@@ -178,7 +226,7 @@ class FilterWidget extends Widget{
         echo '<ul>';
             foreach($this->_arColor['valuesList'] as $color)
             {
-                foreach ($this->_arValues as $key => $value) {
+                foreach (self::$_arValues as $key => $value) {
                     if($value['parameter_id']==$this->_arColor['id']&&$value['value']==$color['code'])
                     {
                         echo '<li><label><input name="filter[color]" value="'.$color['code'].'" class="filter-checkbox" type="checkbox"><span class="filter-checkbox-simul"><i class="glyphicon glyphicon-ok"></i></span>&nbsp; '.$color['value'].'</label> </li>';
@@ -193,17 +241,28 @@ class FilterWidget extends Widget{
     /*Price Range Slider*/
     public function rangeSlider()
     {
-        $priceRange = $this->_arPrice;
+        $priceRange = self::$_arPrice;
         $filter=$this->filter;
         $arPrice = [];
         if($filter['price']!='')
         {
             $arPrice = explode(':',$filter['price']);
         }
-        echo '<div class="category-label">';
-            echo '<p>PRICE RANGE</p>';
-        echo '</div>';         
-        echo '<div class="range-slider-cont">';
+
+        if($this->mobile)
+        {
+            echo '<div class="category-label category-label-m">';
+                echo '<p data-toggle="collapse" href="#collapsePriceRange" aria-expanded="false" aria-controls="collapsePriceRange">PRICE RANGE <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span></p>';
+            echo '</div>'; 
+            echo '<div class="range-slider-cont range-slider-cont-m collapse collapse-category" id="collapsePriceRange">'; 
+        }
+        else
+        {
+            echo '<div class="category-label">';
+                echo '<p>PRICE RANGE</p>';
+            echo '</div>'; 
+            echo '<div class="range-slider-cont">';            
+        }                
             if(count($arPrice)>0)
                 echo '<div class="nstSlider" data-range_min="'.$priceRange['min'].'" data-range_max="'.$priceRange['max'].'" data-cur_min="'.$arPrice[0].'" data-cur_max="'.$arPrice[1].'">';
             else
@@ -249,7 +308,19 @@ class FilterWidget extends Widget{
     $(window).bind("resize", RangeSlider);
     $(window).bind("orientationchange", RangeSlider);  
 JS;
+
+        $registerFunctionMobile = <<< JS
+    $('.collapse-category').on('hide.bs.collapse', function () {
+        $(this).prev('div').find('i').removeClass().addClass('glyphicon glyphicon-plus');
+    });
+    $('.collapse-category').on('show.bs.collapse', function () {
+        $(this).prev('div').find('i').removeClass().addClass('glyphicon glyphicon-minus');
+    });  
+    $("#collapsePriceRange").collapse('show');
+JS;
         $view->registerJs($registerFunction,yii\web\View::POS_END);
+        if($this->mobile)
+            $view->registerJs($registerFunctionMobile,yii\web\View::POS_READY);
     }
 
     public static function currentPageWithParams($arAddParams=array(),$arDelParams=array())

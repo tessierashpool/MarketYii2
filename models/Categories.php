@@ -22,6 +22,7 @@ use yii\helpers\ArrayHelper;
 class Categories extends ActiveRecord
 {
     public static $list = [];
+    public static $currentCategory = [];
     public function behaviors()
     {
         return [
@@ -221,7 +222,54 @@ class Categories extends ActiveRecord
 
     public function getTree()
     {
-        return $this->find()->select(['id','name','depth','parent_id','code'])->asArray()->orderBy('order ASC')->all();
+        return self::getList();
+    }
+
+    public static function getCategoryByCode($code)
+    {
+        if(count(self::$currentCategory)>0)
+            return self::$currentCategory;
+        else
+        {
+            $list = self::getList();
+            $category = $list[self::getIdByCode($code)];
+            return self::$currentCategory = $category;
+        }
+        
+    }
+
+    public static function getCategoryTitle($code)
+    {
+        $category = self::getCategoryByCode($code);
+        return $category['name'];
+    }
+    public static function getCategoryDescription($code)
+    {
+        $category = self::getCategoryByCode($code);
+        return $category['description'];
+    }
+
+    public static function getBreadcrumbsArray($code)
+    {
+        $category = self::getCategoryByCode($code);
+        $list = self::getList();
+        $arBreadcrumbs = [];
+        if($category['depth']==2)
+        {
+            $arBreadcrumbs[]= $list[$list[$category['parent_id']]['parent_id']];
+            $arBreadcrumbs[]= $list[$category['parent_id']];
+            $arBreadcrumbs[]= $category;
+        }
+        elseif($category['depth']==1)
+        {
+            $arBreadcrumbs[]= $list[$category['parent_id']];
+            $arBreadcrumbs[]= $category;
+        }
+        else
+        {
+            $arBreadcrumbs[]= $category;
+        }
+        return $arBreadcrumbs;
     }
 
     public static function getAllChilds($id)
@@ -242,8 +290,13 @@ class Categories extends ActiveRecord
         }            
         else
         {
-            self::$list = $arQuery = Yii::$app->db->createCommand('SELECT * FROM '.self::tableName())
+            $arQ = $arQuery = Yii::$app->db->createCommand('SELECT * FROM '.self::tableName().' ORDER BY `order` ASC')
                      ->queryAll();
+            $arTmp = [];         
+            foreach($arQ as $category){
+                $arTmp[$category['id']]=$category;
+            }         
+            self::$list = $arTmp;
             return self::$list;
         }
     }

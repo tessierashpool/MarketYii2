@@ -1,47 +1,69 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Url;
+use app\models\Categories;
+use app\widgets\filter\FilterWidget;
 $this->title = 'E-SHOP';
-$this->registerJs("
-    jQuery(document).ready(function ($) {
-        var options = {
-            \$AutoPlay: true,
-            \$SlideDuration: 1000,
-            \$AutoPlayInterval: 4000,
-            \$BulletNavigatorOptions: {
-                \$Class: \$JssorBulletNavigator$,
-                \$ChanceToShow: 2,
-                \$AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
-                \$Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
-                \$Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
-                \$SpacingX: 10,                                  //[Optional] Horizontal space between each item in pixel, default value is 0
-                \$SpacingY: 10,                                  //[Optional] Vertical space between each item in pixel, default value is 0
-                \$Orientation: 1                  
-            }
-        };                          
-        var jssor_slider1 = new \$JssorSlider$('slider1_container', options);
 
-        //responsive code begin
-        //you can remove responsive code if you don't want the slider scales
-        //while window resizes
-        function ScaleSlider() {
-            var parentWidth = $('#slider1_container').parent().width();
-            if (parentWidth) {
-                jssor_slider1.\$ScaleWidth(parentWidth);
-            }
-            else
-                window.setTimeout(ScaleSlider, 30);
-        }
-        //Scale slider after document ready
-        ScaleSlider();
-                                        
-        //Scale slider while window load/resize/orientationchange.
-        $(window).bind('load', ScaleSlider);
-        $(window).bind('resize', ScaleSlider);
-        $(window).bind('orientationchange', ScaleSlider);
-        //responsive code end
-    });",\yii\web\View::POS_BEGIN);
-?>
+if(($code = Yii::$app->request->get('c'))!='')
+{
+    $arB = Categories::getBreadcrumbsArray($code);
+    foreach($arB as $cat)
+    {
+        $this->params['breadcrumbs'][] = ['label' => $cat['name'], 'url' => Url::to(['', 'c' => $cat['code']])];
+    }
+}
+?>    
+
+                        <?if($code!=''):?>
+                        <div class="category-title">
+                            <h2><?=Categories::getCategoryTitle($code);?></h2>
+                            <p><?=Categories::getCategoryDescription($code);?></p>
+                        </div>
+                        <div class="visible-xs-12  hidden-lg hidden-md hidden-sm" style="margin-bottom:50px"> 
+                        </div>                        
+                        <?else:?>
+                        <?
+                            $this->registerJs("
+                                jQuery(document).ready(function ($) {
+                                    var options = {
+                                        \$AutoPlay: true,
+                                        \$SlideDuration: 1000,
+                                        \$AutoPlayInterval: 4000,
+                                        \$BulletNavigatorOptions: {
+                                            \$Class: \$JssorBulletNavigator$,
+                                            \$ChanceToShow: 2,
+                                            \$AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                                            \$Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                                            \$Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
+                                            \$SpacingX: 10,                                  //[Optional] Horizontal space between each item in pixel, default value is 0
+                                            \$SpacingY: 10,                                  //[Optional] Vertical space between each item in pixel, default value is 0
+                                            \$Orientation: 1                  
+                                        }
+                                    };                          
+                                    var jssor_slider1 = new \$JssorSlider$('slider1_container', options);
+
+                                    //responsive code begin
+                                    //you can remove responsive code if you don't want the slider scales
+                                    //while window resizes
+                                    function ScaleSlider() {
+                                        var parentWidth = $('#slider1_container').parent().width();
+                                        if (parentWidth) {
+                                            jssor_slider1.\$ScaleWidth(parentWidth);
+                                        }
+                                        else
+                                            window.setTimeout(ScaleSlider, 30);
+                                    }
+                                    //Scale slider after document ready
+                                    ScaleSlider();
+                                                                    
+                                    //Scale slider while window load/resize/orientationchange.
+                                    $(window).bind('load', ScaleSlider);
+                                    $(window).bind('resize', ScaleSlider);
+                                    $(window).bind('orientationchange', ScaleSlider);
+                                    //responsive code end
+                                });",\yii\web\View::POS_BEGIN);
+                        ?>
                         <div class="main-content-banner hidden-xs">
                             <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 848px; height: 400px; overflow: hidden;">
                                 <!-- Slides Container -->
@@ -117,9 +139,9 @@ $this->registerJs("
                                     </div>
                                     <!-- Bullet Navigator Skin End -->
                                 <!-- Trigger -->
-                                <script>jssor_slider1_starter('slider1_container');</script>
                             </div>
                         </div>
+
                         <div class="row main-cont-advert hidden-xs">
                             <div class="col-sm-6" >
                                 <div class=" advert-cont-m">
@@ -154,4 +176,11 @@ $this->registerJs("
                                 </div>
                             </div>
                         </div>
+                        <?endif;?>
+                        <div class="visible-xs-12  hidden-lg hidden-md hidden-sm" style="margin-top:-20px"> 
+                        </div>
+                        <div class="mobile-left-menu-cont visible-xs-12  hidden-lg hidden-md  "> 
+                            <?=FilterWidget::widget(['mobile'=>true]);?>    
+                            <!-- Range Slide End -->
+                        </div>                        
                         <?= $this->render('items_list',['dataProvider'=>$dataProvider]) ?>
