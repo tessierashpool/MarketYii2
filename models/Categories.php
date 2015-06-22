@@ -238,6 +238,19 @@ class Categories extends ActiveRecord
         
     }
 
+    public static function getCategoryById($id)
+    {
+        if(count(self::$currentCategory)>0)
+            return self::$currentCategory;
+        else
+        {
+            $list = self::getList();
+            $category = $list[$id];
+            return self::$currentCategory = $category;
+        }
+        
+    }    
+
     public static function getCategoryTitle($code)
     {
         $category = self::getCategoryByCode($code);
@@ -249,9 +262,12 @@ class Categories extends ActiveRecord
         return $category['description'];
     }
 
-    public static function getBreadcrumbsArray($code)
+    public static function getBreadcrumbsArray($ident = [])
     {
-        $category = self::getCategoryByCode($code);
+        if($ident['id']!='')
+            $category = self::getCategoryById($ident['id']);
+        elseif($ident['code']!='')
+            $category = self::getCategoryByCode($ident['code']);
         $list = self::getList();
         $arBreadcrumbs = [];
         if($category['depth']==2)

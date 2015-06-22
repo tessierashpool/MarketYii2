@@ -10,7 +10,7 @@ class m150514_144432_create_item_table extends Migration
         $this->createTable('items', [
             'id' => 'pk',
             'name'=> Schema::TYPE_STRING,
-            'description'=> Schema::TYPE_STRING,
+            'description'=> Schema::TYPE_TEXT,
             'price'=> Schema::TYPE_INTEGER,
             'category_id'=> Schema::TYPE_INTEGER,
             'created_at'=> Schema::TYPE_INTEGER,

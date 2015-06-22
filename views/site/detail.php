@@ -1,12 +1,14 @@
 <?php
+use app\models\Categories;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
-$this->title = 'My Yii Application';
 $this->registerJsFile(Yii::$app->request->baseUrl."/marketAssetsFiles/zoomer/zoomsl-3.0.modified.js",['depends' => ['app\assets\MarketAsset'], 'position'=>\yii\web\View::POS_HEAD]);
 $this->registerJsFile(Yii::$app->request->baseUrl."/marketAssetsFiles/swipebox-master/src/js/jquery.swipebox.js",['depends' => ['app\assets\MarketAsset'],'position'=>\yii\web\View::POS_HEAD]);
 $this->registerCssFile(Yii::$app->request->baseUrl."/marketAssetsFiles/swipebox-master/src/css/swipebox.css",['depends' => ['app\assets\MarketAsset']]);
 $this->registerJs("
     jQuery(function(){
-        var contHeight =  $('.d-images-cont').height() +20;
+        //var contHeight =  $('.d-images-cont').height() +20;
+        var contHeight =  455;
         var contWidth = $('.zoomer-cont').width() +5;
         if($(document).width()>768)
         {
@@ -39,80 +41,111 @@ $this->registerJs("
 
     $( '.swipebox' ).swipebox({loopAtEnd:true});
 
-} )( jQuery );",\yii\web\View::POS_BEGIN);
+} )( jQuery );",\yii\web\View::POS_END);
+
+$this->title = $model->name;
+$arB = Categories::getBreadcrumbsArray(['id'=>$model->category_id]);
+foreach($arB as $cat)
+{
+    $this->params['breadcrumbs'][] = ['label' => $cat['name'], 'url' => Url::to(['index', 'c' => $cat['code']])];
+}
+$this->params['breadcrumbs'][] = $this->title;
+$images = $model->getImages();
+$fullInfo = $model->fullInfo;
 ?>
                         <div class="row detail-content">
                             <div class="col-sm-4 d-images-cont ">
 
                                 <div class="row">
-                                    <div class="col-sm-12 ">
+                                     <div class="col-sm-12 ">
                                         <div class="detail-img">                                        
-                                            <img onclick="trackerClick()"  src="site_photos/mini_photo1.jpg" data-swipe="1"  data-large="site_photos/large_photo1.jpg"   class="img-responsive my-foto-container" alt="Responsive image">
+                                            <img onclick="trackerClick()"  src="<?=$images[0]->getUrl('260x')?>" data-swipe="1"  data-large="<?=$images[0]->getUrl()?>"   class="img-responsive my-foto-container" alt="Responsive image">
                                         </div>
-                                    </div>                                  
-                                    <div class="col-sm-4 hidden-xs ">
-                                        <span   href="site_photos/large_photo1.jpg"  class="swipebox swipebox_1" ></span>
-                                        <img src="site_photos/mini_photo1.jpg" data-swipe="1"  data-large="site_photos/large_photo1.jpg" class="img-responsive my-foto" alt="Responsive image">
-                                        
-                                    </div>
-                                    <div class="col-sm-4 hidden-xs">
-                                        <span   href="site_photos/large_photo2.jpg" class="swipebox swipebox_2" ></span>
-                                        <img src="site_photos/mini_photo2.jpg" data-swipe="2"  data-large="site_photos/large_photo2.jpg" class="img-responsive my-foto" alt="Responsive image">
-                                    </div>
-                                    <div class="col-sm-4 hidden-xs">
-                                        <span   href="site_photos/large_photo3.jpg" class="swipebox swipebox_3" ></span>
-                                        <img src="site_photos/mini_photo3.jpg" data-swipe="3" data-large="site_photos/large_photo3.jpg" class="img-responsive my-foto" alt="Responsive image">
-                                    </div>
+                                    </div>     
+                                    <?foreach ($images as $key => $image) {
+                                        echo '<div class="col-sm-4 hidden-xs">';
+                                            echo '<span   href="'.$image->getUrl().'" class="swipebox swipebox_'.($key+1).'" ></span>';
+                                            echo '<img src="'.$image->getUrl('260x').'" data-swipe="'.($key+1).'" data-large="'.$image->getUrl().'" class="img-responsive my-foto" alt="Responsive image">';
+                                        echo '</div>';
+                                    }?>                             
+                                                                       
+<!--                                     <div class="col-sm-12 ">
+    <div class="detail-img">                                        
+        <img onclick="trackerClick()"  src="site_photos/mini_photo1.jpg" data-swipe="1"  data-large="site_photos/large_photo1.jpg"   class="img-responsive my-foto-container" alt="Responsive image">
+    </div>
+</div>                                  
+<div class="col-sm-4 hidden-xs ">
+    <span   href="site_photos/large_photo1.jpg"  class="swipebox swipebox_1" ></span>
+    <img src="site_photos/mini_photo1.jpg" data-swipe="1"  data-large="site_photos/large_photo1.jpg" class="img-responsive my-foto" alt="Responsive image">
+    
+</div>
+<div class="col-sm-4 hidden-xs">
+    <span   href="site_photos/large_photo2.jpg" class="swipebox swipebox_2" ></span>
+    <img src="site_photos/mini_photo2.jpg" data-swipe="2"  data-large="site_photos/large_photo2.jpg" class="img-responsive my-foto" alt="Responsive image">
+</div>
+<div class="col-sm-4 hidden-xs">
+    <span   href="site_photos/large_photo3.jpg" class="swipebox swipebox_3" ></span>
+    <img src="site_photos/mini_photo3.jpg" data-swipe="3" data-large="site_photos/large_photo3.jpg" class="img-responsive my-foto" alt="Responsive image">
+</div> -->
 
                                 </div>
                             </div>  
                             <div class="col-sm-8">  
                                 <div class="row">
                                     <div class="col-sm-12 zoomer-cont">
-                                        <h2>Simple Print T-Shirt
-                                        <p class="d-i-type"> T-Shirt </p></h2>
-                                        <p class="d-price"> 4500 р</p>
+                                        <h2><?=$model->name?>
+                                        <!-- <p class="d-i-type"> T-Shirt </p> --></h2>
+                                        <p class="d-price"> <?=$model->price?> р</p>
                                         <div class="btn-group d-i-size" data-toggle="buttons">
-                                            <label class="btn btn-default btn-sm active">
-                                                <input type="radio" name="options" id="option1" autocomplete="off" checked> S
-                                            </label>
-                                            <label class="btn btn-default btn-sm">
-                                                <input type="radio" name="options" id="option2" autocomplete="off"> M
-                                            </label>
-                                            <label class="btn btn-default btn-sm">
-                                                <input type="radio" name="options" id="option3" autocomplete="off"> L
-                                            </label>
+                                            <?
+                                            foreach ($fullInfo['category_variants'] as $value) {
+                                                if(count($value['listValues'])>0)
+                                                    $count=1;
+                                                    foreach ($value['listValues'] as $key => $listValue){
+                                                        if(count($fullInfo['variants'][$value['id']][$listValue['code']])>0)
+                                                        {
+                                                            if($count==1)
+                                                                echo '<label class="btn btn-default btn-sm active">';
+                                                            else
+                                                                echo '<label class="btn btn-default btn-sm">';
+                                                            echo '<input type="radio" name="'.$value['code'].'" value="'.$listValue['code'].'" id="option3" autocomplete="off"> '.$listValue['value'];
+                                                            echo '</label>';
+                                                            $count++;
+                                                        }
+                                                    }
+                                            }
+
+                                            ?>
                                         </div>      
                                         <div style="clear:both"></div>              
-                                        <a class="i-add-cart-link pull-left" href="#">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></a>
-                                        <a class="i-add-whish-link pull-left" href="#"><i class="glyphicon glyphicon-star"></i></a>
+                                        <div class="i-add-cart-link pull-left">Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></div>
+                                        <div class="i-add-whish-link pull-left"><i class="glyphicon glyphicon-heart"></i></div>
                                         <div style="clear:both"></div>
-                                        <p class="d-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                        <p class="d-description"><?=$model->description?></p>
                                         <table class="table">
-                                            <tr>
-                                                <td  width="40%">Материал верха</td>
-                                                <td >искусственная кожа, искусственный нубук </td>
-                                            </tr>
-                                            <tr>
-                                                <td  width="40%">Внутренний материал</td>
-                                                <td >искусственный мех </td>
-                                            </tr>
-                                            <tr>
-                                                <td  width="40%">Материал стельки</td>
-                                                <td >текстиль</td>
-                                            </tr>
-                                            <tr>
-                                                <td  width="40%">Материал подошвы</td>
-                                                <td >резина</td>
-                                            </tr>
-                                            <tr>
-                                                <td  width="40%">Цвет</td>
-                                                <td >черный</td>
-                                            </tr>
-                                            <tr>
-                                                <td  width="40%">Сезон</td>
-                                                <td >Демисезон, Зима </td>
-                                            </tr>                                                                                                                                                                       
+                                            <?foreach ($fullInfo['category_parameters']  as $key => $value):?>
+                                                 <tr>
+                                                    <td width="40%"><?=$value['name']?></td>
+                                                    <?
+                                                    if($value['type']=='list')
+                                                    {
+                                                        foreach($value['listValues'] as $listValue)
+                                                        {
+                                                            if($listValue['code']==$fullInfo['parameters'][$value['id']])
+                                                            {
+                                                                echo '<td >'.$listValue['value'].'</td>';
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        echo '<td >'.$fullInfo['parameters'][$value['id']].'</td>';
+                                                    }
+                                                    ?>
+                                                    
+                                                </tr>                                           
+                                            <?endforeach;?>                                                                                                                                                                      
                                         </table>
                                     </div>                                                                                                  
                                 </div>                              

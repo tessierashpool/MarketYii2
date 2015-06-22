@@ -7,7 +7,7 @@ $this->title = 'E-SHOP';
 
 if(($code = Yii::$app->request->get('c'))!='')
 {
-    $arB = Categories::getBreadcrumbsArray($code);
+    $arB = Categories::getBreadcrumbsArray(['code'=>$code]);
     foreach($arB as $cat)
     {
         $this->params['breadcrumbs'][] = ['label' => $cat['name'], 'url' => Url::to(['', 'c' => $cat['code']])];

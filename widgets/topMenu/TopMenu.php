@@ -10,112 +10,182 @@ use Yii;
 
 class TopMenu extends Widget{
 
-    public $cid = '';
-    private $_arCategories = [];
-    private $_arValues = [];
+    public $mobile = false;
+    private static $_arCategories = [];
     
     public function init(){
-        $this->_arCategories = $this->getArCategory();
+        if(empty(self::$_arCategories))
+            self::$_arCategories = $this->getArCategory();
         $this->registerAssets();
     }
     public function getArCategory(){
-        $arTmpCat = (new Categories)->getTree(); 
-        $arMainCat = []; 
-        foreach($arTmpCat as $key1=>$cat) 
-        {
-            if($cat['depth']==null)
+        $cache = Yii::$app->cache;
+        $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM `categories`']);
+        //$cache->flush();
+        $arMainCat = $cache->get('menu');
+        if ($arMainCat === false) {
+            $arTmpCat = (new Categories)->getTree(); 
+            $arMainCat = []; 
+            foreach($arTmpCat as $key1=>$cat) 
             {
-                $arMainCat[$cat['id']]=$cat;
-                unset($arTmpCat[$key1]);
-                foreach($arTmpCat as $key2=>$subCat) 
+                if($cat['depth']==null)
                 {
-                    if($subCat['parent_id']==$cat['id'])
+                    $arMainCat[$cat['id']]=$cat;
+                    unset($arTmpCat[$key1]);
+                    foreach($arTmpCat as $key2=>$subCat) 
                     {
-                        $arMainCat[$cat['id']]['sub'][$subCat['id']] = $subCat;
-                        unset($arTmpCat[$key2]);
-                        foreach($arTmpCat as $key3=>$subSubCat) 
+                        if($subCat['parent_id']==$cat['id'])
                         {
-                            if($subSubCat['parent_id']==$subCat['id'])
+                            $arMainCat[$cat['id']]['sub'][$subCat['id']] = $subCat;
+                            unset($arTmpCat[$key2]);
+                            foreach($arTmpCat as $key3=>$subSubCat) 
                             {
-                                $arMainCat[$cat['id']]['sub'][$subCat['id']]['sub'][$subSubCat['id']] = $subSubCat;
-                                unset($arTmpCat[$key3]);
-                            }
-                        }                        
+                                if($subSubCat['parent_id']==$subCat['id'])
+                                {
+                                    $arMainCat[$cat['id']]['sub'][$subCat['id']]['sub'][$subSubCat['id']] = $subSubCat;
+                                    unset($arTmpCat[$key3]);
+                                }
+                            }                        
+                        }
                     }
                 }
-            }
-        }   
+            }  
+            $cache->set('menu', $arMainCat,60*60*24*7,$dependency);
+        } 
         return $arMainCat; 
     }
 
     public function run()
     {
-        return $this->generateMenu();
+        if($this->mobile)
+            return $this->generateMobileMenu();
+        else
+            return $this->generateMenu();
     }
-    function generateMenu(){
-        $cache = Yii::$app->cache;
-        $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT MAX(updated_at) FROM `categories`']);
-        $menu = $cache->get('menu');
-        if ($menu === false) {
-            $cat =  $this->_arCategories;
-            $menu = '';
-            $menu .= '<ul  class=" pull-left">';
-            foreach($cat as $k1=>$c)
-            {
-                $menu .= '<li ><a class="menu-link" href="'.Url::to(['', 'c' => $c['code']]).'">'.$c['name'].' <i class="fa fa-angle-down"></i></a>';
-                $menu .= '<div class="submenu">';
-                $menu .= '<div class="submenu-left pull-left">';            
-                $counter = 1;
-                if(count($c['sub'])>0)
-                {
-                    $menu .= '<ul 11>';
-                    foreach($c['sub'] as $k2=>$sc)
-                    {
-                        $active = '';
-                        if($counter==1)
-                            $active = 'sub-first-link active';
+   public function generateMobileMenu(){    
+        $cookies = Yii::$app->request->cookies;
+        $cartLightHtml = '';
+        if($cookies->has('cart'))
+        {
+            $cart = $cookies['cart']->value; 
+            $cartCount =count($cart);    
+            if($cartCount>0)  
+                $cartLightHtml = '<span>'.$cartCount.'</span>';
+        }       
 
-                        $arrow = '';
-                        if(count($sc['sub'])>0)
-                            $arrow = '<i class="fa fa-angle-right"></i>';
-                        $menu .= '<li><a href="'.Url::to(['', 'c' => $sc['code']]).'" data-num="'.$counter.'" class="'.$active.'">'.$sc['name'].' '.$arrow.'</a></li>';
-                        $counter++;
-                    }
-                    $menu .= '</ul >';
-                }            
+        $cat =  self::$_arCategories;
+        $menu = '';
+        $menu .= '<nav style="margin-bottom:-1px" class="navbar navbar-default" role="navigation">';
+                $menu .= '<div class="navbar-header">';
+                    $menu .= '<button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">';
+                        $menu .= '<span class="sr-only">Toggle navigation</span>';
+                        $menu .= '<span class="icon-bar"></span>';
+                        $menu .= '<span class="icon-bar"></span>';
+                        $menu .= '<span class="icon-bar"></span>';
+                    $menu .= '</button>';
+                    $menu .= '<a class="navbar-brand mobile-header" href="'.Yii::$app->homeUrl.'">';
+                        $menu .= '<div class="logo pull-left"></div>';                  
+                        $menu .= '<span class="pull-right shop-name">'.Yii::$app->name.'</span>';
+                    $menu .= '</a>'; 
                 $menu .= '</div>';
-                $menu .= '<div class="submenu-right pull-left">';
-                $counter = 1;
-                if(count($c['sub'])>0)
-                {
-                    foreach($c['sub'] as $k2=>$sc)
+                $menu .= '<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
+                    $menu .= '<ul class="nav navbar-nav">';   
+                    foreach($cat as $k1=>$c)            
                     {
-                        $active = '';
-                        if($counter==1)
-                            $active = 'active';
-
-                        $menu .= '<ul class="sub-sub-menu sub-sub-menu-'.$counter.' '.$active.'">';
-                        $counter++;
-                        if(count($sc['sub'])>0)
-                        {
-                            foreach($sc['sub'] as $k3=>$ssc)
-                            {
-                                $menu .= '<li><a  href="'.Url::to(['', 'c' => $ssc['code']]).'"><span>'.$ssc['name'].'</span> </a></li>';
-                            }
-                        }
-                        $menu .= '</ul>';
-                    }
-                }
-                $menu .= '</div>';
-                $menu .= '</div>';
-                $menu .= '</li>';
-            }
-            $menu .= '</ul>';
-            $cache->set('menu', $menu,60*60*24*7,$dependency);
-        }
-        
+                        $menu .= '<li class="dropdown">';
+                            $menu .= '<a href="'.Url::to(['index', 'c' => $c['code']]).'" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$c['name'].' <span class="caret"></span></a>';
+                            $menu .= '<ul class="dropdown-menu" role="menu">';
+                                if(count($c['sub'])>0)
+                                {
+                                    foreach ($c['sub'] as $k2 => $sc) {
+                                        $menu .= '<li><a href="'.Url::to(['index', 'c' => $sc['code']]).'">'.$sc['name'].'</a></li>';
+                                        /* if(count($sc['sub'])>0)
+                                        {
+                                            foreach ($sc['sub'] as $k3 => $ssc) {
+                                                $menu .= '<li><a href="'.Url::to(['', 'c' => $ssc['code']]).'">'.$ssc['name'].'</a></li>';
+                                            }
+                                            $menu .= '<li role="separator" class="divider"></li>';
+                                        }*/                                       
+                                    }
+                                     $menu .= '<li role="separator" class="divider"></li>';
+                                }
+                            $menu .= '</ul>';
+                        $menu .= '</li>';                         
+                    }                                              
+                    $menu .= '</ul>';       
+                    $menu .= '<ul class="nav navbar-nav">';
+                        $menu .= '<li><a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a></li>';
+                        $menu .= '<li><a href="'.Url::to(['cart']).'"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light">'.$cartLightHtml.'</span></a></li>';
+                        $menu .= '<li>';
+                            if(Yii::$app->user->isGuest)
+                                $menu .= '<a href="'.Url::to(['login']).'"><i class="glyphicon glyphicon-lock"></i> Login</a>';
+                            else
+                                $menu .= '<a href="'.Url::to(['logout']).'"><i class="glyphicon glyphicon-log-out"></i> Logout</a>';
+                        $menu .= '</li>';                                             
+                    $menu .= '</ul>';                                       
+                $menu .= '</div>';          
+            $menu .= '</nav>';             
         return $menu;            
     }
+
+    public function generateMenu(){       
+        $cat =  self::$_arCategories;
+        $menu = '';
+        $menu .= '<ul  class=" pull-left">';
+        foreach($cat as $k1=>$c)
+        {
+            $menu .= '<li ><a class="menu-link" href="'.Url::to(['index', 'c' => $c['code']]).'">'.$c['name'].' <i class="fa fa-angle-down"></i></a>';
+            $menu .= '<div class="submenu">';
+            $menu .= '<div class="submenu-left pull-left">';            
+            $counter = 1;
+            if(count($c['sub'])>0)
+            {
+                $menu .= '<ul 11>';
+                foreach($c['sub'] as $k2=>$sc)
+                {
+                    $active = '';
+                    if($counter==1)
+                        $active = 'sub-first-link active';
+
+                    $arrow = '';
+                    if(count($sc['sub'])>0)
+                        $arrow = '<i class="fa fa-angle-right"></i>';
+                    $menu .= '<li><a href="'.Url::to(['index', 'c' => $sc['code']]).'" data-num="'.$counter.'" class="'.$active.'">'.$sc['name'].' '.$arrow.'</a></li>';
+                    $counter++;
+                }
+                $menu .= '</ul >';
+            }            
+            $menu .= '</div>';
+            $menu .= '<div class="submenu-right pull-left">';
+            $counter = 1;
+            if(count($c['sub'])>0)
+            {
+                foreach($c['sub'] as $k2=>$sc)
+                {
+                    $active = '';
+                    if($counter==1)
+                        $active = 'active';
+
+                    $menu .= '<ul class="sub-sub-menu sub-sub-menu-'.$counter.' '.$active.'">';
+                    $counter++;
+                    if(count($sc['sub'])>0)
+                    {
+                        foreach($sc['sub'] as $k3=>$ssc)
+                        {
+                            $menu .= '<li><a  href="'.Url::to(['index', 'c' => $ssc['code']]).'"><span>'.$ssc['name'].'</span> </a></li>';
+                        }
+                    }
+                    $menu .= '</ul>';
+                }
+            }
+            $menu .= '</div>';
+            $menu .= '</div>';
+            $menu .= '</li>';
+        }
+        $menu .= '</ul>';        
+        return $menu;            
+    }
+
     public function registerAssets()
     {
         $view = $this->getView();

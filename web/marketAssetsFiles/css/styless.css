@@ -1,5 +1,5 @@
 ﻿/*-------------------------Font-Color-3----------------------------*/
-.item-cont a,.header-menu a
+a, .item-cont a,.header-menu a
 {
 	color: #5F7D9D;
 }
@@ -8,8 +8,8 @@
 }
 /*-------------------------Font-Color-2----------------------------*/
 .category-label p,.advert-title-cont,.i-title,
-a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-title, .t-s-price,
-.adress-info,.detail-content a.i-add-whish-link{
+.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-title, .t-s-price,
+.adress-info,.detail-content .i-add-whish-link{
 	color: #444;
 }
 .slide-title-cont p, .slide-description-cont, .f-menu-title ,
@@ -22,17 +22,17 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	color:#444;
 }
 /*-------------------------Color----------------------------*/
-.top-menu-cont ul li:hover a,.filter-checkbox:checked + .filter-checkbox-simul,
-.slide-button-cont a:hover, .advert-button-cont a:hover, a.i-add-cart-link:hover,
-.filter-button.active, .filter-button:hover, .detail-content a.i-add-whish-link:hover{
+.cart-light span, .top-menu-cont ul li:hover a,.filter-checkbox:checked + .filter-checkbox-simul,
+.slide-button-cont a:hover, .advert-button-cont a:hover, .i-add-cart-link:hover,
+.filter-button.active, .filter-button:hover, .detail-content .i-add-whish-link:hover{
 	background-color: #FF9933;
 } 
 .nav-cont ul li.active a,.nav-cont ul li.active a:hover{
 	background-color: #FF9933!important;
 }
-.filter-checkbox:checked + .filter-checkbox-simul, a.i-add-cart-link:hover,
+.filter-checkbox:checked + .filter-checkbox-simul, .i-add-cart-link:hover,
 .filter-button.active, .filter-button:hover, .nav-cont ul li.active a,
-.nav-cont ul li.active a:hover, .detail-content a.i-add-whish-link:hover{
+.nav-cont ul li.active a:hover, .detail-content .i-add-whish-link:hover{
 	border-color:#FF9933; 
 }
 .top-menu-cont  ul li div.submenu::after {
@@ -41,12 +41,12 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 .footer-fluid{
 	border-top-color: #FF9933;	
 }
-.shop-name, .header-menu a:hover, .left-menu-cont a:hover, .mobile-left-menu-cont a:hover,
+a:hover, .shop-name, .header-menu a:hover, .left-menu-cont a:hover, .mobile-left-menu-cont a:hover,
 .slide-title-cont p span, .advert-title-cont span, .i-price,
 .item-cont a:hover, .t-s-price, .nav-cont ul li a:hover, .f-title span,
 .f-info p a:hover, p.d-price, .breadcrumb a:hover, .cart-content table tr td a:hover,
 .item-price-cont,.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,.category-title h2{
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,.category-title h2, .cart-modal-title{
 	color: #FF9933;
 }
 .top-menu-cont ul li ul li a:hover, .top-menu-cont ul li ul li a.active { 
@@ -59,6 +59,23 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	border-left-color:#FF9933!important;
 }
 /*------------------------------------------------------*/
+*{
+	font-family: "Roboto",sans-serif;	
+}
+a{
+	text-decoration: none!important;
+}
+.cart-light span{
+	color: #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.cart-modal-title{	
+	text-align: center;
+}
 .logo{
 	width: 48px;
 	height: 53px;
@@ -70,7 +87,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	line-height: 70px;
 	font-size: 31px;
 	margin-left: 15px;
-	font-family: "Roboto",sans-serif;
 	font-weight: medium;
 	margin-top: 2px;
 }
@@ -94,7 +110,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	border-right: none;
 	border-left: none;
 	height: 50px;
-	font-family: "Roboto",sans-serif;
 	font-weight: 300;
 	font-size: 16px;
 	background-color: #fafafa;
@@ -186,7 +201,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 } 
 .top-menu-cont ul li ul li { 
 	display: block; 
-	font-family: "Roboto",sans-serif;
 	font-size: 14px;
 	margin: 0px;
 }
@@ -234,13 +248,11 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	margin-top: 3px;
 	padding-bottom: 9px;
 	border-bottom: 1px dotted #eee;
-	font-family: "Roboto",sans-serif;
 	margin-bottom: 0px;
 }
 .category-title p{
 	border-bottom: 1px dotted #eee;
 	display: block;
-	font-family: "Roboto",sans-serif;
 	font-weight: lighter;
 	color: #bbb;
 	margin-top: 9px;
@@ -251,7 +263,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	line-height: 70px;
 	padding-top: 5px;
 	margin-bottom: -5px;
-	font-family: "Roboto",sans-serif;
 	font-weight: 100;
 	font-size: 14px;
 }
@@ -329,7 +340,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	width: 100%;
 	border: 1px solid #eee;
 	border-left-width: 4px;
-	font-family: "Roboto",sans-serif;
 	font-weight: 100;
 	background-color: #fafafa;
 }
@@ -376,7 +386,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	left: 50px;
 }
 .slide-title-cont p {
-	font-family: "Roboto",sans-serif;
 	font-size: 35px;	
 	background-image: url('../../images/slide_title_bg.png');
 	padding-left: 15px;
@@ -387,7 +396,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	position: absolute;
 	top: 120px;
 	left: 50px;	
-	font-family: "Roboto",sans-serif;
 	font-size: 14px;	
 }
 .slide-button-cont{
@@ -458,7 +466,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	right: 20px;
 	top: 20px;	
 	font-size: 16px;
-	font-family: "Roboto",sans-serif;
 	text-align: right;
 }
 .advert-title-descr{
@@ -466,7 +473,6 @@ a.i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-titl
 	right: 20px;
 	top: 45px;	
 	font-size: 14px;
-	font-family: "Roboto",sans-serif;
 	text-align: right;
 	color: #999;	
 }
@@ -544,19 +550,17 @@ transform:scale(1.05);  */
 .i-price{
 	text-align: center;
 	margin-top: 15px;
-	font-family: "Roboto",sans-serif;
 	font-weight: bold;	
 	font-size: 16px;
 	margin-bottom: 5px;
 }
 .i-title{
 	text-align: center;
-	font-family: "Roboto",sans-serif;
 }
 .item-cont a{
 	text-decoration: none;
 }
-a.i-add-cart-link{
+.i-add-cart-link{
 	display: block;
 	background-color: #fff;
 	border: 1px solid #eee;
@@ -569,13 +573,23 @@ a.i-add-cart-link{
 	transition: background-color 0.3s ease;	
 	margin-left: auto;
 	margin-right: auto;
+	position: relative;
+	cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;	
 }
-a.i-add-cart-link:hover{
+.i-add-cart-link:hover{
 	border-width: 1px;
 	border-style: solid;
 	color: #fff;
 }
-
+.i-add-cart-link:active{
+	bottom:-2px;
+}
 /* Ribbons */
 .corner-ribbon.top-right{
 	width: 80px;
@@ -584,7 +598,6 @@ a.i-add-cart-link:hover{
 	position: absolute;
 	transform: rotate(45deg);
 	-webkit-transform: rotate(45deg);
-	font-family: "Roboto",sans-serif;
 	color: #fff;
 	font-size: 13px;
 	text-align: center;
@@ -622,7 +635,6 @@ a.i-add-cart-link:hover{
 }
 .range-info-cont{
 	margin-top: 20px;
-	font-family: "Roboto",sans-serif;
 	font-weight: 100;
 }
 .filter-button{
@@ -735,7 +747,6 @@ a.i-add-cart-link:hover{
 	font-size: 13px;
 	margin-top: 20px;
 	margin-bottom: 0px;
-	font-family: "Roboto",sans-serif;	
 	margin-top: 0px;	
 	text-align: center;
 }
@@ -750,7 +761,6 @@ a.i-add-cart-link:hover{
 }
 .nav-cont ul li a{
 	color: #777;
-	font-family: "Roboto",sans-serif;	
 }
 .footer{
 	padding: 50px;	
@@ -781,8 +791,7 @@ a.i-add-cart-link:hover{
 	position: relative;
 }
 .f-title{
-	font-size: 30px;
-	font-family: "Roboto",sans-serif;	
+	font-size: 30px;	
 	color: #ddd;
 	font-weight: bold;
 }
@@ -793,8 +802,7 @@ a.i-add-cart-link:hover{
 	margin-bottom: 10px;
 }
 .f-info p a{
-	font-size: 14px;
-	font-family: "Roboto",sans-serif;	
+	font-size: 14px;	
 	font-weight: 100;
 	color: #888;		
 	text-decoration: none;
@@ -809,8 +817,7 @@ a.i-add-cart-link:hover{
 	margin-bottom: 20px;
 }
 .f-menu-title{
-	font-size: 18px;
-	font-family: "Roboto",sans-serif;	
+	font-size: 18px;	
 	margin: 0;
 	padding: 0;
 	margin-bottom:20px;
@@ -855,8 +862,7 @@ a.i-add-cart-link:hover{
 	margin-left: auto;
 	margin-right: auto;
 }
-.detail-content p{
-	font-family: "Roboto",sans-serif;	
+.detail-content p{	
 	font-weight: 100;	
 }
 .detail-content h2{
@@ -868,13 +874,7 @@ a.i-add-cart-link:hover{
 	font-size: 13px;
 	margin-top: 5px;
 }
-
-.detail-content .i-add-cart-link{
-	margin: 0;
-	margin-bottom: 40px;
-
-}
-.detail-content a.i-add-whish-link{
+.detail-content .i-add-whish-link{
 	display: block;
 	background-color: #fff;
 	border: 1px solid #eee;
@@ -886,11 +886,22 @@ a.i-add-cart-link:hover{
 	margin-right: 20px;
 	transition: background-color 0.3s ease;	
 	margin-left: 1px;
+	position: relative;
+	cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;	
 }
-.detail-content a.i-add-whish-link:hover{
+.detail-content .i-add-whish-link:hover{
 	border-width: 1px;
 	border-style: solid;
 	color: #fff;
+}
+.detail-content .i-add-whish-link:active{
+	bottom:-2px;
 }
 .d-description{
 	text-align: left;
@@ -910,7 +921,6 @@ p.d-price .old-price{
 }
 .breadcrumb a{
 	text-decoration: none;
-	font-family: "Roboto",sans-serif;	
 	font-weight: 100;	
 	color: #ccc;
 }
@@ -938,8 +948,7 @@ p.d-price .old-price{
 	margin-top: 1px;
 	margin-bottom: -31px;
 }
-.detail-content  .table {
-	font-family: "Roboto",sans-serif;	
+.detail-content  .table {	
 	font-weight: 100;
 	font-size: 13px;
 }
@@ -983,8 +992,7 @@ p.d-price .old-price{
 .cart-content table tr td:nth-child(1){
 	text-align: left;
 }
-.cart-content table tr {
-	font-family: "Roboto",sans-serif;	
+.cart-content table tr {	
 	font-weight: 100;
 	font-size: 13px;
 }
@@ -1033,21 +1041,18 @@ p.d-price .old-price{
 .whishlist-content h2{
 	font-size: 25px;
 	margin-bottom: 30px;
-	margin-top: 6px;	
-	font-family: "Roboto",sans-serif;		
+	margin-top: 6px;			
 }
 
 /*------------------------Login start------------------------------*/
 .login-content h2{
 	font-size: 25px;
 	margin-bottom: 30px;
-	margin-top: 6px;	
-	font-family: "Roboto",sans-serif;		
+	margin-top: 6px;			
 }
 .login-content .checkbox label{
 	font-size: 14px;
 	margin-bottom: 10px;	
-	margin-left: 5px;
-	font-family: "Roboto",sans-serif;		
+	margin-left: 5px;	
 	font-weight: lighter;
 }

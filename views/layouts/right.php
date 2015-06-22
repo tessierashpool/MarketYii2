@@ -1,19 +1,18 @@
-<?php $this->beginContent('@app/views/layouts/main.php'); ?>
+<?php 
+use yii\widgets\Breadcrumbs;
+$this->beginContent('@app/views/layouts/main.php'); 
+?>
     <div class="container-fluid breadcrumb-cont hidden-xs">
         <div class="row">
             <div class="">
                 <div class="container">
-                    <ol class="breadcrumb">
-                      <li><a href="#">Home</a></li>
-                      <li><a href="#">Men</a></li>
-                      <li><a href="#">Mens shoes</a></li>
-                      <li><a href="#">Snekers and trainers</a></li>
-                      <li class="active">Winter trainers</li>
-                    </ol>
+                <?= Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]) ?>                        
                 </div>              
             </div>              
         </div>              
-    </div>  
+    </div>
     <div class="container main-body">
         <div class="row">
             <div class="col-sm-9 col-xs-12">

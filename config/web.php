@@ -4,6 +4,7 @@ $params = require(__DIR__ . '/params.php');
 use \kartik\datecontrol\Module;
 $config = [
     'id' => 'basic',
+    'name'=>'E-SHOP',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [

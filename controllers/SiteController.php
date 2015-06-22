@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\ItemsSearch;
 use app\models\Statistic;
+use app\models\Items;
 
 class SiteController extends Controller
 {
@@ -68,10 +69,12 @@ class SiteController extends Controller
         return $this->render('cart');
     }
 
-    public function actionDetail()
+    public function actionDetail($id)
     {
         $this->layout = "right";
-        return $this->render('detail');
+        return $this->render('detail', [
+            'model' => $this->findModel($id),
+        ]);
     }
 
     public function actionLogin()
@@ -116,4 +119,60 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionAjaxAddToCart($id,$scode,$sname)
+    {
+        $cookies = Yii::$app->request->cookies;
+        $quantity = 1;
+        $cart = [];
+        if($cookies->has('cart'))
+        {
+            $cart = $cookies['cart']->value;
+            $new = true;
+            foreach ($cart as $key => $value) {
+                if($value['id']==$id&&$value['scode']==$scode)
+                {
+                    $quantity = $cart[$key]['quantity'] = $value['quantity']+1;
+                    $new = false;
+                    break;
+                }
+            }
+            if($new)
+                $cart[]=['id'=>$id,'scode'=>$scode,'sname'=>$sname,'quantity'=>$quantity];
+            Yii::$app->response->cookies->add(new \yii\web\Cookie(['name' => 'cart','value' => $cart,'expire'=>time() + 86400 * 30]));             
+        }
+        else
+        {
+            $cart[]=['id'=>$id,'scode'=>$scode,'sname'=>$sname,'quantity'=>$quantity];
+            $cook = new \yii\web\Cookie(['name' => 'cart','value' => 'ssss']);
+            Yii::$app->response->cookies->add(new \yii\web\Cookie(['name' => 'cart','value' => $cart,'expire'=>time() + 86400 * 30]));           
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $result['id']=$id;
+        $result['scode']=$scode;
+        $result['sname']=$sname;
+        $result['quantity']=$quantity;
+        $result['totalcount']=count($cart);
+        return $result;
+        
+    }
+
+    public function actionAjaxGetSize($id)
+    {
+        $item = Items::findOne($id);
+        $info = $item->info;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $result=$info['variants']['size']['listValues'];
+        return $result;
+        
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Items::findOne($id)) !== null) {
+            return $model;
+        } else { 
+            throw new NotFoundHttpException(Yii::t('app','The requested page does not exist.'));
+        }
+    }    
 }

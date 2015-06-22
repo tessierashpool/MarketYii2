@@ -24,19 +24,30 @@ MarketAsset::register($this);
 </head>
 <body>  
 <?php $this->beginBody() ?>
+<?
+$cookies = Yii::$app->request->cookies;
+$cartLightHtml = '';
+if($cookies->has('cart'))
+{
+    $cart = $cookies['cart']->value; 
+    $cartCount =count($cart);    
+    if($cartCount>0)  
+        $cartLightHtml = '<span>'.$cartCount.'</span>';
+}  
+?>
     <div class="container hidden-xs">
         <div class="row">
-            <div class="col-sm-5">  
+            <div class="col-sm-4">  
                 <a href="<?=Yii::$app->homeUrl?>">           
                 <div class="logo pull-left"></div>
-                <p class="shop-name pull-left">E-SHOP</p>    
+                <p class="shop-name pull-left"><?=Yii::$app->name?></p>    
                 </a>             
             </div>
-            <div class="col-sm-7">              
+            <div class="col-sm-8">              
                 <p class="pull-right header-menu"> 
                     <a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</a>
+                    <a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light"><?=$cartLightHtml?></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <?if(Yii::$app->user->isGuest):?>
                         <a href="<?=Url::to(['login']);?>"><i class="glyphicon glyphicon-lock"></i> Login</a>
@@ -55,61 +66,7 @@ MarketAsset::register($this);
     </div>
     <div class="container-fluid visible-xs-12  hidden-lg hidden-md hidden-sm " >
         <div class="row">
-            <nav style="margin-bottom:-1px" class="navbar navbar-default" role="navigation">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand mobile-header" href="<?=Yii::$app->homeUrl?>">
-                    <div class="logo pull-left"></div>                  
-                    <span class="pull-right shop-name">E-SHOP</span>
-                  </a>
-  
-                </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">             
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Man <span class="caret"></span></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Shoes</a></li>
-                            <li><a href="#">T-Shirts</a></li>
-                            <li><a href="#">Jeans</a></li>
-                          </ul>
-                        </li>   
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Women <span class="caret"></span></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Shoes</a></li>
-                            <li><a href="#">T-Shirts</a></li>
-                            <li><a href="#">Jeans</a></li>
-                          </ul>
-                        </li>   
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">For Chilldren <span class="caret"></span></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Shoes</a></li>
-                            <li><a href="#">T-Shirts</a></li>
-                            <li><a href="#">Jeans</a></li>
-                          </ul>
-                        </li>                                               
-                    </ul>       
-                    <ul class="nav navbar-nav">
-                        <li><a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a></li>
-                        <li><a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</a></li>
-                        <li>
-                            <?if(Yii::$app->user->isGuest):?>
-                            <a href="<?=Url::to(['login']);?>"><i class="glyphicon glyphicon-lock"></i> Login</a>
-                            <?else:?>
-                            <a href="<?=Url::to(['logout']);?>"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
-                            <?endif;?>
-
-                        </li>                                             
-                    </ul>                                       
-                </div>          
-            </nav>
+            <?=TopMenu::widget(['mobile'=>true])?>
             <div class="search-cont  search-cont-mobile">
                 <input type="text" placeholder="Search">
                 <i class="glyphicon glyphicon-search"></i>

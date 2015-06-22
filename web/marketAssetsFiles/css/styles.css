@@ -1,4 +1,23 @@
-﻿
+﻿*{
+	font-family: "Roboto",sans-serif;	
+}
+a{
+	text-decoration: none!important;
+}
+.cart-light span{
+	color: #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: #FF9933;
+}
+.cart-modal-title{
+	font-family: "Roboto",sans-serif;
+	text-align: center;
+	color: #FF9933;
+}
 .logo{
 	width: 48px;
 	height: 53px;
@@ -543,7 +562,7 @@ transform:scale(1.05);  */
 .item-cont a:hover{
 	color: #FF9933;
 }
-a.i-add-cart-link{
+.i-add-cart-link{
 	display: block;
 	background-color: #fff;
 	border: 1px solid #eee;
@@ -557,11 +576,21 @@ a.i-add-cart-link{
 	transition: background-color 0.3s ease;	
 	margin-left: auto;
 	margin-right: auto;
+	cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;	
 }
-a.i-add-cart-link:hover{
+.i-add-cart-link:hover{
 	background-color: #FF9933;
 	border: 1px solid #FF9933;
 	color: #fff;
+}
+.i-add-cart-link:active{
+	bottom:-2px;
 }
 
 /* Ribbons */
@@ -888,12 +917,7 @@ a.i-add-cart-link:hover{
 	margin-top: 5px;
 }
 
-.detail-content .i-add-cart-link{
-	margin: 0;
-	margin-bottom: 40px;
-
-}
-.detail-content a.i-add-whish-link{
+.detail-content .i-add-whish-link{
 	display: block;
 	background-color: #fff;
 	border: 1px solid #eee;
@@ -906,8 +930,15 @@ a.i-add-cart-link:hover{
 	margin-right: 20px;
 	transition: background-color 0.3s ease;	
 	margin-left: 1px;
+	cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;	
 }
-.detail-content a.i-add-whish-link:hover{
+.detail-content .i-add-whish-link:hover{
 	background-color: #FF9933;
 	border: 1px solid #FF9933;
 	color: #fff;
@@ -915,6 +946,9 @@ a.i-add-cart-link:hover{
 .d-description{
 	text-align: left;
 	margin-bottom: 20px;
+}
+.detail-content .i-add-whish-link:active{
+	bottom:-2px;
 }
 p.d-price{
 	font-size: 20px;

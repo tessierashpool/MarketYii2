@@ -281,7 +281,7 @@ class Items extends ActiveRecord
     {
         //var_dump($this->parameters);
         //ItemsParametersValue
-       // Yii::$app->db->createCommand()->batchInsert(ParametersToCategories::tableName(), ['id_category','id_parameter','order'], $arParamsQuery)->execute();
+        //Yii::$app->db->createCommand()->batchInsert(ParametersToCategories::tableName(), ['id_category','id_parameter','order'], $arParamsQuery)->execute();
         //$this->addError('parameters5',Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => 'Categories']));
         return false;
     }
@@ -294,6 +294,49 @@ class Items extends ActiveRecord
         $arInfo['parameters'] = $this->parameters;
         $arInfo['variants'] = $this->variants;
         return $arInfo;
+    }
+
+    public function getInfo()
+    {
+        $info = $this->getFullInfo();
+        $arParameters = [];
+        $arVariants = [];
+        foreach ($info['category_parameters'] as $key => $value) {
+            if(isset($info['parameters'][$value['id']]))
+            {
+                $arParameters[$value['code']]['id'] = $value['id'];
+                $arParameters[$value['code']]['code'] = $value['code'];
+                $arParameters[$value['code']]['name'] = $value['name'];
+                if($value['type']=='list')
+                {
+                    foreach ($value['listValues'] as $listValue) {
+                        if($listValue['code']==$info['parameters'][$value['id']])
+                        {
+                            $arParameters[$value['code']]['value'] = $listValue['value']; 
+                            break;
+                        }
+                    }
+                }
+                else
+                    $arParameters[$value['code']]['value'] = $info['parameters'][$value['id']];               
+            }
+        }
+        foreach ($info['category_variants'] as $key => $value) {
+            if(isset($info['variants'][$value['id']]))
+            {
+                
+                $arVariants[$value['code']]['id'] = $value['id'];
+                $arVariants[$value['code']]['code'] = $value['code'];
+                $arVariants[$value['code']]['name'] = $value['name'];
+                $tmpList = ArrayHelper::map($value['listValues'],'code','value');
+                foreach ($info['variants'][$value['id']] as  $variant) {
+                    $arVariants[$value['code']]['listValues'][$variant['value']]['code'] = $variant['value'];
+                    $arVariants[$value['code']]['listValues'][$variant['value']]['quantity'] = $variant['quantity'];
+                    $arVariants[$value['code']]['listValues'][$variant['value']]['value'] = $tmpList[$variant['value']];
+                }            
+            }
+        }    
+        return ['parameters'=>$arParameters,'variants'=>$arVariants];
     }
 
     /**
