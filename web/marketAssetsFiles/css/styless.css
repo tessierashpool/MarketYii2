@@ -41,7 +41,7 @@ a, .item-cont a,.header-menu a
 .footer-fluid{
 	border-top-color: #FF9933;	
 }
-a:hover, .shop-name, .header-menu a:hover, .left-menu-cont a:hover, .mobile-left-menu-cont a:hover,
+.custom-h2,a:hover, .shop-name, .header-menu a:hover, .left-menu-cont a:hover, .mobile-left-menu-cont a:hover,
 .slide-title-cont p span, .advert-title-cont span, .i-price,
 .item-cont a:hover, .t-s-price, .nav-cont ul li a:hover, .f-title span,
 .f-info p a:hover, p.d-price, .breadcrumb a:hover, .cart-content table tr td a:hover,
@@ -64,6 +64,10 @@ a:hover, .shop-name, .header-menu a:hover, .left-menu-cont a:hover, .mobile-left
 }
 a{
 	text-decoration: none!important;
+}
+.custom-h2{
+	margin-top: 0;
+	margin-bottom: 20px;	
 }
 .cart-light span{
 	color: #fff;
@@ -966,10 +970,13 @@ p.d-price .old-price{
 	margin-top: 1px!important;
 }
 /*----------------------------Cart Page-------------------------------*/
+.cart-img{
+	max-width: 88px;
+}
 .cart-cart-icon{
 	position: absolute;
-	top: 7px;
-	left: 30px;
+	top: 5px;
+	left: 12px;
 	font-size: 24px;
 	color: #ddd;
 }
@@ -983,7 +990,7 @@ p.d-price .old-price{
 	border-color: #eee;
 }
 .cart-content table tr:nth-child(1){
-	background-color: #f9f9f9;
+	background-color: #fff;
 	border: 1px solid #eee;
 }
 .cart-content table tr, .cart-content table tr:nth-child(1) td:nth-child(1){
@@ -1006,7 +1013,6 @@ p.d-price .old-price{
 }
 .cart-content table tr td a{
 	font-size: 13px;
-	color: #999;
 	text-decoration: none;
 }
 .cart-content table tr td:last-child a{
@@ -1022,12 +1028,12 @@ p.d-price .old-price{
 	font-size: 14px;
 }
 
-/* .cart-content table tr:last-child td:nth-child(4){
+ .cart-content table tr:last-child td:nth-child(4){
 	font-family: "Roboto",sans-serif;	
 	font-weight: normal;
 	font-size: 15px;	
 	color: #FF9933;
-} */
+} 
 .input-xs {
 	height: 22px;
 	padding: 5px 5px;

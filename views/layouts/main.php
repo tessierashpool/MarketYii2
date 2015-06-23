@@ -6,6 +6,7 @@ use yii\widgets\Breadcrumbs;
 use app\widgets\topMenu\TopMenu;
 use app\assets\MarketAsset;
 use yii\helpers\Url;
+use app\models\Cart;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -24,17 +25,6 @@ MarketAsset::register($this);
 </head>
 <body>  
 <?php $this->beginBody() ?>
-<?
-$cookies = Yii::$app->request->cookies;
-$cartLightHtml = '';
-if($cookies->has('cart'))
-{
-    $cart = $cookies['cart']->value; 
-    $cartCount =count($cart);    
-    if($cartCount>0)  
-        $cartLightHtml = '<span>'.$cartCount.'</span>';
-}  
-?>
     <div class="container hidden-xs">
         <div class="row">
             <div class="col-sm-4">  
@@ -47,7 +37,7 @@ if($cookies->has('cart'))
                 <p class="pull-right header-menu"> 
                     <a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light"><?=$cartLightHtml?></span></a>
+                    <a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light"><?=Cart::cartLight()?></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <?if(Yii::$app->user->isGuest):?>
                         <a href="<?=Url::to(['login']);?>"><i class="glyphicon glyphicon-lock"></i> Login</a>

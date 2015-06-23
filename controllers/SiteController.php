@@ -11,6 +11,7 @@ use app\models\ContactForm;
 use app\models\ItemsSearch;
 use app\models\Statistic;
 use app\models\Items;
+use app\models\Cart;
 
 class SiteController extends Controller
 {
@@ -122,37 +123,13 @@ class SiteController extends Controller
 
     public function actionAjaxAddToCart($id,$scode,$sname)
     {
-        $cookies = Yii::$app->request->cookies;
-        $quantity = 1;
-        $cart = [];
-        if($cookies->has('cart'))
-        {
-            $cart = $cookies['cart']->value;
-            $new = true;
-            foreach ($cart as $key => $value) {
-                if($value['id']==$id&&$value['scode']==$scode)
-                {
-                    $quantity = $cart[$key]['quantity'] = $value['quantity']+1;
-                    $new = false;
-                    break;
-                }
-            }
-            if($new)
-                $cart[]=['id'=>$id,'scode'=>$scode,'sname'=>$sname,'quantity'=>$quantity];
-            Yii::$app->response->cookies->add(new \yii\web\Cookie(['name' => 'cart','value' => $cart,'expire'=>time() + 86400 * 30]));             
-        }
-        else
-        {
-            $cart[]=['id'=>$id,'scode'=>$scode,'sname'=>$sname,'quantity'=>$quantity];
-            $cook = new \yii\web\Cookie(['name' => 'cart','value' => 'ssss']);
-            Yii::$app->response->cookies->add(new \yii\web\Cookie(['name' => 'cart','value' => $cart,'expire'=>time() + 86400 * 30]));           
-        }
+        $quantity = Cart::setCart($id,$scode,$sname);
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $result['id']=$id;
         $result['scode']=$scode;
         $result['sname']=$sname;
         $result['quantity']=$quantity;
-        $result['totalcount']=count($cart);
+        $result['totalcount']=Cart::responseCount();
         return $result;
         
     }
@@ -166,6 +143,19 @@ class SiteController extends Controller
         return $result;
         
     }
+
+    public function actionAjaxDeleteCartItem($id,$scode)
+    {
+        Cart::deleteItem($id,$scode); 
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $result['totalcount']=Cart::responseCount();
+        return $result;      
+    }    
+
+    public function actionAjaxDeleteCartAllItems()
+    {
+        Cart::clearCart();    
+    } 
 
     protected function findModel($id)
     {

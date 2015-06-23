@@ -1032,7 +1032,7 @@ p.d-price .old-price{
 	border-color: #eee;
 }
 .cart-content table tr:nth-child(1){
-	background-color: #f9f9f9;
+	background-color: #fff;
 	border: 1px solid #eee;
 }
 .cart-content table tr, .cart-content table tr:nth-child(1) td:nth-child(1){

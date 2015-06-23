@@ -62,16 +62,7 @@ class TopMenu extends Widget{
         else
             return $this->generateMenu();
     }
-   public function generateMobileMenu(){    
-        $cookies = Yii::$app->request->cookies;
-        $cartLightHtml = '';
-        if($cookies->has('cart'))
-        {
-            $cart = $cookies['cart']->value; 
-            $cartCount =count($cart);    
-            if($cartCount>0)  
-                $cartLightHtml = '<span>'.$cartCount.'</span>';
-        }       
+   public function generateMobileMenu(){         
 
         $cat =  self::$_arCategories;
         $menu = '';
@@ -115,7 +106,7 @@ class TopMenu extends Widget{
                     $menu .= '</ul>';       
                     $menu .= '<ul class="nav navbar-nav">';
                         $menu .= '<li><a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a></li>';
-                        $menu .= '<li><a href="'.Url::to(['cart']).'"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light">'.$cartLightHtml.'</span></a></li>';
+                        $menu .= '<li><a href="'.Url::to(['cart']).'"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light">'.\app\models\Cart::cartLight().'</span></a></li>';
                         $menu .= '<li>';
                             if(Yii::$app->user->isGuest)
                                 $menu .= '<a href="'.Url::to(['login']).'"><i class="glyphicon glyphicon-lock"></i> Login</a>';

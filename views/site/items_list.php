@@ -1,12 +1,12 @@
 <?
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
-//Yii::$app->response->cookies->remove('cart');
+use app\models\Cart;
+//Yii::$app->response->cookies->remove('cart',true);
 $cookies = Yii::$app->request->cookies;
 
 $items = $dataProvider->getModels();
 ?>
-
 <div class="row main-content">
     <script>
         var addToCartLock = false;

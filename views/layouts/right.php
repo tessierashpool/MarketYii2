@@ -15,14 +15,14 @@ $this->beginContent('@app/views/layouts/main.php');
     </div>
     <div class="container main-body">
         <div class="row">
-            <div class="col-sm-9 col-xs-12">
+            <div class="col-md-9 col-xs-12">
                 <div class="row">
                     <div class="col-sm-12"> 
                         <?= $content ?>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3 hidden-xs">
+            <div class="col-md-3 hidden-sm hidden-xs">
                 <div class="left-menu-cont">    
                     <div class="category-label">
                         <p>BEST SELERS</p>
