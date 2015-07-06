@@ -7,6 +7,7 @@ use app\widgets\topMenu\TopMenu;
 use app\assets\MarketAsset;
 use yii\helpers\Url;
 use app\models\Cart;
+use app\models\Whishlist;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -35,14 +36,16 @@ MarketAsset::register($this);
             </div>
             <div class="col-sm-8">              
                 <p class="pull-right header-menu"> 
-                    <a href="#"><i class="glyphicon glyphicon-star"></i> Whishlist</a>
+                    <a href="<?=Url::to(['whishlist']);?>"><i class="glyphicon glyphicon-heart"></i> Whishlist <span class="whishlist-light"><?=Whishlist::whishlistLight()?></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="<?=Url::to(['cart']);?>"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light"><?=Cart::cartLight()?></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <?if(Yii::$app->user->isGuest):?>
-                        <a href="<?=Url::to(['login']);?>"><i class="glyphicon glyphicon-lock"></i> Login</a>
+                        <a href="<?=Url::to(['login']);?>"><i class="glyphicon glyphicon-log-in"></i> Login</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="<?=Url::to(['signup']);?>"><i class="glyphicon glyphicon-user"></i> Sign up</a>
                     <?else:?>
-                        <a  href="#"><i class="glyphicon glyphicon-user"></i> Account</a>
+                        <a  href="<?=Url::to(['account']);?>"><i class="glyphicon glyphicon-user"></i> Account</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     
                         <?if(Yii::$app->user->can('admin_panel')):?>
                             <a  href="<?=Url::to(['admin/default']);?>"><i class="glyphicon glyphicon-king"></i> Admin</a>

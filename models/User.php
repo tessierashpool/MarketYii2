@@ -28,6 +28,23 @@ class User extends ActiveRecord implements IdentityInterface
             'accessToken' => '101-token',
         ],
     ];*/
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ]
+            ],
+            'blameable' => [
+                'class' => 'yii\behaviors\BlameableBehavior',
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+                ]                           
+        ];
+    } 
 
     /**
      * @inheritdoc
@@ -142,7 +159,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
 			[['username', 'password', 'auth_key'], 'string', 'max' => 255],	
             [['username'], 'required'],
-            [['password'], 'required', 'on' => 'create'],
+            [['password'], 'required', 'on' => ['create']],
 			[['username'], 'unique'],		
         ];
     }

@@ -12,6 +12,11 @@ use app\models\ItemsSearch;
 use app\models\Statistic;
 use app\models\Items;
 use app\models\Cart;
+use app\models\Whishlist;
+use app\models\Order;
+use app\models\SignUpForm;
+use app\models\Account;
+use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
@@ -57,7 +62,7 @@ class SiteController extends Controller
         $this->layout = "left";
         $searchModel = new ItemsSearch();
         $statistic = new Statistic();
-        //var_dump(Statistic::getAllParametersValuesInCategory());
+        //var_dump(Yii::$app->request->queryParams);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,true,12);        
         return $this->render('index',[
             'dataProvider'=>$dataProvider
@@ -67,7 +72,14 @@ class SiteController extends Controller
     public function actionCart()
     {
         $this->layout = "right";
-        return $this->render('cart');
+        return $this->render('cart');       
+    }
+
+    public function actionOrder($id)
+    {
+        $this->layout = "right";
+        $model = $this->findOrder($id);
+        return $this->render('order',['model'=>$model]);               
     }
 
     public function actionDetail($id)
@@ -76,6 +88,27 @@ class SiteController extends Controller
         return $this->render('detail', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionCheckout()
+    {
+        $model = new Order();
+        $this->layout = "right";
+        if ($model->load(Yii::$app->request->post()) && $model->saveOrder()) {
+            Yii::$app->session->setFlash('newOrder');
+            Cart::clearCart();
+            return $this->redirect(['order', 'id' => $model->id]);
+        } else {
+            return $this->render('checkout',['model'=>$model]);
+        }         
+    }
+
+    public function actionWhishlist()
+    {
+        $this->layout = "right";
+        $dataProvider = Whishlist::dataProvider(); 
+        return $this->render('whishlist',['dataProvider'=>$dataProvider]);
+         
     }
 
     public function actionLogin()
@@ -87,12 +120,54 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Cart::attachToUser();
+            Whishlist::attachToUser();            
             return $this->goBack();
         } else {
             return $this->render('login', [
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionSignup()
+    {
+        $this->layout = "right"; 
+        if (!\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new SignUpForm();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['success-signup']);
+        } else {
+            return $this->render('signup', [
+                'model' => $model
+            ]);
+        }
+    }
+
+    public function actionAccount()
+    {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $this->layout = "right";
+        $model =  Account::findOne(Yii::$app->user->id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->refresh();
+        } else {
+            return $this->render('account',['model'=>$model]);
+        }        
+    }
+
+    public function actionSuccessSignup()
+    {
+        $this->layout = "right"; 
+        return $this->render('success-signup');
     }
 
     public function actionLogout()
@@ -152,10 +227,34 @@ class SiteController extends Controller
         return $result;      
     }    
 
+    public function actionAjaxChangeItemQuantity($id,$scode,$quantity)
+    {
+        Cart::changeQuantity($id,$scode,$quantity);  
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;  
+        $result['totalcount']=Cart::responseCount();
+        return $result; 
+    } 
+
     public function actionAjaxDeleteCartAllItems()
     {
         Cart::clearCart();    
     } 
+
+    public function actionAjaxAddToWhishlist($id)
+    {
+        $count = Whishlist::addToWhishlist($id); 
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $result['count']=$count;
+        return $result;             
+    } 
+
+    public function actionAjaxRemoveFromWhishlist($id)
+    {
+        $count = Whishlist::removeFromWhishlist($id); 
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $result['count']=$count;
+        return $result;              
+    }
 
     protected function findModel($id)
     {
@@ -164,5 +263,14 @@ class SiteController extends Controller
         } else { 
             throw new NotFoundHttpException(Yii::t('app','The requested page does not exist.'));
         }
-    }    
+    } 
+
+    protected function findOrder($id)
+    {
+        if (($model = Order::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }        
 }

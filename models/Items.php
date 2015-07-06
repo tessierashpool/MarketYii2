@@ -358,6 +358,7 @@ class Items extends ActiveRecord
         ];
     }
 
+
 /*    public function getParametersValues()
     {
         return $this->hasMany(ItemsParametersValue::className(), ['item_id' => 'id']);

@@ -44,11 +44,12 @@ AppAsset::register($this);
                         ['label' => 'Items', 'url' => ['/admin/items/index']],
                         //['label' => 'Parameters', 'url' => ['/admin/param-names']],
                     ]],                    
-                    ['label' => 'Parameters', 'items' => [
+                    ['label' => 'Settings', 'items' => [
                         ['label' => 'Parameters categories', 'url' => ['/admin/param-categor']],
                         ['label' => 'Parameters', 'url' => ['/admin/param-names']],
+                        ['label' => 'Delivery services', 'url' => ['/admin/delivery']],
                     ]],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                    ['label' => 'Orders', 'url' => ['/admin/order']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',

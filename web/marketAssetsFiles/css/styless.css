@@ -7,13 +7,13 @@ a, .item-cont a,.header-menu a
 	color: #5F7D9D!important;
 }
 /*-------------------------Font-Color-2----------------------------*/
-.category-label p,.advert-title-cont,.i-title,
+h4,h3,.category-label p,.advert-title-cont,.i-title,
 .i-add-cart-link,.corner-ribbon.white,.range-info-cont,.filter-button,.t-s-title, .t-s-price,
 .adress-info,.detail-content .i-add-whish-link{
 	color: #444;
 }
 .slide-title-cont p, .slide-description-cont, .f-menu-title ,
-.cart-content table tr:nth-child(1) td, .whishlist-content h2, .login-content h2,
+.cart-content table tr:nth-child(1) td, .login-content h2,
 .login-content .checkbox label{
 	color: #444;
 }
@@ -22,12 +22,12 @@ a, .item-cont a,.header-menu a
 	color:#444;
 }
 /*-------------------------Color----------------------------*/
-.cart-light span, .top-menu-cont ul li:hover a,.filter-checkbox:checked + .filter-checkbox-simul,
+.whishlist-light span, .cart-light span, .top-menu-cont ul li:hover a,.filter-checkbox:checked + .filter-checkbox-simul,
 .slide-button-cont a:hover, .advert-button-cont a:hover, .i-add-cart-link:hover,
 .filter-button.active, .filter-button:hover, .detail-content .i-add-whish-link:hover{
 	background-color: #FF9933;
 } 
-.nav-cont ul li.active a,.nav-cont ul li.active a:hover{
+.i-add-whish-link.active,.nav-cont ul li.active a,.nav-cont ul li.active a:hover{
 	background-color: #FF9933!important;
 }
 .filter-checkbox:checked + .filter-checkbox-simul, .i-add-cart-link:hover,
@@ -35,13 +35,16 @@ a, .item-cont a,.header-menu a
 .nav-cont ul li.active a:hover, .detail-content .i-add-whish-link:hover{
 	border-color:#FF9933; 
 }
+.i-add-whish-link.active{
+	border-color:#FF9933!important; 
+}
 .top-menu-cont  ul li div.submenu::after {
 	border-bottom-color: #FF9933;
 } 
 .footer-fluid{
 	border-top-color: #FF9933;	
 }
-.custom-h2,a:hover, .shop-name, .header-menu a:hover, .left-menu-cont a:hover, .mobile-left-menu-cont a:hover,
+.whishlist-content h2,.custom-h2,a:hover, .shop-name, .header-menu a:hover, .left-menu-cont a:hover, .mobile-left-menu-cont a:hover,
 .slide-title-cont p span, .advert-title-cont span, .i-price,
 .item-cont a:hover, .t-s-price, .nav-cont ul li a:hover, .f-title span,
 .f-info p a:hover, p.d-price, .breadcrumb a:hover, .cart-content table tr td a:hover,
@@ -49,7 +52,7 @@ a, .item-cont a,.header-menu a
 .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,.category-title h2, .cart-modal-title{
 	color: #FF9933;
 }
-.top-menu-cont ul li ul li a:hover, .top-menu-cont ul li ul li a.active { 
+.add-to-wishlist-cont.active a,.add-to-wishlist-cont.active a:hover,.top-menu-cont ul li ul li a:hover, .top-menu-cont ul li ul li a.active { 
 	color: #FF9933!important;	
 }
 .nstSlider .rightGrip, .nstSlider .leftGrip,.nstSlider .bar {
@@ -64,6 +67,25 @@ a, .item-cont a,.header-menu a
 }
 a{
 	text-decoration: none!important;
+}
+.whishlist-light span{
+	color: #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.user-details h4{
+	margin-bottom: 20px;
+}
+.user-details{
+	margin-top: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.control-label{
+	font-weight: lighter;
 }
 .custom-h2{
 	margin-top: 0;
@@ -540,6 +562,9 @@ transform:scale(1.05);  */
 	left: 15px;
 	display: none;
 }
+.add-to-wishlist-cont.active{
+	display: block;
+}
 .item-cont:hover .add-to-wishlist-cont{
 	display: block;
 }
@@ -907,6 +932,11 @@ transform:scale(1.05);  */
 .detail-content .i-add-whish-link:active{
 	bottom:-2px;
 }
+.i-add-whish-link.active{
+	border-width: 1px;
+	border-style: solid;
+	color: #fff;	
+}
 .d-description{
 	text-align: left;
 	margin-bottom: 20px;
@@ -970,8 +1000,11 @@ p.d-price .old-price{
 	margin-top: 1px!important;
 }
 /*----------------------------Cart Page-------------------------------*/
+.cart-content p{
+	font-weight: lighter;
+}
 .cart-img{
-	max-width: 88px;
+	width: 150px;
 }
 .cart-cart-icon{
 	position: absolute;
@@ -990,7 +1023,7 @@ p.d-price .old-price{
 	border-color: #eee;
 }
 .cart-content table tr:nth-child(1){
-	background-color: #fff;
+	background-color: #FAFAFA;
 	border: 1px solid #eee;
 }
 .cart-content table tr, .cart-content table tr:nth-child(1) td:nth-child(1){
@@ -1001,7 +1034,7 @@ p.d-price .old-price{
 }
 .cart-content table tr {	
 	font-weight: 100;
-	font-size: 13px;
+	font-size: 14px;
 }
 .cart-content table tr:nth-child(1) td{
 	font-size: 14px ;
@@ -1012,7 +1045,7 @@ p.d-price .old-price{
 	vertical-align: middle;
 }
 .cart-content table tr td a{
-	font-size: 13px;
+	font-size: 14px;
 	text-decoration: none;
 }
 .cart-content table tr td:last-child a{
@@ -1028,7 +1061,7 @@ p.d-price .old-price{
 	font-size: 14px;
 }
 
- .cart-content table tr:last-child td:nth-child(4){
+ .cart-content table tr:last-child td:nth-child(3){
 	font-family: "Roboto",sans-serif;	
 	font-weight: normal;
 	font-size: 15px;	
@@ -1043,13 +1076,6 @@ p.d-price .old-price{
 	text-align: center;
 	background-color: #fff!important;
 }
-/*------------------------Whishlist start---------------------------*/
-.whishlist-content h2{
-	font-size: 25px;
-	margin-bottom: 30px;
-	margin-top: 6px;			
-}
-
 /*------------------------Login start------------------------------*/
 .login-content h2{
 	font-size: 25px;

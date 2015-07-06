@@ -1,22 +1,21 @@
-<?
+<?php
+use app\models\Items;
+use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\LinkPager;
-use app\models\Cart;
+use yii\widgets\ActiveForm;
 use app\models\Whishlist;
+/* @var $this yii\web\View */
 
-$this->registerJs("
-$(function () {
-  $('[data-toggle=\'tooltip\']').tooltip()
-})
-    ",\yii\web\View::POS_BEGIN);
 
-//Yii::$app->response->cookies->remove('cart',true);
-$cookies = Yii::$app->request->cookies;
-
+$this->title = "Whishlist";
+$this->params['breadcrumbs'][] = $this->title;
 $items = $dataProvider->getModels();
 $whishlist = Whishlist::getWhishlist();
-?>
-<div class="row main-content">
+?>   
+<div class="row whishlist-content">
+    <div class="col-xs-12 ">
+        <h2 class="custom-h2"><?=$this->title?></h2> 
+    </div>   
     <script>
         /******************************
          * Add to whishlist functions
@@ -229,37 +228,39 @@ $whishlist = Whishlist::getWhishlist();
             </div>     
         </div>
     </div>
-</div>    
-    <?foreach ($items as $key => $model):?>
-        <div class="col-sm-4">
-            <div class="item-cont" id="item-<?=$model->id;?>">
-                <div class="item-cont-inner-border"></div>
-                <a class="img-cont" href="<?=Url::to(['detail', 'id' => $model->id]);?>">
-                <img src="<?=$model->getImage()->getUrl('260x')?>" class="img-responsive" alt="Responsive image">
-                </a>
-                <p class="i-price"><?=$model->price?> р</p>
-                <p class="i-title"><a href="<?=Url::to(['detail', 'id' => $model->id]);?>"><?=$model->name.$model->id?></a></p>
-                <div onclick="addItemToCart(<?=$model->id?>)" class="i-add-cart-link" >Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></div>
-                <?if($model->status=='new'):?>
-                    <div class="ribbon-cont">
-                        <div class="corner-ribbon top-right sticky green">NEW</div>
-                    </div>        
-                <?elseif($model->status=='top'):?>
-                    <div class="ribbon-cont">
-                        <div class="corner-ribbon top-right sticky orange">TOP</div>
-                    </div>                           
-                <?endif?>
-<!--                 <div class="ribbon-cont">
-<div class="corner-ribbon top-right sticky red">NEW</div>
-</div> -->
-<div class="add-to-wishlist-cont <?=in_array($model->id,$whishlist)?'active':'';?>">
-    <a  onclick="<?=in_array($model->id,$whishlist)?'removeFromWhishlist':'addToWhishlist';?>(<?=$model->id?>,this)" href="javascript:void(0)"><i class="glyphicon glyphicon-heart"></i></a>
-</div> 
-            </div>
-        </div>
-    <?endforeach;?>
+</div>   
 
-    <div class="nav-cont text-center">
-<?=LinkPager::widget(['pagination' => $dataProvider->pagination,'maxButtonCount'=>6]);?>                             
-    </div>              
+<div class="col-xs-12 "> 
+    <?if(count($items)>0):?>
+        <div class="row">
+            <?foreach ($items as $key => $model):?>
+                <div class="col-sm-4">
+                    <div class="item-cont" id="item-<?=$model->id;?>">
+                        <div class="item-cont-inner-border"></div>
+                        <a class="img-cont" href="<?=Url::to(['detail', 'id' => $model->id]);?>">
+                        <img src="<?=$model->getImage()->getUrl('260x')?>" class="img-responsive" alt="Responsive image">
+                        </a>
+                        <p class="i-price"><?=$model->price?> р</p>
+                        <p class="i-title"><a href="<?=Url::to(['detail', 'id' => $model->id]);?>"><?=$model->name.$model->id?></a></p>
+                        <div onclick="addItemToCart(<?=$model->id?>)" class="i-add-cart-link" >Add to cart <i class="glyphicon glyphicon-shopping-cart"></i></div>
+                        <?if($model->status=='new'):?>
+                            <div class="ribbon-cont">
+                                <div class="corner-ribbon top-right sticky green">NEW</div>
+                            </div>        
+                        <?elseif($model->status=='top'):?>
+                            <div class="ribbon-cont">
+                                <div class="corner-ribbon top-right sticky orange">TOP</div>
+                            </div>                           
+                        <?endif?>
+                        <div class="add-to-wishlist-cont <?=in_array($model->id,$whishlist)?'active':'';?>">
+                            <a  onclick="<?=in_array($model->id,$whishlist)?'removeFromWhishlist':'addToWhishlist';?>(<?=$model->id?>,this)" href="javascript:void(0)"><i class="glyphicon glyphicon-heart"></i></a>
+                        </div> 
+                    </div>
+                </div>
+            <?endforeach;?>
+        </div>    
+    <?else:?>  
+        <p>Your whishlist is empty</p>  
+    <?endif;?>           
+</div>
 </div>

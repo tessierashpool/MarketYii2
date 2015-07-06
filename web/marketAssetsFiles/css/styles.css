@@ -4,6 +4,23 @@
 a{
 	text-decoration: none!important;
 }
+.whishlist-light span{
+	color: #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: #FF9933;
+}
+.user-details{
+	margin-top: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.control-label{
+	font-weight: lighter;
+}
 .cart-light span{
 	color: #fff;
 	-webkit-border-radius: 5px;
@@ -533,6 +550,13 @@ transform:scale(1.05);  */
 .item-cont:hover .add-to-wishlist-cont{
 	display: block;
 }
+.add-to-wishlist-cont.active{
+	display: block;
+}
+.add-to-wishlist-cont.active a,.add-to-wishlist-cont.active a:hover{
+	display: block;
+	color: #ff9933!important;
+}
 .add-to-wishlist-cont a{
 	font-size: 18px;
 	color: #eee!important;
@@ -943,6 +967,13 @@ transform:scale(1.05);  */
 	border: 1px solid #FF9933;
 	color: #fff;
 }
+.i-add-whish-link.active{
+	border-width: 1px;
+	border-style: solid;
+	color: #fff;
+	background-color: #FF9933;
+	border: 1px solid #FF9933;		
+}
 .d-description{
 	text-align: left;
 	margin-bottom: 20px;
@@ -1015,6 +1046,12 @@ p.d-price .old-price{
 	margin-top: 1px!important;
 }
 /*----------------------------Cart Page-------------------------------*/
+.cart-content p{
+	font-weight: lighter;
+}
+.cart-img{
+	width: 150px;
+}
 .cart-cart-icon{
 	position: absolute;
 	top: 7px;
@@ -1044,7 +1081,7 @@ p.d-price .old-price{
 .cart-content table tr {
 	font-family: "Roboto",sans-serif;	
 	font-weight: 100;
-	font-size: 13px;
+	font-size: 14px;
 }
 .cart-content table tr:nth-child(1) td{
 	font-size: 14px ;
@@ -1056,7 +1093,7 @@ p.d-price .old-price{
 	vertical-align: middle;
 }
 .cart-content table tr td a{
-	font-size: 13px;
+	font-size: 14px;
 	color: #999;
 	text-decoration: none;
 }
@@ -1093,14 +1130,6 @@ p.d-price .old-price{
 }
 .item-price-cont{
 	color: #FF9933;
-}
-/*------------------------Whishlist start---------------------------*/
-.whishlist-content h2{
-	color: #666;
-	font-size: 25px;
-	margin-bottom: 30px;
-	margin-top: 6px;	
-	font-family: "Roboto",sans-serif;		
 }
 /*Bootstrap change*/
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover{
