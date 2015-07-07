@@ -18,7 +18,7 @@ $cart = $model->items;
         <?php endif; ?>
         <p>Order date - <?=date('d.m.Y', $model->created_at)?></p> 
         <p>Order status - <?=$model->status?></p>         
-        <p>Order details - <?=count($cart)?> item(s)</p>  
+        <p>Order details </p>  
         <table class="table hidden-xs">
             <tr>
                 <td style="position: relative;">

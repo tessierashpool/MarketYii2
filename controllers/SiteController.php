@@ -94,6 +94,8 @@ class SiteController extends Controller
     {
         $model = new Order();
         $this->layout = "right";
+        if(!Yii::$app->user->isGuest)
+            $model->attributes = Account::find()->where(['id'=>Yii::$app->user->id])->asArray()->one();
         if ($model->load(Yii::$app->request->post()) && $model->saveOrder()) {
             Yii::$app->session->setFlash('newOrder');
             Cart::clearCart();
@@ -109,6 +111,16 @@ class SiteController extends Controller
         $dataProvider = Whishlist::dataProvider(); 
         return $this->render('whishlist',['dataProvider'=>$dataProvider]);
          
+    }
+
+    public function actionMyOrders()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $dataProvider = Order::getMyOrdersDataProvider();
+        $this->layout = "right";
+        return $this->render('myorders',['dataProvider'=>$dataProvider]);         
     }
 
     public function actionLogin()

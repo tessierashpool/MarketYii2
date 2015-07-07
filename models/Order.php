@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "order".
@@ -94,6 +95,8 @@ class Order extends ActiveRecord
 
     public function saveOrder()
     {
+        if(!Yii::$app->user->isGuest)
+            $this->user_id=Yii::$app->user->id;
         if($this->prepeareOrderItems()&&$this->save())
         {
             $this->saveOrderItems($this->id);
@@ -141,6 +144,25 @@ class Order extends ActiveRecord
     public function getItems()
     {
         return $this->hasMany(OrderItems::className(), ['order_id' => 'id']);
+    } 
+
+    public static function getMyOrdersDataProvider()
+    {
+        $query = self::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 30,
+            ]            
+        ]);
+
+        $query->select('id, status, created_at');
+        $query->orFilterWhere([
+            'user_id' => Yii::$app->user->id,
+        ]);
+
+        return $dataProvider;
     } 
 
 }

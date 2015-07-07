@@ -7,7 +7,7 @@ use app\models\Whishlist;
 /* @var $this yii\web\View */
 
 
-$this->title = "Whishlist";
+$this->title = "Wishlist";
 $this->params['breadcrumbs'][] = $this->title;
 $items = $dataProvider->getModels();
 $whishlist = Whishlist::getWhishlist();

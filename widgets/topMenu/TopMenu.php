@@ -105,7 +105,7 @@ class TopMenu extends Widget{
                     }                                              
                     $menu .= '</ul>';       
                     $menu .= '<ul class="nav navbar-nav">';
-                        $menu .= '<li><a href="'.Url::to(['whishlist']).'"><i class="glyphicon glyphicon-heart"></i> Whishlist  <span class="whishlist-light">'.\app\models\Whishlist::whishlistLight().'</span></a></li>';
+                        $menu .= '<li><a href="'.Url::to(['whishlist']).'"><i class="glyphicon glyphicon-heart"></i> Wishlist  <span class="whishlist-light">'.\app\models\Whishlist::whishlistLight().'</span></a></li>';
                         $menu .= '<li><a href="'.Url::to(['cart']).'"><i class="glyphicon glyphicon-shopping-cart"></i> Cart <span class="cart-light">'.\app\models\Cart::cartLight().'</span></a></li>';
                         $menu .= '<li>';
                             if(Yii::$app->user->isGuest)
@@ -113,6 +113,7 @@ class TopMenu extends Widget{
                             else
                             {
                                 $menu .= '<a href="'.Url::to(['account']).'"><i class="glyphicon glyphicon-user"></i> Account</a>';
+                                $menu .= '<a href="'.Url::to(['my-orders']).'"><i class="glyphicon glyphicon-list-alt"></i> My orders</a>';
                                 if(Yii::$app->user->can('admin_panel'))
                                     $menu .= '<a href="'.Url::to(['admin/default']).'"><i class="glyphicon glyphicon-king"></i> Admin</a>';
                                 $menu .= '<a href="'.Url::to(['logout']).'"><i class="glyphicon glyphicon-log-out"></i> Logout</a>';
