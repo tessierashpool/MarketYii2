@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-
+use yii\helpers\Html;
 use Yii;
 
 /**
@@ -50,5 +50,14 @@ class OrderItems extends \yii\db\ActiveRecord
             'item_quantity' => Yii::t('app', 'Item Quantity'),
             'item_price' => Yii::t('app', 'Item Price'),
         ];
+    }
+
+    public function getFullDetails()
+    {
+        $arItem = $this->getAttributes(['item_name', 'item_size','item_quantity','item_price','item_id']);
+        $itemId = $arItem['item_id'];
+        unset($arItem['item_id']);
+        $result = Html::tag('p',Html::a(implode(', ',$arItem),['/admin/items/view','id'=>$itemId],['target' => '_blank']));
+        return $result;         
     }
 }

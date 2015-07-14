@@ -41,6 +41,13 @@ class OrderController extends Controller
         ]);
     }
 
+    public function actionAjaxNewOrders()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $result['count']=Order::getNewOrdersCount();
+        return $result;
+    }
+
     /**
      * Displays a single Order model.
      * @param integer $id
@@ -48,8 +55,13 @@ class OrderController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $model->scenario = 'update_status';
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+        }         
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -58,7 +70,7 @@ class OrderController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+/*    public function actionCreate()
     {
         $model = new Order();
 
@@ -69,7 +81,7 @@ class OrderController extends Controller
                 'model' => $model,
             ]);
         }
-    }
+    }*/
 
     /**
      * Updates an existing Order model.
@@ -77,7 +89,7 @@ class OrderController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+/*    public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -88,7 +100,7 @@ class OrderController extends Controller
                 'model' => $model,
             ]);
         }
-    }
+    }*/
 
     /**
      * Deletes an existing Order model.
@@ -96,12 +108,12 @@ class OrderController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+/*    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
+    }*/
 
     /**
      * Finds the Order model based on its primary key value.

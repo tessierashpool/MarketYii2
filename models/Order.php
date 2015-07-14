@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "order".
@@ -63,7 +64,8 @@ class Order extends ActiveRecord
         return [
             [['user_id', 'delivery_id', 'payment_id', 'total_price', 'created_at', 'updated_at', 'delivery_price', 'updated_by'], 'integer'],
             [['first_name', 'last_name', 'state', 'city', 'adress', 'telephone', 'email',  'status'], 'string', 'max' => 255],
-            [['first_name', 'last_name', 'state', 'city', 'adress', 'telephone'], 'required']
+            [['first_name', 'last_name', 'state', 'city', 'adress', 'telephone'], 'required'],
+            [['status'], 'required', 'on' => ['update_status']],
         ];
     }
 
@@ -123,7 +125,7 @@ class Order extends ActiveRecord
         $this->total_price = $totalPrice;
         $this->delivery_id = 1;
         $this->delivery_price = 0;
-        $this->status = 'processed';
+        $this->status = Status::$default;
         return true;
     }  
 
@@ -141,6 +143,11 @@ class Order extends ActiveRecord
         }
     } 
 
+    public static function getNewOrdersCount()
+    {
+        return self::find()->where(['status'=>Status::$default])->count();
+    } 
+
     public function getItems()
     {
         return $this->hasMany(OrderItems::className(), ['order_id' => 'id']);
@@ -154,7 +161,8 @@ class Order extends ActiveRecord
             'query' => $query,
             'pagination' => [
                 'pageSize' => 30,
-            ]            
+            ],
+            'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]]            
         ]);
 
         $query->select('id, status, created_at');
@@ -165,4 +173,19 @@ class Order extends ActiveRecord
         return $dataProvider;
     } 
 
+    public function getFullName()
+    {
+        $arUser = $this->getAttributes(['first_name', 'last_name','user_id']);
+        $userId = $arUser['user_id'];
+        unset($arUser['user_id']);
+        if($userId>0)
+            return Html::a(implode(' ',$arUser),['/admin/user/view','id'=>$userId]);
+        else
+            return implode(' ',$arUser);       
+    }
+
+    public function getFullAdress()
+    {
+        return implode(', ',$this->getAttributes(['state', 'city','adress']));       
+    }
 }

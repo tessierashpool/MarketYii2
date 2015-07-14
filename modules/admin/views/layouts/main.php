@@ -4,6 +4,8 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\Order;
+use yii\helpers\Url;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -21,7 +23,6 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
 <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
@@ -34,6 +35,7 @@ AppAsset::register($this);
             ]);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
+                'encodeLabels'=>false,
                 'items' => [
                     ['label' => 'Home', 'url' => ['/site/index']],
                     ['label' => 'Users', 'url' => ['/admin/user']],
@@ -49,7 +51,7 @@ AppAsset::register($this);
                         ['label' => 'Parameters', 'url' => ['/admin/param-names']],
                         ['label' => 'Delivery services', 'url' => ['/admin/delivery']],
                     ]],
-                    ['label' => 'Orders', 'url' => ['/admin/order']],
+                    ['label' => 'Orders <span id="order_light" class="badge"></span>', 'url' => ['/admin/order']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -80,6 +82,23 @@ AppAsset::register($this);
     </footer>
 
 <?php $this->endBody() ?>
+<script>
+    function newOrdersAjax(){
+        $.ajax({
+            url: '<?=Url::to(['/admin/order/ajax-new-orders']);?>',
+/*            error:function(data){
+                $('.modal-errtot-text').text('Can\'t change item quantity');
+                console.log(data);
+                $('#errorModal').modal();
+            },*/
+            success:function(data){
+                $('#order_light').text(data.count);
+            }                
+        });        
+    }
+    newOrdersAjax();
+    setInterval(newOrdersAjax, 5000);
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>
