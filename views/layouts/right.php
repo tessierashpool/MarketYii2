@@ -31,7 +31,7 @@ $this->beginContent('@app/views/layouts/main.php');
                         <ul>
                             <li>
                                 <div class="row">
-                                    <div class="col-md-12"><a href="#"><img  src="site_photos/tshirt1.jpg" alt=""></a>
+                                    <div class="col-md-12"><a href="#"><img  src="/site_photos/tshirt1.jpg" alt=""></a>
                                         <p class="t-s-title">Print Cool Interesting T-Shirt</p>
                                         <p class="t-s-price">1000р</p>
                                     </div>
@@ -39,7 +39,7 @@ $this->beginContent('@app/views/layouts/main.php');
                             </li>
                             <li>
                                 <div class="row">
-                                    <div class="col-md-12"><a href="#"><img  src="site_photos/tshirt2.jpg" alt=""></a>
+                                    <div class="col-md-12"><a href="#"><img  src="/site_photos/tshirt2.jpg" alt=""></a>
                                         <p class="t-s-title">State Island T-Shirt</p>
                                         <p class="t-s-price">2000р</p>
                                     </div>
@@ -47,7 +47,7 @@ $this->beginContent('@app/views/layouts/main.php');
                             </li>
                             <li>
                                 <div class="row">
-                                    <div class="col-md-12"><a href="#"><img  src="site_photos/tshirt3.jpg" alt=""></a>
+                                    <div class="col-md-12"><a href="#"><img  src="/site_photos/tshirt3.jpg" alt=""></a>
                                         <p class="t-s-title">Cool Underground T-Shirt</p>
                                         <p class="t-s-price">1500р</p>
                                     </div>
@@ -55,7 +55,7 @@ $this->beginContent('@app/views/layouts/main.php');
                             </li>
                             <li>
                                 <div class="row">
-                                    <div class="col-md-12"><a href="#"><img  src="site_photos/tshirt4.jpg" alt=""></a>
+                                    <div class="col-md-12"><a href="#"><img  src="/site_photos/tshirt4.jpg" alt=""></a>
                                         <p class="t-s-title">Enjoy Cool T-Shirt</p>
                                         <p class="t-s-price">5500р</p>
                                     </div>

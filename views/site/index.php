@@ -70,7 +70,7 @@ if(($code = Yii::$app->request->get('c'))!='')
                                 <div u="slides" style="  position: absolute; overflow: hidden; left: 0px; top: 0px; width: 848px; height: 400px;">
                                     <div class="slide-cont">
                                         <div class="slide-content-cont">
-                                            <img class="slider-img" src="site_photos/girl1.png" alt="">
+                                            <img class="slider-img" src="/site_photos/girl1.png" alt="">
                                         </div>
                                         <div class="slide-title-cont">
                                             <p><span>Interesting</span> Title</p>
@@ -84,7 +84,7 @@ if(($code = Yii::$app->request->get('c'))!='')
                                     </div>
                                     <div class="slide-cont">
                                         <div class="slide-content-cont">
-                                            <img class="slider-img" src="site_photos/girl2.png" alt="">
+                                            <img class="slider-img" src="/site_photos/girl2.png" alt="">
                                         </div>
                                         <div class="slide-title-cont">
                                             <p><span>Interesting</span> Title</p>
@@ -98,7 +98,7 @@ if(($code = Yii::$app->request->get('c'))!='')
                                     </div>
                                     <div class="slide-cont">
                                         <div class="slide-content-cont">
-                                            <img class="slider-img" src="site_photos/girl3.png" alt="">
+                                            <img class="slider-img" src="/site_photos/girl3.png" alt="">
                                         </div>
                                         <div class="slide-title-cont">
                                             <p><span>Interesting</span> Title</p>

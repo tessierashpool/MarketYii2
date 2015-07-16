@@ -36,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['style'=>'width: 100px;']
 			],
             'username',
+            'first_name',
+            'last_name',
             [
 				'class' => 'app\utilities\AdminActionColumn',
 				'contentOptions'=>['style'=>'max-width: 30px;']

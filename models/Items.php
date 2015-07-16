@@ -62,7 +62,8 @@ class Items extends ActiveRecord
     {
         return [
             [['price', 'created_at', 'updated_at', 'created_by', 'updated_by','category_id','quantity'], 'integer'],
-            [['name', 'description','status'], 'string', 'max' => 255],
+            [['name','status'], 'string', 'max' => 255],
+            [['description'], 'string'],
             [['parameters','variants','clearImages'], 'safe'],
             [['name'], 'required'],
             [['images'], 'file', 'extensions'=>'jpg, gif, png'],
@@ -271,8 +272,10 @@ class Items extends ActiveRecord
      */
     public function deleteItem()
     {        
-        ItemsParametersValue::deleteAll('item_id = '.$this->id);
-        ItemsVariants::deleteAll('id_item = '.$this->id);
+        IParametersSimple::deleteAll('item_id = '.$this->id);
+        IParametersSearch::deleteAll('item_id = '.$this->id);
+        Whishlist::deleteAll('item_id = '.$this->id);
+        Cart::deleteAll('item_id = '.$this->id);
         $this->removeImages();
         $this->delete();
     }

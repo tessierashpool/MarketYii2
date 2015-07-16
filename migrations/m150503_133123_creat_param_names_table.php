@@ -7,6 +7,11 @@ class m150503_133123_creat_param_names_table extends Migration
 {
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
         $this->createTable('param_names', [
             'id' => 'pk',
             'code' => Schema::TYPE_STRING." UNIQUE" ,
@@ -16,7 +21,7 @@ class m150503_133123_creat_param_names_table extends Migration
             'updated_at'=> Schema::TYPE_INTEGER,
             'created_by'=> Schema::TYPE_INTEGER,
             'updated_by'=> Schema::TYPE_INTEGER,
-        ]);         
+        ],$tableOptions);         
     }
 
     public function down()

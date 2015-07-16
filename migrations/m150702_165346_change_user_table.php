@@ -7,6 +7,11 @@ class m150702_165346_change_user_table extends Migration
 {
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
         $this->addColumn('user', 'email', Schema::TYPE_STRING);
         $this->addColumn('user', 'first_name', Schema::TYPE_STRING);
         $this->addColumn('user', 'last_name', Schema::TYPE_STRING);
@@ -26,14 +31,14 @@ class m150702_165346_change_user_table extends Migration
             'user_id' => Schema::TYPE_INTEGER ,
             'confirm_hash' => Schema::TYPE_STRING,
             'created_at' => Schema::TYPE_INTEGER
-        ]);  
+        ],$tableOptions);  
 
         $this->createTable('password_restore', [
             'id' => 'pk',
             'user_id' => Schema::TYPE_INTEGER ,
             'restore_hash' => Schema::TYPE_STRING,
             'created_at' => Schema::TYPE_INTEGER
-        ]);                
+        ],$tableOptions);                
     }
 
     public function down()

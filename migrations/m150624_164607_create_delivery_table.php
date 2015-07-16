@@ -7,6 +7,11 @@ class m150624_164607_create_delivery_table extends Migration
 {
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
         $this->createTable('delivery', [
             'id' => 'pk',
             'active'=> Schema::TYPE_BOOLEAN,
@@ -17,7 +22,7 @@ class m150624_164607_create_delivery_table extends Migration
             'updated_at'=> Schema::TYPE_INTEGER,
             'created_by'=> Schema::TYPE_INTEGER,
             'updated_by'=> Schema::TYPE_INTEGER
-        ]); 
+        ],$tableOptions); 
 
         $this->insert('delivery', [
             'active' => "1",

@@ -235,7 +235,7 @@ $whishlist = Whishlist::getWhishlist();
             <div class="item-cont" id="item-<?=$model->id;?>">
                 <div class="item-cont-inner-border"></div>
                 <a class="img-cont" href="<?=Url::to(['detail', 'id' => $model->id]);?>">
-                <img src="<?=$model->getImage()->getUrl('260x')?>" class="img-responsive" alt="Responsive image">
+                <img src="<?=$model->getImage()->getUrl('260x')?>" class="img-responsive">
                 </a>
                 <p class="i-price"><?=$model->price?> р</p>
                 <p class="i-title"><a href="<?=Url::to(['detail', 'id' => $model->id]);?>"><?=$model->name.$model->id?></a></p>

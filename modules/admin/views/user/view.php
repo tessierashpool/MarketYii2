@@ -36,6 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
+            'first_name',
+            'last_name',
+            'state',
+            'city',
+            'adress',
+            'email',
+            'telephone'
         ],
     ]) ?>
 	<div class="row">

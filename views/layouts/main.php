@@ -65,7 +65,9 @@ MarketAsset::register($this);
         <div class="row">
             <?=TopMenu::widget(['mobile'=>true])?>
             <div class="search-cont  search-cont-mobile">
-                <input type="text" placeholder="Search">
+                <form action="" method="GET">
+                <input name="search" type="text" placeholder="Search"/>
+                </form>
                 <i class="glyphicon glyphicon-search"></i>
             </div>  
         </div>
@@ -78,7 +80,9 @@ MarketAsset::register($this);
                         <div class="col-sm-12 ">                        
                             <?=TopMenu::widget()?>
                             <div class="search-cont pull-right">
-                                <input type="text" placeholder="Search">
+                                <form action="" method="GET">
+                                <input name="search" type="text" placeholder="Search"/>
+                                </form>
                                 <i class="glyphicon glyphicon-search"></i>
                             </div>  
                         </div>                              
@@ -130,16 +134,16 @@ MarketAsset::register($this);
                                         <p class="f-title">INSTAGRAM FEED</p>
                                     </div>  
                                     <div class="col-sm-12 ">
-                                    <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
-                                    <img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
-                                    <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
-                                    <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="/site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="/site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="/site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="/site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">
                                     <img class="hidden-md" src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
                                     <div style="clear:both"></div>              
-                                    <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
-                                    <img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
-                                    <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
-                                    <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="/site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
+                                    <img src="/site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="/site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                    <img src="/site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
                                     <img class="hidden-md" src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
                                     </div>
                                 </div>
@@ -181,21 +185,21 @@ MarketAsset::register($this);
                                     </div>  
                                     <div class="col-xs-12 ">
                                         <div class="center-block hidden-xs" style="max-width:600px">
-                                        <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
-                                        <img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
-                                        <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
-                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">            
-                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
-                                        <img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">            
+                                        <img src="/site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
+                                        <img src="/site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
                                         </div>
 
                                         <div class="center-block hidden-sm" style="max-width:200px">
-                                        <img src="site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
-                                        <img src="site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
-                                        <img src="site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
-                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">            
-                                        <img src="site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
-                                        <img src="site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst1.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst2.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst3.jpg" class="img-responsive" alt="Responsive image">
+                                        <img src="/site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">            
+                                        <img src="/site_photos/inst4.jpg" class="img-responsive" alt="Responsive image">             
+                                        <img src="/site_photos/inst5.jpg" class="img-responsive" alt="Responsive image">
                                         </div>                                        
                                     </div>                        
                                 </div>

@@ -41,7 +41,7 @@ class ItemsSearch extends Items
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$active = '',$onPage=20)
+    public function search($params,$active = '',$onPage=20,$orderByDate = false)
     {
         $query = Items::find();
 
@@ -52,13 +52,17 @@ class ItemsSearch extends Items
             ],  
             //'totalCount'=>'2000'          
         ]);
+        
+        $dataProvider->sort->defaultOrder = [
+            'created_at' => SORT_DESC
+        ];
 
         $this->load($params);
         $session = Yii::$app->session;
         $filter =[];
 /*        if($session->has('filter'))
             $filter = $session->get('filter');*/
-        if(count($params['filter'])>0)   
+        if(isset($params['filter'])&&count($params['filter'])>0)   
             $filter = $params['filter'];
 
         //Filter by selected category
@@ -110,7 +114,7 @@ class ItemsSearch extends Items
             ->andFilterWhere(['>=', 'updated_at', $params['updated_at_from']])
             ->andFilterWhere(['<=', 'updated_at', $params['updated_at_to']])        
             ->andFilterWhere(['like', 'description', $this->description]);
-        $query->distinct(true)->orderBy(['items.id'=>SORT_ASC]);
+        $query->distinct(true)->orderBy(['items.created_at'=>SORT_DESC]);
         return $dataProvider;
     }
 

@@ -7,6 +7,11 @@ class m150625_194919_create_order_table extends Migration
 {
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
         $this->createTable('order', [
             'id' => 'pk',
             'user_id'=> Schema::TYPE_INTEGER,            
@@ -26,7 +31,7 @@ class m150625_194919_create_order_table extends Migration
             'updated_at'=> Schema::TYPE_INTEGER,
             'created_by'=> Schema::TYPE_INTEGER,
             'updated_by'=> Schema::TYPE_INTEGER,
-        ]); 
+        ],$tableOptions); 
 
         $this->createTable('order_items', [
             'id' => 'pk',
@@ -36,7 +41,7 @@ class m150625_194919_create_order_table extends Migration
             'item_size'=> Schema::TYPE_STRING,
             'item_quantity'=> Schema::TYPE_INTEGER,
             'item_price'=> Schema::TYPE_INTEGER,
-        ]);         
+        ],$tableOptions);         
     }
 
     public function down()

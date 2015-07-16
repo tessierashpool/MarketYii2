@@ -17,6 +17,7 @@ Thumbs.db
 
 # uploads dir
 /web/uploads
+/runtime
 
 # composer itself is not needed
 composer.phar

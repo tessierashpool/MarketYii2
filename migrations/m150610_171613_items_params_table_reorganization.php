@@ -7,6 +7,11 @@ class m150610_171613_items_params_table_reorganization extends Migration
 {
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
         $this->createTable('i_parameters_search', [
             'id' => 'pk',
             'item_id'=> Schema::TYPE_INTEGER,
@@ -14,7 +19,7 @@ class m150610_171613_items_params_table_reorganization extends Migration
             'value'=> Schema::TYPE_STRING,
             'quantity' => Schema::TYPE_INTEGER,
             'type' => 'VARCHAR(1) NOT NULL'
-        ]); 
+        ],$tableOptions); 
         $this->createTable('i_parameters_simple', [
             'id' => 'pk',
             'item_id'=> Schema::TYPE_INTEGER,
@@ -22,7 +27,7 @@ class m150610_171613_items_params_table_reorganization extends Migration
             'value'=> Schema::TYPE_STRING,
             'quantity' => Schema::TYPE_INTEGER,
             'type' => 'VARCHAR(1) NOT NULL'
-        ]);         
+        ],$tableOptions);         
         $this->createIndex('i_p_values','i_parameters_search', 'value');    
         $this->addColumn('param_names', 'use_in_search', Schema::TYPE_BOOLEAN);    
     }

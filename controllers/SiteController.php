@@ -69,6 +69,14 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionMigration()
+    {
+        defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
+        defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'w'));
+        $migration = new \yii\console\controllers\MigrateController('migrate', Yii::$app);
+        $migration->runAction('up', [ 'interactive' => false]);
+    }
+
     public function actionCart()
     {
         $this->layout = "right";

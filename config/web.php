@@ -115,6 +115,15 @@ $config = [
 			'class' => 'yii\rbac\DbManager',
 			'defaultRoles' => ['guest'],
 		],	
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'rules' => [
+				'c/<c>' => 'site/index',
+				'<action>' => 'site/<action>',
+            ],            
+        ],	
     ],
 	//'language' => 'ru',
     'params' => $params,
